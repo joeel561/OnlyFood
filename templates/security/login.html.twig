@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    {% block background %}
+        <div class="background-wrapper background-login">
+            {% block background_inner %}
+                {{ parent() }}
+            {% endblock %}
+        </div>
+    {% endblock %}
+
+    <div class="container login-wrapper">
+        <div class="login-wrapper row justify-content-center align-content-start">
+                <div class="logo col-12">
+                    {{ source('/svgs/logo.svg')}}
+                </div>
+            <div class="form col-12 justify-content-start flex-column d-flex form col-12 justify-content-start flex-column d-flex align-items-center">
+                <div class="title-box">
+                    <h1> {{ source('/svgs/cookie.svg')}} Login</h1>
+                </div>
+
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+                    <div class="mb-2">
+                        <input type="text" value="{{ last_username }}" placeholder="Username" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+                    </div>
+                    <div class="mb-2">
+                        <input type="password" name="password" id="inputPassword" placeholder="Password" class="form-control" autocomplete="current-password" required>
+    	            </div>
+                    <input type="hidden" name="_csrf_token"
+                        value="{{ csrf_token('authenticate') }}"
+                    >
+                    <div class="d-flex justify-content-end btn-login-wrapper">
+                        <a class='btn btn-primary' href="{{ path('app_register') }}"> Register </a>
+                        <button class="btn btn-primary btn-login" type="submit">
+                            Go
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

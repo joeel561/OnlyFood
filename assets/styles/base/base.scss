@@ -1,0 +1,85 @@
+@use "../variables/var.scss";
+
+body {
+  background-color: var.$background-color;
+  position: relative;
+  font-family: "Quicksand", sans-serif;
+  height: 100vh;
+}
+
+.background-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.mobile-right {
+  right: -14.375rem;
+  top: -2.5rem;
+  position: absolute;
+  z-index: -1;
+}
+
+.mobile-left {
+  position: absolute;
+  bottom: -9.375rem;
+  left: -20rem;
+}
+
+@include media-breakpoint-up(md) {
+  .background-left-curve {
+    position: absolute;
+    max-height: 34.375rem;
+    left: -23.75rem;
+    bottom: -2.5rem;
+  }
+  .food-left {
+    position: absolute;
+    max-width: 15rem;
+    bottom: 0.625rem;
+  }
+  .background-right-curve {
+    position: absolute;
+    max-width: 23.125rem;
+    right: -14.375rem;
+    top: 18.75rem;
+  }
+
+  .food-right {
+    position: absolute;
+    max-width: 17.5rem;
+    top: 22.8125rem;
+    right: -1.875rem;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .background-left-curve {
+    left: -9.375rem;
+    z-index: -1;
+    max-height: none;
+    top: 20rem;
+  }
+
+  .food-left {
+    z-index: 1;
+    top: 27.5rem;
+    max-width: none;
+    left: -2.5rem;
+  }
+
+  .background-right-curve {
+    right: -25.625rem;
+    max-width: none;
+    top: 18.75rem;
+  }
+
+  .food-right {
+    z-index: 1;
+    top: 33.125rem;
+    max-width: none;
+    right: -3.1875rem;
+  }
+}

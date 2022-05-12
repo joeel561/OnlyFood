@@ -1,0 +1,12 @@
+// todo: use forward
+@use "variables/var.scss";
+
+$primary: var.$primary;
+$input-placeholder-color: var.$white-text;
+$input-plaintext-color: white;
+
+@import "~bootstrap/scss/bootstrap";
+@import "base/base.scss";
+@import "login/login.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% block background %}
+        <div class="background-wrapper background-login">
+            {% block background_inner %}
+                {{ parent() }}
+            {% endblock %}
+        </div>
+    {% endblock %}
+    <div class="container login-wrapper">
+        <div class="login-wrapper row justify-content-center align-content-start">
+                <div class="logo col-12">
+                    {{ source('/svgs/logo.svg')}}
+                </div>
+            <div class="form col-12 justify-content-start flex-column d-flex form col-12 justify-content-start flex-column d-flex align-items-center">
+                <div class="title-box">
+                    <h1> {{ source('/svgs/cookie.svg')}} Register</h1>
+                </div>
+
+                {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.username) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.password) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

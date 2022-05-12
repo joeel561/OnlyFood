@@ -1,0 +1,14 @@
+services:
+  database:
+    container_name: onlyfood_database
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: onlyfood
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
