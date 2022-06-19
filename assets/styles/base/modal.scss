@@ -1,0 +1,40 @@
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    max-width: 38.8125rem;
+    margin: auto;
+}
+
+.modal-content {
+    background-color: var.$background-light-color;
+    color: white;
+    border-radius: 0;
+    border: none;
+    text-align: center;
+    padding: 1.25rem;
+    margin: 1.25rem;
+}
+
+.modal-header {
+    justify-content: center;
+    border: none;
+    padding-bottom: 0;
+
+    h3 {
+        line-height: 2.1875rem;
+    }
+}
+
+.modal-body {
+    font-size: .875rem;
+    font-weight: 300;
+    width: 70%;
+    margin: auto;
+}
+
+.modal-footer {
+    border:none;
+    padding: 0;
+    margin-top: 1.5625rem;
+}

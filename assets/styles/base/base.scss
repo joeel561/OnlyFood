@@ -29,16 +29,51 @@ body {
 }
 
 @include media-breakpoint-up(md) {
+  .background-login {
+    .background-left-curve {
+      position: absolute;
+      max-height: 34.375rem;
+      left: -23.75rem;
+      bottom: -2.5rem;
+    }
+    .food-left {
+      position: absolute;
+      max-width: 15rem;
+      bottom: 0.625rem;
+    }
+    .background-right-curve {
+      position: absolute;
+      max-width: 23.125rem;
+      right: -14.375rem;
+      top: 18.75rem;
+    }
+
+    .food-right {
+      position: absolute;
+      max-width: 17.5rem;
+      top: 22.8125rem;
+      right: -1.875rem;
+    }
+
+    .tomato,
+    .broccoli,
+    .avocado,
+    .carrots {
+      display: block;
+    }
+  }
+
   .background-left-curve {
     position: absolute;
     max-height: 34.375rem;
-    left: -23.75rem;
+    left: -33.125rem;
     bottom: -2.5rem;
   }
   .food-left {
     position: absolute;
     max-width: 15rem;
-    bottom: 0.625rem;
+    top: 1.875rem;
+    left: -8.75rem;
   }
   .background-right-curve {
     position: absolute;
@@ -53,32 +88,85 @@ body {
     top: 22.8125rem;
     right: -1.875rem;
   }
+
+  .tomato,
+  .broccoli,
+  .avocado,
+  .carrots {
+    display: none;
+  }
+}
+
+
+.text-small {
+  font-size: .875rem;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-gray {
+  color: var.$white-text;
+}
+
+p {
+  font-size: 1rem;
 }
 
 @include media-breakpoint-up(xl) {
+  .background-login {
+    .background-left-curve {
+      left: -9.375rem;
+      z-index: -1;
+      max-height: none;
+      top: 20rem;
+    }
+
+    .food-left {
+      z-index: 1;
+      top: 27.5rem;
+      max-width: none;
+      left: -2.5rem;
+    }
+
+    .background-right-curve {
+      right: -25.625rem;
+      max-width: none;
+      top: 18.75rem;
+    }
+
+    .food-right {
+      z-index: 1;
+      top: 33.125rem;
+      max-width: none;
+      right: -3.1875rem;
+    }
+  }
+
   .background-left-curve {
-    left: -9.375rem;
+    left: -23.75rem;
     z-index: -1;
     max-height: none;
-    top: 20rem;
+    top: 37.5rem;
   }
 
   .food-left {
     z-index: 1;
-    top: 27.5rem;
+    top: 18.1875rem;
     max-width: none;
-    left: -2.5rem;
+    left: -15rem;
   }
 
   .background-right-curve {
-    right: -25.625rem;
+    right: -31.5625rem;
     max-width: none;
     top: 18.75rem;
   }
 
   .food-right {
     z-index: 1;
-    top: 33.125rem;
+    top: 25.625rem;
     max-width: none;
     right: -3.1875rem;
   }

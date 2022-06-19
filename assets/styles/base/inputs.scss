@@ -1,0 +1,25 @@
+.form-control {
+    background-color: var.$background-color;
+    height: 2.8125rem;
+    border-radius: 0;
+    border: none;
+    font-size: 1.125rem;
+    color: $input-plaintext-color;
+    width: 100%;
+    
+    &::placeholder {
+      font-weight: 500;
+    }
+
+    &:focus {
+      background-color: var.$background-color;
+      color: white;
+    }
+}
+
+.form-check-input[type=checkbox] {
+  border-radius: 0;
+  width: 1.25rem;
+  margin: 0;
+  height: 1.25rem;
+}

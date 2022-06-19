@@ -1,0 +1,159 @@
+@use "../variables/var.scss";
+
+.account-overview {
+  margin-top: 1.25rem;
+  display: inline-block;
+
+  h1 {
+    font-size: 1.75rem;
+    color: white;
+    margin-bottom: 1.875rem;
+  }
+}
+
+.account-overview--panel {
+  background-color: var.$background-light-color;
+  padding: 1.875rem 1.25rem;
+  
+  &.delete-panel {
+    margin-top: .9375rem;
+  }
+}
+
+.display-name {
+  .change-username-value {
+    display: none;
+  }
+
+  &.active{
+    .display-name-value {
+      display: none;
+    }
+
+    .change-username-value {
+      display: flex;
+      margin-top: .625rem;
+      justify-content: space-between;
+    }
+  }
+
+  .display-name-value {
+    display: flex;
+  }
+
+  .display-name-label {
+    color: white;
+    font-size: 1.125rem;
+    line-height: 1.5625rem;
+    margin-top: .1875rem;
+  }
+
+  .display-name-title {
+    font-size: .8125rem;
+    line-height: .9375rem;
+    color: var.$white-text;
+    text-transform: uppercase;
+  }
+
+  .btn-secondary {
+    margin-top: -0.9375rem;
+  }
+}
+
+.account-img-upload {
+  position: relative;
+  max-width: 10rem;
+  margin-right: 2.5rem;
+  cursor: pointer;
+  img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .upload-img-btn {
+    position: absolute;
+    right: 0.9375rem;
+    top: 0.3125rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input {
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      right: -0.1875rem;
+      width: 1.875rem;
+      height: 1.875rem;
+      font-size: 0.125rem;
+      padding-top: 1.125rem;
+    }
+
+    svg {
+      width: 1.25rem;
+      stroke: black;
+      height: 1.25rem;
+    }
+  }
+}
+
+.show-recipes-title {
+  margin-left: .625rem;
+  font-weight: 300;
+}
+
+.show-recipes-public {
+  margin-top: .9375rem;
+}
+
+.info-text-delete--panel {
+  margin-top: .3125rem;
+}
+
+.delete-panel--btns {
+  margin-top: .9375rem;
+  .btn {
+    width: 100%;
+    margin-bottom: .625rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .account-overview--panel {
+    padding: 3.125rem 2.5rem;
+
+    &.delete-panel {
+      padding: 1.25rem 2.5rem;
+    }
+  }
+
+  .delete-panel--btns {
+    .btn {
+      width: auto;
+      margin-bottom: 0;
+    }
+    .btn-danger {
+      margin-left: .9375rem;
+    }
+  }
+
+  .display-name-wrapper {
+    margin-top: 1.875rem;
+    .form-control {
+      width: 60%;
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .account-overview {
+    margin-top: 10.625rem;
+  }
+}

@@ -86,6 +86,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "jms/metadata": {
+        "version": "2.6.1"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
@@ -498,6 +501,9 @@
     "symfony/serializer": {
         "version": "v5.4.8"
     },
+    "symfony/serializer-pack": {
+        "version": "v1.1.0"
+    },
     "symfony/service-contracts": {
         "version": "v2.5.1"
     },
@@ -603,6 +609,18 @@
     },
     "twig/twig": {
         "version": "v3.3.10"
+    },
+    "vich/uploader-bundle": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.7",
+            "ref": "c4f5755b37fb65b9c6a3cbdae91205c15a137ed4"
+        },
+        "files": [
+            "config/packages/vich_uploader.yaml"
+        ]
     },
     "webmozart/assert": {
         "version": "1.10.0"

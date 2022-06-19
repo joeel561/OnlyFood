@@ -25,15 +25,7 @@
     .form-control {
       background-color: var.$input-color;
       height: 2.8125rem;
-      width: 100%;
-      border-radius: 0;
-      border: none;
-      color: $input-plaintext-color;
       font-size: 1rem;
-
-      &::placeholder {
-        font-weight: 500;
-      }
     }
   }
 
@@ -50,11 +42,6 @@
     border: none;
     transition: all ease-out 0.3s;
     margin-top: 1.25rem;
-
-    &:hover {
-      background-color: darken(var.$primary, 10%);
-      transition: all ease-in 0.3s;
-    }
   }
 
   .form-check {

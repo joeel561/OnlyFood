@@ -23,6 +23,7 @@
         "down": "symfony server:stop & docker-compose down -d "
     },
     "dependencies": {
+        "axios": "^0.27.2",
         "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.14"
     }

@@ -1,0 +1,39 @@
+.btn {
+    border-radius: 0;
+    background-color: var.$background-color;
+    text-transform: uppercase;
+    padding: .625rem 1.25rem;
+    font-size: .875rem;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: var.$background-color;
+    &:hover {
+        background-color: darken(var.$background-color, 10%);
+        transition: all ease-in 0.3s;
+      }
+}
+
+.btn-primary {
+    background-color: var.$primary;
+    color: white;
+
+    &:hover {
+        color: white;
+        background-color: darken(var.$primary, 10%);
+        transition: all ease-in 0.3s;
+      }
+}
+
+.btn-danger {
+    background-color: var.$red-color;
+}
+
+.btn-align--right {
+    margin-left: auto;
+}
+
+.btn-align--left {
+    margin-right: auto;
+}
