@@ -117,7 +117,6 @@ export default {
         this.account = response.data;
         this.profilePicture = this.account.profilePictureName;
         this.privatMode = this.account.privatMode;
-        console.log(this.account);
       })
       .catch((e) => {
         this.errors.push(e);
