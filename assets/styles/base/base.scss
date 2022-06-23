@@ -28,6 +28,23 @@ body {
   left: -20rem;
 }
 
+.panel {
+  background-color: var.$background-light-color;
+  padding: 1.875rem 1.25rem;
+  color: var.$white-text;
+}
+
+.overview {
+  margin-top: 1.25rem;
+  display: inline-block;
+
+  h1 {
+    font-size: 1.75rem;
+    color: white;
+    margin-bottom: 1.875rem;
+  }
+}
+
 @include media-breakpoint-up(md) {
   .background-login {
     .background-left-curve {
@@ -123,6 +140,10 @@ p {
       top: 20rem;
     }
 
+    .overview {
+      margin-top: 10.625rem;
+    }
+    
     .food-left {
       z-index: 1;
       top: 27.5rem;

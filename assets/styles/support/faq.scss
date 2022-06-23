@@ -1,0 +1,87 @@
+.faq-overview {
+    margin-top: 1.25rem;
+    z-index: 1;
+    display: inline-block;
+
+    h1 {
+        font-size: 1.75rem;
+        color: white;
+        margin-bottom: 1.875rem;
+    }
+}
+
+.faq-panel {
+    margin-top: .9375rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 27.5rem;
+    padding: 1.25rem 1.25rem;
+    z-index: 2;
+}
+
+.support-panel {
+    padding: 1.25rem 1.25rem;
+
+    p {
+        margin-bottom: 0;
+        font-size: .875rem;
+    }
+}
+
+.faq-box--title {
+    border-bottom: .0625rem solid var.$border-color;
+    padding-top: .625rem;
+    h5 {
+        font-size: 1.25rem;
+        color: white;
+    }
+
+    &.accordion-header:not(.collapsed) {
+        .plus-minus-path {
+            display: none;
+        }
+    }
+
+    &.accordion-header {
+        .plus-minus-path {
+            display: block;
+        }
+    }
+}
+
+.faq-box {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    &.active {
+        .faq-box--content {
+            height: 5rem;
+        }
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    .faq-bg-image-panel {
+        position: absolute;
+        right: -2.5rem;
+        top: .9375rem;
+        z-index: -1;
+    }
+}
+
+
+@include media-breakpoint-up(lg) {
+    .faq-panel {
+        padding: 2.5rem 3.75rem;
+    }
+
+    .support-panel {
+        padding: 1.875rem 3.75rem;
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .faq-overview {
+        margin-top: 10.625rem;
+    }
+}
