@@ -41,16 +41,6 @@ class AccountOverviewController extends AbstractController
     }
 
     /**
-     * @Route("/account", name="app_account_overview")
-     */
-    public function index(): Response
-    {
-        return $this->render('account_overview/index.html.twig', [
-            'controller_name' => 'AccountOverviewController',
-        ]);
-    }
-
-    /**
      * @return Response
      * @Route("/account/api/details")
      */
@@ -103,7 +93,7 @@ class AccountOverviewController extends AbstractController
 
         $this->updateDatabase($user);
 
-        return new Response(Response::HTTP_OK);                                                                     
+        return new Response(Response::HTTP_OK);   
     }
 
     /** @param Request

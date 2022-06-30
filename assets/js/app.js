@@ -1,13 +1,17 @@
 import Vue from "vue";
-import Account from "./components/page/AccountOverview";
+import App from './components/App';
 import Alert from "./components/layout/AlertComponent";
-import Faq from "./components/page/FaqOverview";
+import Navigation from "./components/layout/NavigationComponent";
+import router from './routes';
 
 Vue.component('alert', Alert);
+Vue.component('navigation', Navigation);
 
 const app = new Vue({
-  el: "#app",
-  components: { Alert, Account, Faq },
+  el: '#app',
+  router,
+  components: {Alert, Navigation},
+  render: h => h(App)
 });
 
 export default app;

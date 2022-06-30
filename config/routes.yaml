@@ -1,3 +1,10 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+#
+logout:
+  path: /logout
+#
+#
+index:
+    path: /{wildcard}
+    controller: App\Controller\DefaultController::index
+    requirements:
+        wildcard: .*

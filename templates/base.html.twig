@@ -10,8 +10,7 @@
         {% endblock %}
     </head>
     <body>
-        <div id="app">
-            {% block body %}
+        {% block body %}
                 {% block background %}
                     <div class="background-wrapper">
                         {% block background_inner %}
@@ -24,14 +23,14 @@
                                 {{ source('/svgs/food-right.svg')}}
                             </div>
                             <div class="background-mobile d-md-none">
-                                 {{ source('/svgs/mobile-right.svg')}}
-                                 {{ source('/svgs/mobile-left.svg')}}
+                                    {{ source('/svgs/mobile-right.svg')}}
+                                    {{ source('/svgs/mobile-left.svg')}}
                             </div>
                         {% endblock %}
                     </div>
+                    <div id="app"></div>
                 {% endblock %}
-            {% endblock %}
-        </div>
+        {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
