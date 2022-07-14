@@ -26,7 +26,7 @@
                             <router-link to="/account"> Account</router-link>
                             <router-link to="/help"> Help</router-link>
                             <router-link to="/support"> Support</router-link>
-                            <router-link to="/logout"> Logout</router-link>
+                            <a href="/logout">Logout</a>	
                         </ul>
                     </li>
                 </ul>
@@ -48,7 +48,7 @@
                         <li class="navigation-link"><router-link to="/account"> Account</router-link></li>
                         <li class="navigation-link"><router-link to="/help"> Help</router-link></li>
                         <li class="navigation-link"><router-link to="/support"> Support</router-link></li>
-                        <li class="navigation-link"><router-link to="/logout"> Logout</router-link></li>
+                        <li class="navigation-link"><a href="/logout">Logout</a></li>
                     </ul>
                 </div>
                 <div class="offcanvas-bg">

@@ -2,7 +2,7 @@
   <div class="account-overview col-12">
     <h1>Account Overview</h1>
     <div class="account-overview--panel d-flex flex-wrap">
-      <alert classes="alert-danger" :text="alert" v-if="alert"/>
+      <alert :classes="alert.type" :text="alert.text" v-if="alert.text"/>
         <div class="account-img-upload col-12 col-md-3">
         <div class="upload-img-btn">
           <svg
@@ -30,7 +30,7 @@
         </div>
         <div class="upload-image-preview">
           <img :src="previewImage" v-if="previewImage" />
-          <img :src="require('../../../../public/images/profile_pictures/' + profilePicture)" v-else-if="profilePicture" />
+          <img :src="require('../../../../public/images/profile_pictures/' + account.profilePictureName)" v-else-if="account.profilePictureName" />
           <img src="../../../img/placeholder.jpg" v-else />
         </div>
       </div>
@@ -42,15 +42,15 @@
                 <input
                   type="text"
                   class="change-username form-control"
-                  v-model="username"
-                  :placeholder="this.account.username"
+                  v-model="account.username"
+                  :placeholder="account.username"
                 />
                 <button class="btn btn-primary" @click="changeUserInfo()">
                   Save
                 </button>
               </div>
             <div class="display-name-value justify-content-between">	
-              <div class="display-name-label">{{ this.account.username }}</div>
+              <div class="display-name-label">{{ account.username }}</div>
               <button class="btn btn-secondary" @click="showUsernameInput()">
                 Edit
               </button>
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="show-recipes-public d-flex align-content-center">
-          <input type="checkbox" v-model="privatMode" class="form-check-input" @change="changeUserInfo()" />
+          <input type="checkbox" v-model="account.publicMode" class="form-check-input" @change="changeUserInfo()" />
           <div class="show-recipes-title text-small text-white">Show Recipes Publicly</div>
         </div>
       </div>
@@ -93,63 +93,56 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 
 export default {
   data() {
     return {
-      account: "",
-      errors: [],
-      username: "",
-      previewImage: "",
-      profilePicture: '',
-      privatMode:'',
+      account: {
+        profilePictureName: '',
+        username: '',
+        publicMode: false,
+      },
+      file: '',
+      previewImage: '',
       isActive: false,
-      alert: "",
-      file: "",
+      alert: {
+        type: '',
+        text: '',
+      }, 
     };
   },
 
   created() {
-    axios
-      .get("account/api/details")
+    this.$axios
+      .get("/api/account/details")
       .then((response) => {
         this.account = response.data;
-        this.profilePicture = this.account.profilePictureName;
-        this.privatMode = this.account.privatMode;
       })
       .catch((e) => {
-        this.errors.push(e);
-        console.log(this.errors);
+        this.alert = e.message;
       });
   },
 
   methods: {
     changeUserInfo() {
-      this.isActive = false;
-      axios.patch(`account/api/${this.account.id}/changeUserInfo`, {
-        name: this.username,
-        email: this.account.email,
-        privatMode: this.privatMode,
-        lightMode: this.account.lightMode
+      //this.isActive = false;
+      this.$axios.patch('/api/account/changeUserInfo', this.account).then((response) => {
+        this.account = response.data;
+        this.isActive = false;
+        this.alert.text = "Username successfully changed!";
+        this.alert.type = "alert-success";
       }).catch((e) => {
-        this.errors.push(e);
-        console.log(this.errors);
+          this.alert.text = e.response.data.detail;
+          this.alert.type = "alert-danger";
       });
-
-      console.log(this.privatMode);
-
-    //   if (this.errors[0].message) {
-    //    console.log(this.errors);
-    //    this.alert = "Username is already taken";
-    //  }
     },
     uploadImage() {
       const previewInput = this.$refs.image.files[0];
       const reader = new FileReader();
-
+  
       if (previewInput.size > 2000000) {
-        this.alert = "Image size is too big";
+        this.alert.text = "Image size is too big";
+        this.alert.type = "alert-danger";
         return;
       }
 
@@ -165,8 +158,11 @@ export default {
 
       formData.append("file", this.file);
 
-      axios.post(
-        `account/api/${this.account.id}/uploadProfilePicture`,
+
+      console.log(formData);
+      
+      this.$axios.post(
+        '/api/account/uploadProfilePicture',
         formData,
         {
           headers: {
@@ -180,9 +176,8 @@ export default {
 
     },
     
-
     deleteAccount() {
-      axios.delete(`account/api/${this.account.id}/deleteAccount`).then(() => {
+      this.$axios.delete(`/api/account/${this.account.id}/deleteAccount`).then(() => {
         window.location.href = "/login";
       });
     },

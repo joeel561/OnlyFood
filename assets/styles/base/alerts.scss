@@ -6,6 +6,11 @@
     border-radius: 0;
     line-height: 2.8125rem;
     padding:0 .9375rem;
+
+    &.alert-success {
+        background-color: var.$primary;
+        color: white;
+    }
 }
 
 .alert-danger {
