@@ -19,6 +19,12 @@
                 <div class="title-box">
                     <h1> {{ source('/svgs/cookie.svg')}} Register</h1>
                 </div>
+                
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
                 {{ form_start(registrationForm) }}
                     {{ form_row(registrationForm.username) }}

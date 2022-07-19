@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Vich\Uploadable
@@ -29,17 +30,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"account_overview"})
+     * @Assert\NotBlank(message="Please enter a username")
+     * @Assert\Type(type={"alnum"} , message="Don't use special characters in your username")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Please enter a password")
+     * @Assert\Length(min=8, minMessage="Your password must be at least {{ limit }} characters long.")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true))
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"account_overview"})
+     * @Assert\NotBlank
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private $email;
 
@@ -65,16 +72,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $imageSize;
 
     /**
-     * @ORM\Column(type="boolean", options={"default":"1"}, nullable=true)
+     * @ORM\Column(type="boolean", options={"default":"1"})
      * @Groups({"account_overview"})
      */
-    private $privatMode = true;
+    private $publicMode = true;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default":"1"})
      * @Groups({"account_overview"})
      */
-    private $lightMode;
+    private $lightMode = true;
 
 
     /**
@@ -163,14 +170,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPrivatMode(): ?string
+    public function getPublicMode(): ?string
     {
-        return $this->privatMode;
+        return $this->publicMode;
     }
 
-    public function setPrivatMode(?string $privatMode): self
+    public function setPublicMode(?string $publicMode): self
     {
-        $this->privatMode = $privatMode;
+        $this->publicMode = $publicMode;
 
         return $this;
     }

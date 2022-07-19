@@ -20,13 +20,19 @@
                 <div class="title-box">
                     <h1> {{ source('/svgs/cookie.svg')}} Login</h1>
                 </div>
+                
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
                 <form method="post">
                     {% if error %}
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
                     <div class="mb-2">
-                        <input type="text" value="{{ last_username }}" placeholder="Username" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+                        <input type="type" value="{{ last_username }}" placeholder="E-Mail" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
                     </div>
                     <div class="mb-2">
                         <input type="password" name="password" id="inputPassword" placeholder="Password" class="form-control" autocomplete="current-password" required>

@@ -42,7 +42,7 @@ class AccountOverviewController extends AbstractController
 
     /**
      * @return Response
-     * @Route("/account/api/details")
+     * @Route("/api/account/details" , name="api_account_details" , methods={"GET"})
      */
     public function getAccountDetails(SerializerInterface $serializer): Response
     {
@@ -55,7 +55,7 @@ class AccountOverviewController extends AbstractController
 
     /** @param Request
      * @return Response
-     * @Route("/account/api/{id}/uploadProfilePicture")
+     * @Route("/api/account/uploadProfilePicture" , name="api_account_upload_profile_picture")
      */
     public function getUploadedProfilePicture(Request $request)
     {
@@ -75,32 +75,36 @@ class AccountOverviewController extends AbstractController
 
     /** @param Request
      * @return Response
-     * @Route("/account/api/{id}/changeUserInfo")
+     * @Route("/api/account/changeUserInfo" , name="api_account_change_user_info")
      */
-    public function getChangeUserinfo(Request $request)
+    public function getChangeUserinfo(Request $request, SerializerInterface $serializer)
     {
         $user = $this->getUser();
 
         $content = json_decode($request->getContent(), true);
 
-        if ($content['name']) {
-            $user->setUsername($content['name']);
+        $checkUsername = $this->userRepository->findOneBy(['username' => $content['username']]);
+
+        if ($checkUsername && !$user) { 
+            throw new \Exception('Username already exist');
+        } else {
+            $user->setUsername($content['username']);
         }
-        
-        $user->setEmail($content['email']);
-        $user->setPrivatMode($content['privatMode']);
+
+        $user->setPublicMode($content['publicMode']);
         $user->setLightMode($content['lightMode']);
 
         $this->updateDatabase($user);
 
-        return new Response(Response::HTTP_OK);   
+        $jsonContent = $serializer->serialize($user, 'json', ['groups' => 'account_overview']);
+
+        return new Response($jsonContent, Response::HTTP_OK);   
     }
 
     /** @param Request
      * @return Response
-     * @Route("/account/api/{id}/deleteAccount")
+     * @Route("/api/account/{id}/deleteAccount" , name="api_account_delete_account" , methods={"DELETE"})
      */
-
     public function deleteAccount(Request $request)
     {
         $user = $this->getUser();

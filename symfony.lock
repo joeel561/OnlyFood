@@ -501,9 +501,6 @@
     "symfony/serializer": {
         "version": "v5.4.8"
     },
-    "symfony/serializer-pack": {
-        "version": "v1.1.0"
-    },
     "symfony/service-contracts": {
         "version": "v2.5.1"
     },
