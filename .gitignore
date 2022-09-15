@@ -7,7 +7,6 @@
 /var/
 /vendor/
 /mysql/
-/public/images/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
