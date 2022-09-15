@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -23,15 +25,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"account_overview"})
+     * @Groups({"account_overview", "recipe_overview"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"account_overview"})
+     * @Groups({"account_overview" , "recipe_overview"})
      * @Assert\NotBlank(message="Please enter a username")
      * @Assert\Type(type={"alnum"} , message="Don't use special characters in your username")
+     * 
      */
     private $username;
 
@@ -60,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"account_overview"})
+     * @Groups({"account_overview" , "recipe_overview"})
      */
     private $profilePictureName;
 
@@ -83,6 +86,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $lightMode = true;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Recipe", mappedBy="userId")
+     * 
+     */
+    private $recipes;
 
     /**
      * 
@@ -220,5 +228,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __unserialize(array $data): void
     {
         [$this->id, $this->username, $this->password] = $data;
+    }
+
+    public function __construct() {
+        $this->recipes = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Recipe[]
+     */
+    public function getRecipes(): ?Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+            $recipe->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): self
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            // set the owning side to null (unless already changed)
+            if ($recipe->getUserId() === $this) {
+                $recipe->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 }

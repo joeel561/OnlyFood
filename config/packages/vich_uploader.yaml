@@ -6,3 +6,11 @@ vich_uploader:
       uri_prefix: /images/profile_pictures
       upload_destination: "%kernel.project_dir%/public/images/profile_pictures"
       namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      delete_on_update: true
+      delete_on_remove: true
+    recipe_pictures:
+      uri_prefix: /images/recipe_pictures
+      upload_destination: "%kernel.project_dir%/public/images/recipe_pictures"
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      delete_on_update: true
+      delete_on_remove: true

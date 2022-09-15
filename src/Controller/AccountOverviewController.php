@@ -4,18 +4,11 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
-use App\Entity\User;
 
 class AccountOverviewController extends AbstractController
 {
@@ -55,22 +48,24 @@ class AccountOverviewController extends AbstractController
 
     /** @param Request
      * @return Response
-     * @Route("/api/account/uploadProfilePicture" , name="api_account_upload_profile_picture")
+     * @Route("/api/account/uploadProfilePicture" , name="api_account_upload_profile_picture", methods={"POST"})
      */
-    public function getUploadedProfilePicture(Request $request)
+    public function uploadProfilePicture(Request $request, SerializerInterface $serializer): Response
     {
         $user = $this->getUser();
         $userName = $this->getUser()->getUserIdentifier();
         $path = $request->files->get('file');
         $fileName = $userName . '.' . $path->guessExtension();
-
+        
         if($path) {
             $user->setProfilePictureFile($path);
             $user->setProfilePictureName($fileName);
             $this->updateDatabase($user);
         }
 
-        return new Response(Response::HTTP_OK);
+        $jsonContent = $serializer->serialize($user, 'json', ['groups' => 'account_overview']);
+
+        return new Response($jsonContent, Response::HTTP_OK);
     }
 
     /** @param Request
@@ -83,12 +78,14 @@ class AccountOverviewController extends AbstractController
 
         $content = json_decode($request->getContent(), true);
 
-        $checkUsername = $this->userRepository->findOneBy(['username' => $content['username']]);
+        if ($content['username'] != $user->getUserIdentifier()) {
+            $checkUsername = $this->userRepository->findOneBy(['username' => $content['username']]);
 
-        if ($checkUsername && !$user) { 
-            throw new \Exception('Username already exist');
-        } else {
-            $user->setUsername($content['username']);
+            if ($checkUsername) { 
+                throw new \Exception('Username already exist');
+            } else {
+                $user->setUsername($content['username']);
+            }
         }
 
         $user->setPublicMode($content['publicMode']);
@@ -103,7 +100,7 @@ class AccountOverviewController extends AbstractController
 
     /** @param Request
      * @return Response
-     * @Route("/api/account/{id}/deleteAccount" , name="api_account_delete_account" , methods={"DELETE"})
+     * @Route("/api/account/deleteAccount" , name="api_account_delete_account" , methods={"DELETE"})
      */
     public function deleteAccount(Request $request)
     {

@@ -1,0 +1,108 @@
+.recipe-upload-img {
+    margin-right: 1.25rem;
+    max-width: 17.5rem;
+
+    .upload-image-preview {
+        img {
+            max-height: 17.5rem;
+            object-fit: cover;
+        }
+    }
+
+    .upload-img-btn {
+        right: 2.5rem;
+        top: -0.625rem;
+    }
+}
+
+.create-recipe-information {
+    margin-top: 1.5625rem;
+
+    .form-control, .form-select, .multiselect {
+        max-width: 37.5rem;
+    }
+}
+
+.create-ingredients-panel {
+    h2 {
+        color: white;
+        font-size: 1.25rem;
+    }
+}
+
+.create-ingredients-element {
+    .form-control {
+        margin-bottom: .625rem;
+    }
+}
+
+.create-ingredients-element {
+    margin-bottom: .9375rem;
+}
+
+.create-ingredients-element, .create-portion-element, .create-ingredients-buttons {
+    .btn {
+        height: 2.8125rem;
+        padding: 0 .3125rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+
+    .btn-primary {
+        background-color: var.$primary;
+        margin-right: .3125rem;
+    }
+
+    .btn-secondary {
+        background-color: var.$background-color;
+        color: white;
+    }
+}
+
+.quillWrapper {
+    .ql-toolbar.ql-snow {
+        border: none;
+        background-color: var.$background-color;
+    }
+    
+    .ql-container.ql-snow {
+        border: none;
+        background-color: var.$background-color;
+    }
+}
+
+.create-ingredients-buttons {
+    .btn-secondary {
+        margin-right: .625rem;
+    }
+}
+
+@include media-breakpoint-up(md) {  
+    .create-ingredients-element {
+        margin-bottom: 0;
+    }
+
+    .create-ingredients-element {
+        .form-control {
+            margin-right: .9375rem;
+            margin-bottom: .9375rem;
+
+            &.add-recipe-ingredient-unity {
+                margin-right: .9375rem;
+            }
+        }
+    }
+    
+    .create-ingredients-element, .create-portion-element, .create-ingredients-buttons {
+        .btn {
+            padding: 0 .625rem;
+        }
+    }
+}

@@ -28,6 +28,10 @@ body {
   left: -20rem;
 }
 
+img {
+  width: 100%;
+}
+
 .panel {
   background-color: var.$background-light-color;
   padding: 1.875rem 1.25rem;
@@ -139,11 +143,6 @@ p {
       max-height: none;
       top: 20rem;
     }
-
-    .overview {
-      margin-top: 10.625rem;
-    }
-    
     .food-left {
       z-index: 1;
       top: 27.5rem;
@@ -163,6 +162,10 @@ p {
       max-width: none;
       right: -3.1875rem;
     }
+  }
+
+  .overview {
+    margin-top: 10.625rem;
   }
 
   .background-left-curve {

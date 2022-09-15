@@ -3,7 +3,7 @@
     <h1>Account Overview</h1>
     <div class="account-overview--panel d-flex flex-wrap">
       <alert :classes="alert.type" :text="alert.text" v-if="alert.text"/>
-        <div class="account-img-upload col-12 col-md-3">
+        <div class="img-upload-container account-upload-img  col-12 col-md-3">
         <div class="upload-img-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +29,7 @@
           />
         </div>
         <div class="upload-image-preview">
-          <img :src="previewImage" v-if="previewImage" />
-          <img :src="require('../../../../public/images/profile_pictures/' + account.profilePictureName)" v-else-if="account.profilePictureName" />
+          <img v-if="account.profilePictureName" :src="'/images/profile_pictures/' + account.profilePictureName">
           <img src="../../../img/placeholder.jpg" v-else />
         </div>
       </div>
@@ -129,16 +128,26 @@ export default {
       this.$axios.patch('/api/account/changeUserInfo', this.account).then((response) => {
         this.account = response.data;
         this.isActive = false;
-        this.alert.text = "Username successfully changed!";
+        this.alert.text = "Successfully changed!";
         this.alert.type = "alert-success";
       }).catch((e) => {
           this.alert.text = e.response.data.detail;
           this.alert.type = "alert-danger";
       });
     },
-    uploadImage() {
-      const previewInput = this.$refs.image.files[0];
-      const reader = new FileReader();
+
+    openDeleteModal() {
+
+    },
+    
+    deleteAccount() {
+      this.$axios.delete('/api/account/deleteAccount').then(() => {
+        window.location.href = "/login";
+      });
+    },
+
+    handleFileUpload() {
+     const previewInput = this.$refs.image.files[0];
   
       if (previewInput.size > 2000000) {
         this.alert.text = "Image size is too big";
@@ -146,20 +155,8 @@ export default {
         return;
       }
 
-      reader.onload = (e) => {
-        this.previewImage = e.target.result;
-      };
-
-      if (previewInput) {
-        reader.readAsDataURL(previewInput);
-      }
-
       const formData = new FormData();
-
-      formData.append("file", this.file);
-
-
-      console.log(formData);
+      formData.append("file", previewInput);
       
       this.$axios.post(
         '/api/account/uploadProfilePicture',
@@ -169,22 +166,12 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         }
-      );
-    },
-
-    openDeleteModal() {
-
-    },
-    
-    deleteAccount() {
-      this.$axios.delete(`/api/account/${this.account.id}/deleteAccount`).then(() => {
-        window.location.href = "/login";
+      ).then(response => {
+        this.account = response.data;
+      }).catch(e => {
+        this.alert.text = e.response.data.detail;
+        this.alert.type = "alert-danger";
       });
-    },
-
-    handleFileUpload() {
-      this.file = this.$refs.image.files[0];
-      this.uploadImage();
     },
 
     showUsernameInput() {

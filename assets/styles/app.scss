@@ -5,18 +5,23 @@ $primary: var.$primary;
 $input-placeholder-color: var.$white-text;
 $input-plaintext-color: white;
 $red: var.$red-color;
+$form-select-indicator-color: var.$white-text;
 
 @import "~bootstrap/scss/bootstrap";
+@import "~vue-multiselect/dist/vue-multiselect.min.css";
+@import "~vue2-editor/dist/vue2-editor.css";
 
 @import "base/base.scss";
 @import "base/alerts.scss";
 @import "base/button.scss";
 @import "base/inputs.scss";
+@import "base/img-upload.scss";
 @import "base/navigation.scss";
 @import "base/modal.scss";
 @import "login/login.scss";
 @import "support/faq.scss";
 @import "account/account.scss";
-
+@import "recipe/create-recipe.scss";
+@import "recipe/recipe-detail.scss";
 
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");

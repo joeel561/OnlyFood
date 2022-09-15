@@ -60,47 +60,14 @@
   }
 }
 
-.account-img-upload {
-  position: relative;
+.account-upload-img {
   max-width: 10rem;
-  margin-right: 2.5rem;
-  cursor: pointer;
   img {
     width: 10rem;
     height: 10rem;
     object-fit: cover;
     overflow: hidden;
     border-radius: 50%;
-  }
-
-  .upload-img-btn {
-    position: absolute;
-    right: 0.9375rem;
-    top: 0.3125rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    background-color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    input {
-      position: absolute;
-      opacity: 0;
-      top: 0;
-      right: -0.1875rem;
-      width: 1.875rem;
-      height: 1.875rem;
-      font-size: 0.125rem;
-      padding-top: 1.125rem;
-    }
-
-    svg {
-      width: 1.25rem;
-      stroke: black;
-      height: 1.25rem;
-    }
   }
 }
 
