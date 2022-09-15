@@ -17,13 +17,13 @@ class Ingredients
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $name;
 

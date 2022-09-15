@@ -1,0 +1,12 @@
+.no-recipes {
+    width: auto;
+    text-align: center;
+    color: white;
+}
+
+.recipe-listing-overview {
+    .btn-secondary {
+        background-color: var.$background-light-color;
+        margin-right: .625rem;
+    }
+}
