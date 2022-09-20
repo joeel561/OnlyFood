@@ -151,7 +151,7 @@
                     <a class="btn btn-secondary" @click="editRecipe()">Edit</a>
                 </div>
                 <div class="recipe-delete">
-                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Account</button>
+                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                 </div>
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -199,14 +199,14 @@
 
         created() {
             this.$axios
-            .get("/api/recipe/73")
+            .get(`/api/recipe/${this.$route.params.id}`)
             .then((response) => {
                 this.recipe = JSON.parse(response.data.recipe);
                 this.user = this.recipe.userId;
                 this.isUserRecipe = response.data.isUserRecipe;
                 
                 this.recipe.ingredients.forEach(ingredient => {
-                    if (this.recipe.portion > 1) {
+                    if (this.recipe.portion) {
                         ingredient.baseValue = ingredient.quantity / this.recipe.portion;
                         return ingredient.baseValue;
                     }
@@ -235,13 +235,17 @@
                     this.recipe.ingredients.forEach(ingredient => {
                         if (ingredient.baseValue) {
                             ingredient.quantity = this.recipe.portion * ingredient.baseValue;
-                        } 
+                        }
                     });
                 }
             }, 
             deleteRecipe() {
                 this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
                     this.$router.push({ name: 'recipes'});
+                    document.querySelector('.modal-backdrop').remove();
+                    document.body.classList.remove('modal-open');
+                    document.body.style.paddingRight = '';
+                    document.body.style.overflow = '';
                 });
             },
 

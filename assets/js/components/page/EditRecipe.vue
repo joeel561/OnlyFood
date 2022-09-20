@@ -209,7 +209,7 @@
   
     created() {
       this.$axios
-        .get(`/api/editRecipe/73`)
+        .get(`/api/editRecipe/${this.$route.params.id}`)
         .then((response) => {
           this.recipe = response.data;
           if (this.recipe.ingredients.length > 0) {
@@ -337,6 +337,7 @@
       cancelRecipe() {
         this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
           this.$router.push({ name: 'createRecipe'});
+          
         });
       },
     },
