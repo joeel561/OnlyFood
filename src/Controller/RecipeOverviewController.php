@@ -32,7 +32,7 @@ class RecipeOverviewController extends AbstractController
     {
         $user = $this->getUser();
         $recipes = $this->entityManager->getRepository(Recipe::class)->findBy(['userId' => $user->getId()]);
-
+        
         $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
 
         return new Response($jsonContent, Response::HTTP_OK);	

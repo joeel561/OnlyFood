@@ -104,22 +104,6 @@
             .get("/api/recipes/overview")
             .then((response) => {
                 this.recipes = response.data;
-
-                console.log(this.ingredients);
-
-                this.recipes.forEach((recipe) => {
-                    recipe.tags.forEach((tag) => {
-                        if (!this.tags.some(elm => elm['name'] === tag['name'])) {
-                            this.tags.push(tag);
-                        }
-                    });
-
-                    recipe.ingredients.forEach((ingredient) => {
-                        if (!this.ingredients.some(elm => elm['name'] === ingredient['name'])) {
-                            this.ingredients.push(ingredient);
-                        }
-                    });
-                });
             })
             .catch((e) => {
                 console.log(e);

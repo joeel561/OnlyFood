@@ -47,6 +47,16 @@ class RecipeRepository extends ServiceEntityRepository
         }
     }
 
+    public function getAllTags(Recipe $recipe): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where(':recipeId MEMBER OF r.id')
+            ->setParameters(array('recipeId' => $recipe))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Recipe[] Returns an array of Recipe objects
     //  */

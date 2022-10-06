@@ -184,19 +184,19 @@
         ],
         difficultyOptions: ['easy', 'medium', 'hard'],
         tagOptions: [
-            { name: "breakfast", value: "breakfast" },
-            { name: "lunch", value: "lunch" },
-            { name: "dinner", value: "dinner" },
-            { name: "cold food", value: "cold_food" },
-            { name: "warm food", value: "warm_food" },
-            { name: "no animal products", value: "no_animal_products" },
-            { name: "no fish & meat", value: "no_fish_meat" },
-            { name: "no seafood", value: "no_seafood" },
-            { name: "sweet", value: "sweet" },
-            { name: "savoury", value: "savoury" },
-            { name: "fast", value: "fast" },
-            { name: "cheap", value: "cheap" },
-            { name: "high protein", value: "high_protein" }
+            { name: "breakfast" },
+            { name: "lunch" },
+            { name: "dinner" },
+            { name: "cold food" },
+            { name: "warm food" },
+            { name: "no animal products" },
+            { name: "no fish & meat" },
+            { name: "no seafood" },
+            { name: "sweet" },
+            { name: "savoury" },
+            { name: "fast" },
+            { name: "cheap" },
+            { name: "high protein" }
           ],
         file: "",
         previewImage: "",
@@ -212,9 +212,9 @@
         .get(`/api/editRecipe/${this.$route.params.id}`)
         .then((response) => {
           this.recipe = response.data;
+          
           if (this.recipe.ingredients.length > 0) {
              this.ingredients = this.recipe.ingredients;
-             console.log(this.ingredients);
           }
         })
         .catch((e) => {

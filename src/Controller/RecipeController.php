@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Recipe;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Ingredients;
+use App\Entity\Tag;
 use App\Entity\IngredientQuantity;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -135,9 +136,23 @@ class RecipeController extends AbstractController
         }
 
         $recipe->setPortion($content['portion']);
-        $recipe->setTags($content['tags']);
         $recipe->setPrepTime($content['prepTime']);
 
+        if (!$content['tags']) {
+            throw new \Exception('Tags are required');
+        } else {
+           foreach ($content['tags'] as $tag) {
+                $tagRepo = $this->entityManager->getRepository(Tag::class)->findOneBy(['name' => $tag]);
+                if (!$tagRepo) {
+                    $tagRepo = new Tag();
+                    $tagRepo->setName($tag['name']);
+                    $tagRepo->addRecipe($recipe);
+                } else {
+                    $recipe->addTag($tagRepo);
+                }
+                $this->updateDatabase($tagRepo);
+            }
+        }
 
         if (!$content['ingredients']) { 
             throw new \Exception('Ingredients are required');
