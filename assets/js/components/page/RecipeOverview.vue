@@ -15,9 +15,9 @@
             </div>
             <div class="filter-search">
                 <input type="text" class="form-control"  v-model="tagKeyword" placeholder="Search Filter" />
-                <div class="filter-box d-flex align-items-center" v-for="tag in filteredTags" :key="tag.value" @click="filterTag">
-                    <input type="checkbox" :id="tag.value" class="form-check-input" :value="tag.value" v-model="selectedTags" />
-                    <label :for="tag.value">{{ tag.name }}</label>
+                <div class="filter-box d-flex align-items-center" v-for="tag in filteredTags" :key="tag.id">
+                    <input type="checkbox" :id="tag.id" class="form-check-input" :value="tag.id" v-model="selectedTags" @click="filterTag(tag.id)" />
+                    <label :for="tag.id">{{ tag.name }}</label>
                 </div>
             </div>
 
@@ -32,8 +32,8 @@
                 <div class="accordion-collapse collapse show"  id="filterIngredientsCollapse" aria-labelledby="filterIngredientsHeading" data-bs-parent="#filterIngredientsOverview">
                     <button class="btn-link" @click="resetIngredients"> Clear</button>
                     <input type="text" class="form-control"  v-model="ingredientKeyword" placeholder="Search Ingredients" />
-                    <div class="filter-box d-flex align-items-center" v-for="ingredient in filteredIngredients" :key="ingredient.id" @click="filterIngredient">
-                        <input type="checkbox" :id="ingredient.name" class="form-check-input" :value="ingredient.name" v-model="selectedIngredients" />
+                    <div class="filter-box d-flex align-items-center" v-for="ingredient in filteredIngredients" :key="ingredient.name">
+                        <input type="checkbox" :id="ingredient.name" class="form-check-input" :value="ingredient.name" v-model="selectedIngredients" @click="filterIngredient(ingredient.name)" />
                         <label :for="ingredient.name">{{ ingredient.name }}</label>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <router-link to="/recipe/create" class="btn btn-primary">Create</router-link>
             </div>
             <div class="recipe-overview-container d-flex flex-wrap">
-                <div class="col-6 col-md-4 col-lg-3 p-1 p-md-3"  v-for="recipe in filteredRecipes" :key="recipe.id">
+                <div class="col-6 col-md-4 col-lg-3 p-1 p-md-3"  v-for="recipe in recipes" :key="recipe.id">
                     <router-link :to="{ name: 'recipeDetail', params: {id: recipe.id} }" class="recipe-overview-item-link">
                         <recipe-box v-bind:recipe="recipe" v-bind:tags="recipe.tags"></recipe-box>
                     </router-link>
@@ -108,6 +108,23 @@
             .catch((e) => {
                 console.log(e);
             });
+            this.$axios
+            .get("/api/recipes/showTags")
+            .then((response) => {
+                this.tags = response.data;
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+            this.$axios
+            .get("/api/recipes/showIngredients")
+            .then((response) => {
+                this.ingredients = response.data;
+                console.log(this.ingredients);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
         },
 
         
@@ -117,31 +134,6 @@
                     tag => tag.name.toLowerCase().includes(this.tagKeyword.toLowerCase())
                 );
             },
-
-            filteredRecipes() {
-                if (this.selectedTags.length > 0) {
-                    return this.recipes.filter((recipe) => {
-                        return this.selectedTags.every((tag) => {
-                            return recipe.tags.some((recipeTag) => {
-                                return recipeTag.name == tag;
-                            });
-                        });
-                    });
-                }
-
-                if (this.selectedIngredients.length > 0) {
-                    return this.recipes.filter((recipe) => {
-                        return this.selectedIngredients.every((ingredient) => {
-                            return recipe.ingredients.some((recipeIngredient) => {
-                                return recipeIngredient.name == ingredient;
-                            });
-                        });
-                    });
-                }
-
-                return this.recipes;
-            },
-
 
             filteredIngredients() {
                 return this.ingredients.filter(
@@ -153,17 +145,65 @@
         methods: {
             resetFilter() {
                 this.selectedTags = [];
+                this.$axios
+                .get("/api/recipes/overview")
+                .then((response) => {
+                    this.recipes = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
             },
 
-            filterTag() {
-
-
+            filterTag(id) {
+                if (!this.selectedTags.includes(id)) {
+                    this.selectedTags.push(id);
+                } else {
+                    this.selectedTags = this.selectedTags.filter(tag => tag != id);
+                }
+                this.$axios
+                .get("/api/recipes/overview", {
+                    params: {
+                        tags: this.selectedTags
+                    }
+                })
+                .then((response) => {
+                    this.recipes = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
             },
-            filterIngredient() {
+            filterIngredient(name) {
+                if (!this.selectedIngredients.includes(name)) {
+                    this.selectedIngredients.push(name);
+                } else {
+                    this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient != name);
+                }
+                this.$axios
+                .get("/api/recipes/overview", {
+                    params: {
+                        ingredients: this.selectedIngredients
+                    }
+                })
+                .then((response) => {
+                    this.recipes = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
 
             },
             resetIngredients() {
                 this.selectedIngredients = [];
+                this.$axios
+                .get("/api/recipes/overview")
+                .then((response) => {
+                    this.recipes = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
             },
         }
     }

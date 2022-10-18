@@ -58,6 +58,27 @@ class IngredientsRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getFilterIngredients() 
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i.name')
+            ->groupBy('i.name')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getNotInIngredientsList($ingredients)
+    {
+        $query = $this->createQueryBuilder('i');
+        $query->select('i')
+            ->innerJoin('i.recipes', 'r')
+            ->where('i.name NOT IN (:ingredients)')
+            ->setParameter('ingredients', $ingredients, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Ingredients[] Returns an array of Ingredients objects
     //  */
