@@ -33,8 +33,15 @@ class RecipeOverviewController extends AbstractController
     public function show(Request $request, SerializerInterface $serializer)
     {   
         //$recipes = $this->entityManager->getRepository(Recipe::class)->findBy();
+        $offset = $request->query->get('offset');
+
+        if ($offset == null) {
+            $offset = 0;
+        }
+        
         $user = $this->getUser();
-        $recipes = $this->entityManager->getRepository(Recipe::class)->findBy(['userId' => $user->getId()]);
+        $recipes = $this->entityManager->getRepository(Recipe::class)->getRecipes($offset, $user);
+
         $tags = $request->query->get('tags');
         $ingredients = $request->query->get('ingredients');
 
@@ -58,9 +65,12 @@ class RecipeOverviewController extends AbstractController
             }
         }
 
-        $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
-
-        return new Response($jsonContent, Response::HTTP_OK);	
+        if ($recipes) {
+            $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
+            return new Response($jsonContent, Response::HTTP_OK);	
+        } else {
+            throw new \Exception('No recipes found');
+        }
     }
 
     /**
@@ -89,5 +99,26 @@ class RecipeOverviewController extends AbstractController
         $jsonContent = $serializer->serialize($ingredients, 'json', ['groups' => 'recipe_listing']);
 
         return new Response($jsonContent, Response::HTTP_OK);	
+    }
+
+    /**
+     * @Route("api/recipes/searchResult", name="app_recipes_search_result", methods={"GET"})
+     */
+    public function getSearchResult(Request $request, SerializerInterface $serializer) 
+    {
+        $search = $request->query->get('search');
+
+        foreach ($search as $searchItem ){
+            $recipes = $this->entityManager->getRepository(Recipe::class)->getSearchResult($searchItem);
+        }
+
+
+        if (!$recipes) {
+            return new Response('No recipes found', Response::HTTP_NOT_FOUND);
+        }
+
+        $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
+
+        return new Response($jsonContent, Response::HTTP_OK);
     }
 }

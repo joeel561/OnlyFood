@@ -1,5 +1,5 @@
 .no-recipes {
-    width: auto;
+    width: 100%;
     text-align: center;
     color: white;
 }
@@ -8,6 +8,31 @@
     .btn-secondary {
         background-color: var.$background-light-color;
         margin-right: .625rem;
+    }
+}
+
+.recipe-overview-search {
+    position: relative;
+    margin: auto;
+    margin-bottom: 1.5625rem;
+
+    .form-control {
+        height: 3.4375rem;
+        background-color: var.$background-light-color;
+        font-size: 1rem;
+    }
+
+    .btn {
+        background-color: var.$background-light-color;
+        padding: 0 .9375rem;
+        position: absolute;
+        right: 0;
+        height: 3.4375rem;
+        
+        .icon {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
     }
 }
 
@@ -34,6 +59,16 @@
     }
 }
 
+.recipe-overview-search-results {
+    margin-bottom: 1.5625rem;
+    p {
+        text-align:center;
+        color: white;
+        font-size: 1.375rem;
+        font-weight: normal;    
+    }
+}
+
 .recipe-overview-img {
     border-radius: .9375rem;
     overflow: hidden;
@@ -45,6 +80,7 @@
     }
 }
 
+
 .recipe-overview-filter-btn {
     margin-bottom: 1.5625rem;
     .btn {
@@ -55,6 +91,23 @@
     .icon-tabler-adjustments-horizontal {
         width: 1.5625rem;
         height: 1.5625rem;
+    }
+}
+
+.is-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;    
+    margin: auto;
+    .spinner-border {
+        border: none;
+        animation: 1.25s linear infinite spinner-border;
     }
 }
 
@@ -111,5 +164,23 @@
     .recipe-overview-name {
         font-size: 1.5rem;
         height: 3.75rem;
+    }
+
+    .recipe-overview-search {
+        margin-bottom: 3.125rem;
+
+        .form-control {
+            height: 2.8125rem;
+        }
+    
+        .btn {
+            height: 2.8125rem;
+        }
+    }    
+}
+
+@include media-breakpoint-up(xl) {   
+    .recipe-listing-overview  {
+        margin-top: 3.75rem;
     }
 }
