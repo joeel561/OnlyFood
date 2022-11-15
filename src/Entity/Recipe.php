@@ -20,19 +20,19 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $prepTime;
 
@@ -41,12 +41,6 @@ class Recipe
      * @Groups({"recipe_overview"})
      */
     private $difficulty;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     * @Groups({"recipe_overview"})
-     */
-    private $tags = [];
 
     /**
      * @ORM\Column(type="integer", nullable=true, options={"default":"1"})
@@ -77,7 +71,7 @@ class Recipe
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var int|null
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $imageName;
 
@@ -96,13 +90,20 @@ class Recipe
 
     /**
      * @ORM\ManyToMany(targetEntity=Ingredients::class, inversedBy="recipes")
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "recipe_listing"})
      */
     private $ingredients;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="recipes")
+     * @Groups({"recipe_overview", "recipe_listing"})
+     */
+    private $tags;
 
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,18 +143,6 @@ class Recipe
     public function setDifficulty(string $difficulty): self
     {
         $this->difficulty = $difficulty;
-
-        return $this;
-    }
-
-    public function getTags(): ?array
-    {
-        return $this->tags;
-    }
-
-    public function setTags(array $tags): self
-    {
-        $this->tags = $tags;
 
         return $this;
     }
@@ -255,6 +244,33 @@ class Recipe
     public function removeIngredient(Ingredients $ingredient): self
     {
         $this->ingredients->removeElement($ingredient);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeRecipe($this);
+        }
 
         return $this;
     }

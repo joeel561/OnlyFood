@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -45,6 +46,40 @@ class RecipeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function getAllTags(Recipe $recipe): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where(':recipeId MEMBER OF r.id')
+            ->setParameters(array('recipeId' => $recipe))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getSearchResult(string $search): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.name LIKE :search')
+            ->innerJoin('r.userId', 'u')
+            ->orWhere('u.username LIKE :search')
+            ->setParameters(array('search' => '%' . $search . '%'))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getRecipes(int $offset, User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.userId = :user')
+            ->setParameters(array('user' => $user))
+            ->setFirstResult($offset)
+            ->setMaxResults(9)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

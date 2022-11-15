@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\IngredientsRepository;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=IngredientsRepository::class)
+ * @ORM\Entity(repositoryClass=TagRepository::class)
  */
-class Ingredients
+class Tag
 {
     /**
      * @ORM\Id
@@ -28,26 +28,13 @@ class Ingredients
     private $name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"recipe_overview"})
-     */
-    private $quantity;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview"})
-     */
-    private $unit;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Recipe::class, mappedBy="ingredients")
+     * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="tags")
      */
     private $recipes;
 
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
-        $this->ingredientQuantities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,30 +54,6 @@ class Ingredients
         return $this;
     }
 
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(?int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function getUnit(): ?string
-    {
-        return $this->unit;
-    }
-
-    public function setUnit(?string $unit): self
-    {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Recipe>
      */
@@ -103,7 +66,6 @@ class Ingredients
     {
         if (!$this->recipes->contains($recipe)) {
             $this->recipes[] = $recipe;
-            $recipe->addIngredient($this);
         }
 
         return $this;
@@ -111,9 +73,7 @@ class Ingredients
 
     public function removeRecipe(Recipe $recipe): self
     {
-        if ($this->recipes->removeElement($recipe)) {
-            $recipe->removeIngredient($this);
-        }
+        $this->recipes->removeElement($recipe);
 
         return $this;
     }
