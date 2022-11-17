@@ -30,92 +30,30 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * @Route("/recipe", name="app_recipe")
-     */
-    public function index(): Response
-    {
-        return $this->render('recipe/index.html.twig', [
-            'controller_name' => 'RecipeController',
-        ]);
-    }
-
-    /**
      * @Route("/api/createRecipe", name="app_recipe_create")
      */
     public function createRecipe(Request $request, SerializerInterface $serializer)
     {
         $user = $this->getUser();
-
-        $recipe = new Recipe();
-        $recipe->setUserId($user);
-        $this->updateDatabase($recipe);
-
-        $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
-
-        return new Response($jsonContent, Response::HTTP_OK);
-    }
-
-    /**
-     * @Route("/api/recipe/{id}", name="app_recipe_show", methods={"GET"})
-     */
-    public function show(Request $request, SerializerInterface $serializer)
-    {
-        $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
-        $user = $this->getUser();
-        $isUserRecipe = false;
-
-        if($recipe){
-            $recipeUser = $recipe->getUserId();
-
-            if ($recipeUser == $user) {
-                $isUserRecipe = true;
-            }
-        }
-        
-        $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
-
-        $newResponse = array(
-            'recipe' => $jsonContent,
-            'isUserRecipe' => $isUserRecipe
-        );
-
-        return new JsonResponse($newResponse, Response::HTTP_OK);
-    }
-
-
-    /** @param Request
-     * @return Response
-     * @Route("/api/recipe/{id}/uploadRecipeImage" , name="api_upload_profile_picture", methods={"POST"})
-     */
-    public function uploadRecipeImage(Request $request, SerializerInterface $serializer): Response
-    {
-        $user = $this->getUser();
+        $content = json_decode($request->get('recipe'), true);
         $userName = $this->getUser()->getUserIdentifier();
         $path = $request->files->get('file');
-        $fileName = $userName . '.' . $path->guessExtension();
-        $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
+       
+        if ($content['id']) {
+            $recipe = $this->entityManager->getRepository(Recipe::class)->find($content['id']);
+            $recipe->setPortion($content['portion']);
+            $recipe->setPrepTime($content['prepTime']);
 
-        if($path) {
-            $recipe->setImageFile($path);
-            $recipe->setImageName($fileName);
-            $this->updateDatabase($user);
+            if($path) {
+                $fileName = $userName . '.' . $path->guessExtension();
+
+                $recipe->setImageFile($path);
+                $recipe->setImageName($fileName);
+            }
+        } else {
+            $recipe = new Recipe();
+            $recipe->setUserId($user);
         }
-
-        $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
-
-        return new Response($jsonContent, Response::HTTP_OK);
-    }
-
-    /** @param Request
-     * @return Response
-     * @Route("/api/recipe/{id}/updateRecipe" , name="api_update_recipe", methods={"POST"})
-     */
-    public function updateRecipe(Request $request, SerializerInterface $serializer): Response
-    {
-        $user = $this->getUser();
-        $content = json_decode($request->getContent(), true);
-
-        $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
 
         if (!$content['name']) { 
             throw new \Exception('Recipe name is required');
@@ -135,8 +73,7 @@ class RecipeController extends AbstractController
             $recipe->setDifficulty($content['difficulty']);
         }
 
-        $recipe->setPortion($content['portion']);
-        $recipe->setPrepTime($content['prepTime']);
+        $this->updateDatabase($recipe);
 
         if (!$content['tags']) {
             throw new \Exception('Tags are required');
@@ -172,13 +109,37 @@ class RecipeController extends AbstractController
             }
         }
 
-        $this->updateDatabase($recipe);
-
         $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
 
         return new Response($jsonContent, Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/api/recipe/{id}", name="app_recipe_show", methods={"GET"})
+     */
+    public function show(Request $request, SerializerInterface $serializer)
+    {
+        $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
+        $user = $this->getUser();
+        $isUserRecipe = false;
+
+        if($recipe){
+            $recipeUser = $recipe->getUserId();
+
+            if ($recipeUser == $user) {
+                $isUserRecipe = true;
+            }
+        }
+        
+        $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
+
+        $newResponse = array(
+            'recipe' => $jsonContent,
+            'isUserRecipe' => $isUserRecipe
+        );
+
+        return new JsonResponse($newResponse, Response::HTTP_OK);
+    }
     
     /**
      * @Route("/api/editRecipe/{id}", name="app_recipe_edit")
@@ -199,18 +160,23 @@ class RecipeController extends AbstractController
      */
     public function cancelRecipe(Request $request, SerializerInterface $serializer): Response
     {
+        $user = $this->getUser();
         $recipe = $this->entityManager->getRepository(Recipe::class);
+        $recipeUser = $recipe->findAll(['userId' => $user->getId()]);
         $recipeId = $recipe->findOneBy(['id' => $request->get('id')]);
         $ingredients = $this->entityManager->getRepository(Ingredients::class)->getRecipeId($recipeId);
 
-        if ($ingredients) {
-            foreach ($ingredients as $ingredient) {
-                $this->entityManager->remove($ingredient);
+        if ($recipeUser) {
+            if ($ingredients) {
+                foreach ($ingredients as $ingredient) {
+                    $this->entityManager->remove($ingredient);
+                }
             }
+
+            $this->entityManager->remove($recipeId);
+            $this->entityManager->flush();
         }
 
-        $this->entityManager->remove($recipeId);
-        $this->entityManager->flush();
         $jsonContent = $serializer->serialize($recipeId, 'json', ['groups' => 'recipe_overview']);
 
         return new Response($jsonContent, Response::HTTP_OK);

@@ -31,9 +31,7 @@
           </div>
           <div class="upload-image-preview">
             <img
-              v-if="recipe.imageName"
-              :src="'/images/recipe_pictures/' + recipe.imageName"
-            />
+              v-if="previewImage" :src="previewImage" />
             <img src="../../../img/placeholder.jpg" v-else />
           </div>
         </div>
@@ -61,7 +59,7 @@
           <h2>Ingredients</h2>
         </div>
         <div class="create-ingredients-information col-lg-12 col-xl-10">
-          <div class="create-ingredients-element flex-wrap row g-2" v-for="(ingredient, index) in ingredients">
+          <div class="create-ingredients-element flex-wrap row g-2" v-for="(ingredient, index) in recipe.ingredients">
             <div class="col-6 col-md-2">     
               <input
                 type="number"
@@ -172,16 +170,15 @@ export default {
         method: '',
         difficulty: '',
         tags: [],
-        ingredients: [],
-      },
-      ingredients: [
+        ingredients: [
           {
             id: '',
             name: '',
             quantity: '',
             unit: '',
           },
-      ],
+        ],
+      },
       difficultyOptions: ['easy', 'medium', 'hard'],
       tagOptions: [
           { name: "breakfast" },
@@ -208,18 +205,6 @@ export default {
   },
 
   created() {
-    this.$axios
-      .get("/api/createRecipe")
-      .then((response) => {
-        this.recipe = response.data;
-        if (this.recipe.ingredients.length > 0) {
-           this.ingredients = this.recipe.ingredients;
-        }
-      })
-      .catch((e) => {
-        this.alert = e.message;
-        this.$refs.alert.scrollIntoView();
-      });
   },
   methods: {
     checkRecipeForm(e) {
@@ -229,6 +214,11 @@ export default {
         this.alert = {
           type: "alert-danger",
           text: "Recipe name is required",
+        };
+      } else if (this.file == "") {
+        this.alert = {
+          type: "alert-danger",
+          text: "Image is required",
         };
       } else if (this.recipe.method == "") {
         this.alert = {
@@ -240,7 +230,7 @@ export default {
           type: "alert-danger",
           text: "Difficulty is required",
         };
-      } else if (this.ingredients.length == 0) {
+      } else if (this.recipe.ingredients.length == 0) {
         this.alert = {
           type: "alert-danger",
           text: "Ingredients are required",
@@ -254,7 +244,17 @@ export default {
       }
     },
     handleFileUpload() {
+      this.file = this.$refs.image.files[0];
       const previewInput = this.$refs.image.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.previewImage = e.target.result;
+      };
+
+      if (previewInput) {
+        reader.readAsDataURL(previewInput);
+      }
 
       if (previewInput.size > 2000000) {
         this.alert.text = "Image size is too big";
@@ -262,64 +262,20 @@ export default {
         this.$refs.alert.scrollIntoView();
         return;
       }
-
+    },
+    createRecipe(e) {
       const formData = new FormData();
-      formData.append("file", previewInput);
+
+      if (this.file) {
+        formData.append("file", this.file);
+      }
+      formData.append("recipe", JSON.stringify(this.recipe));
 
       this.$axios
-        .post(`/api/recipe/${this.recipe.id}/uploadRecipeImage`, formData, {
+        .post('/api/createRecipe', formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        })
-        .then((response) => {
-          this.recipe = response.data;
-          this.alert.text = 'Image sucessfully uploaded';
-          this.alert.type = "alert-success";
-          this.$refs.alert.scrollIntoView();
-        })
-        .catch((e) => {
-          this.alert.text = e.response.data.detail;
-          this.alert.type = "alert-danger";
-          this.$refs.alert.scrollIntoView();
-        });
-    },
-
-    addIngredient() {
-      this.ingredients.push({
-        id: "",
-        name: '',
-        quantity: '',
-        unit: '',
-      });
-    },
-
-    removeIngredient(index) {
-      if (this.ingredients.length > 1) {
-        this.ingredients.splice(index, 1);
-      }
-    },
-
-    addPortion() {
-      this.recipe.portion++;
-    },
-
-    removePortion() {
-      if (this.recipe.portion > 1) {
-        this.recipe.portion--;
-      }
-    },
-
-    createRecipe(e) {
-      this.$axios
-        .post(`/api/recipe/${this.recipe.id}/updateRecipe`, {
-          name: this.recipe.name,
-          ingredients: this.ingredients,
-          portion: this.recipe.portion,
-          prepTime: this.recipe.prepTime,
-          method: this.recipe.method,
-          difficulty: this.recipe.difficulty,
-          tags: this.recipe.tags,
         })
         .then((response) => {
           this.recipe = response.data;
@@ -332,6 +288,31 @@ export default {
           this.alert.type = "alert-danger";
           this.$refs.alert.scrollIntoView();
         });
+    },
+
+    addIngredient() {
+      this.recipe.ingredients.push({
+        id: "",
+        name: '',
+        quantity: '',
+        unit: '',
+      });
+    },
+
+    removeIngredient(index) {
+      if (this.recipe.ingredients.length > 1) {
+        this.recipe.ingredients.splice(index, 1);
+      }
+    },
+
+    addPortion() {
+      this.recipe.portion++;
+    },
+
+    removePortion() {
+      if (this.recipe.portion > 1) {
+        this.recipe.portion--;
+      }
     },
     cancelRecipe() {
       this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {

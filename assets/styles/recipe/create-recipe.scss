@@ -1,10 +1,10 @@
 .recipe-upload-img {
     margin-right: 1.25rem;
-    max-width: 17.5rem;
 
     .upload-image-preview {
+        width: 100%;
+        height: 21.25rem;
         img {
-            max-height: 17.5rem;
             object-fit: cover;
         }
     }
@@ -81,6 +81,17 @@
 .create-ingredients-buttons {
     .btn-secondary {
         margin-right: .625rem;
+    }
+}
+
+@media (min-width: 25.625rem) {
+    .recipe-upload-img {
+        .upload-image-preview {
+            width: 21.25rem;
+            img {
+                object-fit: cover;
+            }
+        }
     }
 }
 
