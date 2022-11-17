@@ -140,18 +140,6 @@ class RecipeController extends AbstractController
 
         return new JsonResponse($newResponse, Response::HTTP_OK);
     }
-    
-    /**
-     * @Route("/api/editRecipe/{id}", name="app_recipe_edit")
-     */
-    public function editRecipe(Request $request, SerializerInterface $serializer, $id)
-    {
-        $user = $this->getUser();
-        $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $id]);
-        $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
-
-        return new Response($jsonContent, Response::HTTP_OK);
-    }
 
 
     /** @param Request

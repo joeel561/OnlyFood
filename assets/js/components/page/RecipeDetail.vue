@@ -205,8 +205,6 @@
                 this.user = this.recipe.userId;
                 this.isUserRecipe = response.data.isUserRecipe;
 
-                console.log(this.recipe.tags);
-                
                 this.recipe.ingredients.forEach(ingredient => {
                     if (this.recipe.portion) {
                         ingredient.baseValue = ingredient.quantity / this.recipe.portion;

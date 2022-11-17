@@ -209,9 +209,9 @@
   
     created() {
       this.$axios
-        .get(`/api/editRecipe/${this.$route.params.id}`)
+        .get(`/api/recipe/${this.$route.params.id}`)
         .then((response) => {
-          this.recipe = response.data;
+          this.recipe = JSON.parse(response.data.recipe);
         })
         .catch((e) => {
           this.alert = e.message;
