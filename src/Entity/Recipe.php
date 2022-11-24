@@ -100,10 +100,17 @@ class Recipe
      */
     private $tags;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="likedRecipes")
+     * @Groups({"recipe_overview", "recipe_listing"})
+     */
+    private $likedUsers;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->likedUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +277,33 @@ class Recipe
     {
         if ($this->tags->removeElement($tag)) {
             $tag->removeRecipe($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLikedUsers(): Collection
+    {
+        return $this->likedUsers;
+    }
+
+    public function addLikedUser(User $likedUser): self
+    {
+        if (!$this->likedUsers->contains($likedUser)) {
+            $this->likedUsers[] = $likedUser;
+            $likedUser->addLikedRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedUser(User $likedUser): self
+    {
+        if ($this->likedUsers->removeElement($likedUser)) {
+            $likedUser->removeLikedRecipe($this);
         }
 
         return $this;

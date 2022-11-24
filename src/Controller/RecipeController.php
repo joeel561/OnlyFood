@@ -11,6 +11,7 @@ use App\Entity\Recipe;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Ingredients;
 use App\Entity\Tag;
+use App\Entity\User;
 use App\Entity\IngredientQuantity;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -135,11 +136,39 @@ class RecipeController extends AbstractController
 
         $newResponse = array(
             'recipe' => $jsonContent,
-            'isUserRecipe' => $isUserRecipe
+            'isUserRecipe' => $isUserRecipe,
+            'isUserLoggedIn' => $user->getId()
         );
 
         return new JsonResponse($newResponse, Response::HTTP_OK);
     }
+
+    
+    /**
+     * @Route("/api/recipe/{id}/like", name="app_recipe_like", methods={"POST"})
+     */
+    public function likeRecipe(Request $request, SerializerInterface $serializer)
+    {
+        $user = $this->getUser();
+        $recipeId = $request->get('id');
+        $userRepo = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $user->getId()]);
+
+        $recipeRepo = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $recipeId]);
+        $getLikedRecipe = $this->entityManager->getRepository(Recipe::class)->getLikedRecipe($user, $recipeRepo);
+
+        if ($getLikedRecipe) {
+            $userRepo->removeLikedRecipe($recipeRepo);
+            $this->updateDatabase($recipeRepo);
+        } else {
+            $userRepo->addLikedRecipe($recipeRepo);
+            $this->updateDatabase($recipeRepo);
+        }
+
+        $jsonContent = $serializer->serialize($recipeRepo, 'json', ['groups' => 'recipe_overview']);
+
+        return new Response($jsonContent, Response::HTTP_OK);
+    }
+
 
 
     /** @param Request

@@ -31,6 +31,15 @@
     margin-bottom: .9375rem;
 }
 
+.recipe-like {
+    &.active {
+        svg {
+            stroke: white;
+            fill: white;
+        }
+    }
+}
+
 .recipe-user-info-img {
     width: 2.5rem;
     height: 2.5rem;

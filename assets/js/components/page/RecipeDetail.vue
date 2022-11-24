@@ -3,15 +3,23 @@
         <div class="row">
             <div class="col-12 col-md-5">
                 <div class="recipe-detail-mobile d-md-none">
-                    <div class="recipe-user-info d-flex align-items-center"> 
-                        <div class="recipe-user-info-img">
-                            <img
-                                v-if="user.profilePictureName"
-                                :src="'/images/profile_pictures/' + user.profilePictureName"
-                            />
+                    <div class="recipe-user-info d-flex justify-content-between align-items-center"> 
+                        <div class="d-flex align-items-center">
+                            <div class="recipe-user-info-img">
+                                <img
+                                    v-if="user.profilePictureName"
+                                    :src="'/images/profile_pictures/' + user.profilePictureName"
+                                />
+                            </div>
+                            <div class="recipe-user-info-name">
+                                <span>Made by {{ user.username }}</span>
+                            </div>
                         </div>
-                        <div class="recipe-user-info-name">
-                            <span>Made by {{ user.username }}</span>
+                        <div class="recipe-like" @click="toggleLikeRecipe" :class="{ active: likedRecipe }">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                            </svg>
                         </div>
                     </div>
                     <div class="recipe-headline">
@@ -35,15 +43,23 @@
                 </div>
             </div>
             <div class="col-12 col-md-7">
-                <div class="recipe-user-info d-none d-md-flex align-items-center"> 
-                    <div class="recipe-user-info-img">
-                        <img
-                            v-if="user.profilePictureName"
-                            :src="'/images/profile_pictures/' + user.profilePictureName"
-                        />
+                <div class="recipe-user-info d-none d-md-flex justify-content-between align-items-center"> 
+                    <div class=" d-flex align-items-center">
+                        <div class="recipe-user-info-img">
+                            <img
+                                v-if="user.profilePictureName"
+                                :src="'/images/profile_pictures/' + user.profilePictureName"
+                            />
+                        </div>
+                        <div class="recipe-user-info-name">
+                            <span>Made by {{ user.username }}</span>
+                        </div>
                     </div>
-                    <div class="recipe-user-info-name">
-                        <span>Made by {{ user.username }}</span>
+                    <div class="recipe-like" @click="toggleLikeRecipe" :class="{ active: likedRecipe }">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+                        </svg>
                     </div>
                 </div>
                 <div class="recipe-headline d-none d-md-block">
@@ -193,7 +209,9 @@
                     ],
                 },
                 user: '',
+                likedRecipe: false,
                 isUserRecipe: false,
+                isUserLoggedIn: false,
             }
         },
 
@@ -204,6 +222,13 @@
                 this.recipe = JSON.parse(response.data.recipe);
                 this.user = this.recipe.userId;
                 this.isUserRecipe = response.data.isUserRecipe;
+                this.isUserLoggedIn = response.data.isUserLoggedIn;
+                
+                if (this.recipe.likedUsers.find(user => user.id === this.isUserLoggedIn)) {
+                    this.likedRecipe = true;
+                } else {
+                    this.likedRecipe = false;
+                }
 
                 this.recipe.ingredients.forEach(ingredient => {
                     if (this.recipe.portion) {
@@ -226,6 +251,22 @@
                     } else {
                         ingredient.quantity = this.recipe.portion * ingredient.quantity;
                     }
+                });
+            },
+            toggleLikeRecipe() {
+                this.$axios
+                .post(`/api/recipe/${this.$route.params.id}/like`)
+                .then((response) => {
+                    this.recipe = response.data;
+
+                    if (this.recipe.likedUsers.find(user => user.id === this.isUserLoggedIn)) {
+                        this.likedRecipe = true;
+                    } else {
+                        this.likedRecipe = false;
+                    }
+                })
+                .catch((e) => {
+                    console.log(e);
                 });
             },
 

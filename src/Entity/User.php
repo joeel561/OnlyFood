@@ -93,6 +93,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $recipes;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="likedUsers")
+     */
+    private $likedRecipes;
+
+    /**
      * 
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $profilePictureFile
      */
@@ -232,6 +237,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct() {
         $this->recipes = new ArrayCollection();
+        $this->likedRecipes = new ArrayCollection();
     }
 
     /**
@@ -260,6 +266,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $recipe->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function addLikedRecipe(Recipe $likedRecipe): self
+    {
+        if (!$this->likedRecipes->contains($likedRecipe)) {
+            $this->likedRecipes[] = $likedRecipe;
+        }
+
+        return $this;
+    }
+
+    public function removeLikedRecipe(Recipe $likedRecipe): self
+    {
+        $this->likedRecipes->removeElement($likedRecipe);
 
         return $this;
     }

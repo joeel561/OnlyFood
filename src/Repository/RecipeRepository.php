@@ -57,6 +57,17 @@ class RecipeRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    
+    public function getLikedRecipe(User $user, Recipe $recipe): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where(':user MEMBER OF r.likedUsers')
+            ->andWhere(':recipe = r.id')
+            ->setParameters(array('user' => $user, 'recipe' => $recipe))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     public function getSearchResult(string $search): array
     {
@@ -74,6 +85,7 @@ class RecipeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->where('r.userId = :user')
+            ->orWhere(':user MEMBER OF r.likedUsers')
             ->setParameters(array('user' => $user))
             ->setFirstResult($offset)
             ->setMaxResults(9)
