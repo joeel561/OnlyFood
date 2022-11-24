@@ -315,9 +315,7 @@ export default {
       }
     },
     cancelRecipe() {
-      this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
-        this.$router.push({ name: 'recipes'});
-      });
+      this.$router.push({ name: 'recipes'});
     },
   },
 };
