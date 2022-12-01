@@ -20,13 +20,13 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $name;
 
@@ -106,11 +106,18 @@ class Recipe
      */
     private $likedUsers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=WeeklyPlan::class, mappedBy="recipe")
+     * @Groups({"recipe_overview"})
+     */
+    private $weeklyPlans;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->likedUsers = new ArrayCollection();
+        $this->weeklyPlans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,6 +311,33 @@ class Recipe
     {
         if ($this->likedUsers->removeElement($likedUser)) {
             $likedUser->removeLikedRecipe($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WeeklyPlan>
+     */
+    public function getWeeklyPlans(): Collection
+    {
+        return $this->weeklyPlans;
+    }
+
+    public function addWeeklyPlan(WeeklyPlan $weeklyPlan): self
+    {
+        if (!$this->weeklyPlans->contains($weeklyPlan)) {
+            $this->weeklyPlans[] = $weeklyPlan;
+            $weeklyPlan->addRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWeeklyPlan(WeeklyPlan $weeklyPlan): self
+    {
+        if ($this->weeklyPlans->removeElement($weeklyPlan)) {
+            $weeklyPlan->removeRecipe($this);
         }
 
         return $this;

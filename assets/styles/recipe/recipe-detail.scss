@@ -31,6 +31,13 @@
     margin-bottom: .9375rem;
 }
 
+.recipe-weeklyplan-btn {
+    margin: 1.875rem 0;
+    .btn {
+        font-size: 1.0625rem;
+    }
+}
+
 .recipe-like {
     &.active {
         svg {
@@ -221,11 +228,55 @@
     }
 }
 
+#weeklyPlanModal {
+    .modal-dialog {
+        max-width: 42.5rem;
+    }
+
+    h3 {
+        font-size: 1.875rem;
+    }
+
+    p {
+      font-size: .875rem;  
+    }
+
+    .multiselect__single {
+        color: white;
+    }
+
+    .modal-content {
+        min-height: 24.375rem;
+        overflow: hidden;
+        padding: .625rem;
+        z-index: 0;
+
+        p {
+            margin-bottom: 3.125rem;
+        }
+    }
+
+    .modal-body {
+        width: 100%;
+    }
+
+    .bg-orange {
+        position: absolute;
+        bottom: -1.875rem;
+        z-index: -1;
+    }
+}
+
 @include media-breakpoint-up(md) {  
 
     .recipe-method-headline {
         font-size: 2.1875rem;
         padding-top: 4.0625rem;
+    }
+
+    .recipe-weeklyplan-btn {
+        margin-top: auto;
+        margin-bottom: 7.5rem;
     }
 
     .recipe-detail-overview {    
@@ -238,6 +289,23 @@
             font-size: 1.75rem;
             line-height: 2.1875rem;
         }
+    }
+
+    #weeklyPlanModal {
+        .modal-content {
+            min-height: 24.375rem;
+            overflow: hidden;
+            padding: 1.25rem;
+    
+            p {
+                margin-bottom: 3.125rem;
+            }
+        }
+
+        .modal-body {
+            width: 70%;
+        }
+    
     }
 
     .recipe-method {

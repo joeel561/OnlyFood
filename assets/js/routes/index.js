@@ -6,6 +6,7 @@ import Recipe from "../components/page/RecipeOverview";
 import RecipeDetail from "../components/page/RecipeDetail";
 import CreateRecipe from "../components/page/CreateRecipe";
 import EditRecipe from "../components/page/EditRecipe";
+import WeeklyPlan from "../components/page/WeeklyPlan";
 
 Vue.use(VueRouter);
 
@@ -41,7 +42,12 @@ const routes = [
         path: "/recipe/:id",
         name: "recipeDetail",
         component: RecipeDetail 
-    },    
+    },  
+    {   
+        path: "/weeklyplan/",
+        name: "weeklyPlan",
+        component: WeeklyPlan 
+    },  
 ]
 
 const router = new VueRouter({

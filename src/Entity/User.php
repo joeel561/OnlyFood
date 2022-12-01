@@ -25,13 +25,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"account_overview", "recipe_overview"})
+     * @Groups({"account_overview", "recipe_overview", "weekly_plan"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"account_overview" , "recipe_overview"})
+     * @Groups({"account_overview" , "recipe_overview", "weekly_plan"})
      * @Assert\NotBlank(message="Please enter a username")
      * @Assert\Type(type={"alnum"} , message="Don't use special characters in your username")
      * 
@@ -96,6 +96,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="likedUsers")
      */
     private $likedRecipes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=WeeklyPlan::class, mappedBy="user")
+     */
+    private $weeklyPlans;
+
+
 
     /**
      * 
@@ -238,6 +245,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct() {
         $this->recipes = new ArrayCollection();
         $this->likedRecipes = new ArrayCollection();
+        $this->weeklyPlans = new ArrayCollection();
     }
 
     /**
@@ -283,6 +291,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeLikedRecipe(Recipe $likedRecipe): self
     {
         $this->likedRecipes->removeElement($likedRecipe);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WeeklyPlan>
+     */
+    public function getWeeklyPlans(): Collection
+    {
+        return $this->weeklyPlans;
+    }
+
+    public function addWeeklyPlan(WeeklyPlan $weeklyPlan): self
+    {
+        if (!$this->weeklyPlans->contains($weeklyPlan)) {
+            $this->weeklyPlans[] = $weeklyPlan;
+            $weeklyPlan->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWeeklyPlan(WeeklyPlan $weeklyPlan): self
+    {
+        if ($this->weeklyPlans->removeElement($weeklyPlan)) {
+            // set the owning side to null (unless already changed)
+            if ($weeklyPlan->getUser() === $this) {
+                $weeklyPlan->setUser(null);
+            }
+        }
 
         return $this;
     }
