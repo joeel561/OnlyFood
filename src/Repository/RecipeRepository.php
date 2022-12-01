@@ -82,19 +82,32 @@ class RecipeRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getRecipes(int $offset, User $user): array
+    public function getRecipes(int $offset, User $user, array $tagIds = [], array $ingredientIds = []): array
     {
-        return $this->createQueryBuilder('r')
+        $parameters = [
+            'user' => $user
+        ];
+
+        $qb = $this->createQueryBuilder('r')
             ->where('r.userId = :user')
             ->orWhere(':user MEMBER OF r.likedUsers')
             ->innerJoin('r.userId', 'u')
             ->andWhere('u.publicMode = 1')
-            ->setParameters(array('user' => $user))
             ->setFirstResult($offset)
-            ->setMaxResults(9)
-            ->getQuery()
-            ->getResult()
+            ->setMaxResults(9) 
         ;
+
+        if (count($tagIds) > 0) {
+            $parameters['tagIds'] = $tagIds;
+
+            $qb->innerJoin('r.tags', 't');
+            $qb->andWhere('t.id IN (:tagIds)');
+        }
+
+        $qb->setParameters($parameters);
+
+        return $qb->getQuery()
+        ->getResult();
     }
 
     // /**
