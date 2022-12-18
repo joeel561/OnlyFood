@@ -20,25 +20,25 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan", "add_weekly_plan"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan", "add_weekly_plan"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $prepTime;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "weekly_plan"})
      */
     private $difficulty;
 
@@ -71,7 +71,7 @@ class Recipe
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var int|null
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $imageName;
 
@@ -90,13 +90,13 @@ class Recipe
 
     /**
      * @ORM\ManyToMany(targetEntity=Ingredients::class, inversedBy="recipes")
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $ingredients;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="recipes")
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $tags;
 

@@ -17,13 +17,13 @@ class Tag
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $name;
 

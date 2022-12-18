@@ -97,6 +97,19 @@ class RecipeRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getRecipesforWeeklyPlan(User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.userId = :user')
+            ->orWhere(':user MEMBER OF r.likedUsers')
+            ->innerJoin('r.userId', 'u')
+            ->andWhere('u.publicMode = 1')
+            ->setParameters(array('user' => $user))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Recipe[] Returns an array of Recipe objects
     //  */

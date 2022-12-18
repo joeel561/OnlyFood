@@ -228,9 +228,14 @@
     }
 }
 
-#weeklyPlanModal {
+.weekly-plan-modal {
     .modal-dialog {
         max-width: 42.5rem;
+    }
+
+    .btn-close {
+        filter: invert(1);
+        margin-left: auto;
     }
 
     h3 {
@@ -247,7 +252,6 @@
 
     .modal-content {
         min-height: 24.375rem;
-        overflow: hidden;
         padding: .625rem;
         z-index: 0;
 
@@ -262,8 +266,14 @@
 
     .bg-orange {
         position: absolute;
-        bottom: -1.875rem;
+        bottom: 0;
         z-index: -1;
+
+        svg {
+            width: 8.75rem;
+            height: 8.75rem;
+            fill: #ffffff45;
+        }
     }
 }
 
@@ -291,10 +301,9 @@
         }
     }
 
-    #weeklyPlanModal {
+    .weekly-plan-modal {
         .modal-content {
             min-height: 24.375rem;
-            overflow: hidden;
             padding: 1.25rem;
     
             p {

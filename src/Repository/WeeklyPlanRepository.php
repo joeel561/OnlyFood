@@ -7,6 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
+use App\Entity\Recipe;
 
 /**
  * @extends ServiceEntityRepository<WeeklyPlan>
@@ -45,6 +47,17 @@ class WeeklyPlanRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function findWeeklyPlanOfRecipe(Recipe $recipe, User $user): array
+    {
+        return $this->createQueryBuilder('w')
+            ->where(':recipeId MEMBER OF w.recipe')
+            ->andWhere('w.user = :userId')
+            ->setParameters(array('recipeId' => $recipe, 'userId' => $user))
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

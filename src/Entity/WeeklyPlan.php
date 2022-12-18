@@ -46,6 +46,18 @@ class WeeklyPlan
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"weekly_plan"})
+     */
+    private $weekDaySort;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"weekly_plan"})
+     */
+    private $mealSort;
+
     public function __construct()
     {
         $this->recipe = new ArrayCollection();
@@ -113,6 +125,30 @@ class WeeklyPlan
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getWeekDaySort(): ?int
+    {
+        return $this->weekDaySort;
+    }
+
+    public function setWeekDaySort(int $weekDaySort): self
+    {
+        $this->weekDaySort = $weekDaySort;
+
+        return $this;
+    }
+
+    public function getMealSort(): ?int
+    {
+        return $this->mealSort;
+    }
+
+    public function setMealSort(int $mealSort): self
+    {
+        $this->mealSort = $mealSort;
 
         return $this;
     }

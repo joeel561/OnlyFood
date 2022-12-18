@@ -13,6 +13,7 @@ use App\Entity\Ingredients;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Entity\IngredientQuantity;
+use App\Entity\WeeklyPlan;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class RecipeController extends AbstractController
@@ -122,6 +123,9 @@ class RecipeController extends AbstractController
     {
         $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
         $user = $this->getUser();
+        
+        $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfRecipe($recipe, $user);
+
         $isUserRecipe = false;
 
         if($recipe){
@@ -132,10 +136,12 @@ class RecipeController extends AbstractController
             }
         }
         
-        $jsonContent = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
+        $recipeJson = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
+        $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
 
         $newResponse = array(
-            'recipe' => $jsonContent,
+            'recipe' => $recipeJson,
+            'weeklyPlans' => $weeklyPlanJson,
             'isUserRecipe' => $isUserRecipe,
             'isUserLoggedIn' => $user->getId()
         );

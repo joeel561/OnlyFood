@@ -1,60 +1,41 @@
 <template>
     <div class="weekly-plan-overview overview col-12">
-        <h1>Weekly Plan</h1>
-        <p>Add a recipe to your weekly plan. You can select it on the recipe detail page by clicking on the add to weekly plan button.</p>
-        <div class="create-recipe-overview--panel panel d-flex flex-wrap" ref="alert">
+        <div class="d-flex justify-content-between align-content-end flex-wrap">
+            <div>
+                <h1>Weekly Plan</h1>
+                <p>Add a recipe to your weekly plan. You can select it on the recipe detail page by clicking on the add to weekly plan button.</p>
+            </div>
+            <weekly-add-meal v-bind:weeklyPlans="weeklyPlans" @addToWeeklyPlan="getWeeklyPlans()"/>
+        </div>
+        <div class="weekly-plan-overview--panel panel d-flex flex-wrap" ref="alert">
             <alert :classes="alert.type" :text="alert.text" v-if="alert.text" />
-            <div class="weekly-plan-wrapper">
-                <div class="weekly-plan-weekday">
-                    <h3>Monday</h3>
-                    <div class="weekly-plan-boxes">
-                        <div class="weekly-plan-box"> 
-                            <div class="weekly-plan-box--image">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </div>
-                            <div class="weekly-plan-box--text">
-                                <p>Add meal</p>
-                            </div>
-                        </div>
-                        <div class="weekly-plan-box"> 
-                            <div class="weekly-plan-box--image">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </div>
-                            <div class="weekly-plan-box--text">
-                                <p>Add meal</p>
-                            </div>
-                        </div>
-                        <div class="weekly-plan-box"> 
-                            <div class="weekly-plan-box--image">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </div>
-                            <div class="weekly-plan-box--text">
-                                <p>Add meal</p>
-                            </div>
-                        </div>
-                        <div class="weekly-plan-box"> 
-                            <div class="weekly-plan-box--image">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </div>
-                            <div class="weekly-plan-box--text">
-                                <p>Add meal</p>
-                            </div>
+            <div class="no-recipes mt-3" v-if="weeklyPlans.length == 0">
+                <p>You don't have any plans yet.</p>
+            </div>
+            <div class="weekly-plan-wrapper accordion" id="weeklyPlanAccordionParent" v-else>
+                <div class="recipe-ingredients accordion-item" 
+                v-for="groupedWeeklyPlan in groupedWeeklyPlans">
+                    <div class="recipe-ingredients-mobile-headline d-md-none accordion-header collapsed"
+                        :id="'headingWeeklyPlan' + groupedWeeklyPlan[0].weekday" 
+                        data-bs-toggle="collapse"
+                        :data-bs-target="'#collapseWeeklyPlan' + groupedWeeklyPlan[0].weekday"
+                        aria-expanded="true" 
+                        aria-controls="collapseWeeklyPlan">
+                        <h3>{{ groupedWeeklyPlan[0].weekday }}</h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="none" d="M0 0h24v24H0V0z"/>
+                            <path class="plus-minus-path" fill="none" stroke="rgb(255,255,255)" stroke-dasharray="0 0 0 0" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 7v10"/>
+                            <path fill="none" stroke="rgb(255,255,255)" stroke-dasharray="0 0 0 0" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 12h10"/>
+                        </svg>
+                    </div>
+                    <div :id="'collapseWeeklyPlan' + groupedWeeklyPlan[0].weekday"  
+                        class="recipe-ingredients-mobile-content accordion-collapse collapse"
+                        aria-labelledby="headingWeeklyPlan"
+                        data-bs-parent="#weeklyPlanAccordionParent">
+                        <h3 class="d-none d-md-block">{{ groupedWeeklyPlan[0].weekday }}</h3>
+                        <div class="weekly-plan-boxes">
+                            <weekly-plan-box  v-for="weeklyPlan in groupedWeeklyPlan"
+                            v-bind:weeklyBox="weeklyPlan" :key="weeklyPlan.id" @removeFromWeeklyPlan="getWeeklyPlans()"/>
                         </div>
                     </div>
                 </div>
@@ -63,13 +44,75 @@
     </div>
 </template>
 <script>
+    import WeeklyPlanBox from "../layout/WeeklyPlanBox";
+    import WeeklyAddMeal from "../layout/WeeklyAddMeal";
     export default {
+        components: {
+            WeeklyPlanBox,
+            WeeklyAddMeal
+        },
         data: function() {
             return {
                 alert: {
                     type: "",
                     text: "",
                 },
+                weeklyPlans: [],
+                monday: [],
+                groupByWeekDay: {},
+                tuesday: [],
+                wednesday: [],
+                groupedWeeklyPlans: [],
+                thursday: [],
+                friday: [],
+                saturday: [],
+                sunday: [],
+            }
+        },
+
+        created() {
+            this.getWeeklyPlans();
+        },
+        
+        methods: {
+            getWeeklyPlans() {
+                this.$axios
+                .get('/api/weekly-plan/')
+                .then((response) => {
+                    this.weeklyPlans = response.data;
+                    this.weeklyPlans = this.weeklyPlans.sort((a, b) => {
+                        if (a.weekDaySort < b.weekDaySort) {
+                            return -1;
+                        }
+                        if (a.weekDaySort > b.weekDaySort) {
+                            return 1;
+                        }
+
+                        if (a.mealSort < b.mealSort) {
+                            return -1;
+                        }
+
+                        if (a.mealSort > b.mealSort) {
+                            return 1;
+                        }
+                        
+                        return 0;
+                    });
+
+                    this.groupByWeekDay = this.weeklyPlans.reduce((group, weeklyPlan) => {
+                        group[weeklyPlan.weekday] = group[weeklyPlan.weekday] || [];
+                        group[weeklyPlan.weekday].push(weeklyPlan);
+                        return group;
+                    }, {});
+
+                    this.groupedWeeklyPlans = Object.keys(this.groupByWeekDay).map(function(key) {
+                        return this.groupByWeekDay[key];
+                    },this);
+
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
             }
         }
     }
