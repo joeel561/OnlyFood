@@ -121,10 +121,11 @@
             </div>
             <div class="col-3">
               <input
-                type="text"
+                type="number"
                 class="add-recipe-ingredient-portion form-control"
                 :placeholder="recipe.portion"
                 v-model="recipe.portion"
+                @change="updatePortion"
               />
             </div>
             <div class="col-3 col-md-auto">
@@ -304,6 +305,11 @@
   
       addPortion() {
         this.recipe.portion++;
+      },
+      updatePortion() {
+          if (this.recipe.portion < 1) {
+              this.recipe.portion = 1;
+          }
       },
   
       removePortion() {

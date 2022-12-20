@@ -66,6 +66,7 @@
                 class="add-recipe-ingredient-quantity form-control"
                 placeholder="Quantity"
                 v-model="ingredient.quantity"
+                @change="updateQuantity(index)"
               />
             </div>
             <div class="col-6 col-md-2">
@@ -118,10 +119,11 @@
           </div>
           <div class="col-3">
             <input
-              type="text"
+              type="number"
               class="add-recipe-ingredient-portion form-control"
               :placeholder="recipe.portion"
               v-model="recipe.portion"
+              @change="updatePortion"
             />
           </div>
           <div class="col-3 col-md-auto">
@@ -265,7 +267,7 @@ export default {
     },
     createRecipe(e) {
       const formData = new FormData();
-
+      
       if (this.file) {
         formData.append("file", this.file);
       }
@@ -307,6 +309,18 @@ export default {
 
     addPortion() {
       this.recipe.portion++;
+    },
+
+    updatePortion() {
+        if (this.recipe.portion < 1) {
+            this.recipe.portion = 1;
+        }
+    },
+
+    updateQuantity(index) {
+        if (this.recipe.ingredients[index].quantity < 0) {
+            this.recipe.ingredients[index].quantity = 0;
+        }
     },
 
     removePortion() {

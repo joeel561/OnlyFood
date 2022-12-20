@@ -111,7 +111,8 @@
 
                 })
                 .catch((e) => {
-                    console.log(e);
+                    this.alert.text = e.response.data.detail;
+                    this.alert.type = "alert-danger";
                 });
             }
         }

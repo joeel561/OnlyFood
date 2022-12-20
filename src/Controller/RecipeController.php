@@ -45,16 +45,16 @@ class RecipeController extends AbstractController
             $recipe = $this->entityManager->getRepository(Recipe::class)->find($content['id']);
             $recipe->setPortion($content['portion']);
             $recipe->setPrepTime($content['prepTime']);
-
-            if($path) {
-                $fileName = $userName . '.' . $path->guessExtension();
-
-                $recipe->setImageFile($path);
-                $recipe->setImageName($fileName);
-            }
         } else {
             $recipe = new Recipe();
             $recipe->setUserId($user);
+        }
+
+        if($path) {
+            $fileName = $userName . '.' . $path->guessExtension();
+
+            $recipe->setImageFile($path);
+            $recipe->setImageName($fileName);
         }
 
         if (!$content['name']) { 
