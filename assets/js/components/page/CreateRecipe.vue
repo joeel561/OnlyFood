@@ -142,7 +142,7 @@
         </div>
         <div class="col-12 create-ingredients-buttons mt-4 d-flex justify-content-end">
           <div class="col-12 col-md-6 col-lg-4 d-flex">
-            <button class="btn btn-secondary" type="reset" @click="cancelRecipe">
+            <button class="btn btn-secondary" type="reset"  data-bs-dismiss="modal" @click="cancelRecipe">
               Cancel
             </button>
             <button class="btn btn-primary" type="submit">
@@ -279,7 +279,7 @@ export default {
         })
         .then((response) => {
           this.recipe = response.data;
-          this.alert.text = 'Recipe updated successfully';
+          this.alert.text = 'Recipe updated successfully. Before it can be seen by other users it needs to be approved by an admin.';
           this.alert.type = "alert-success";
           this.$refs.alert.scrollIntoView();
         })

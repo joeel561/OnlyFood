@@ -11,6 +11,11 @@
         background-color: var.$primary;
         color: white;
     }
+
+    &.alert-warning {
+        background-color: var.$warning;
+        color: black;
+    }
 }
 
 .alert-danger {

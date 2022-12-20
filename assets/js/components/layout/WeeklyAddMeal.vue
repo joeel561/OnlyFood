@@ -15,15 +15,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <button type="button" class="btn-close mb-2" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <alert :classes="alert.type" :text="alert.text" v-if="alert.text"/>
+                    <alert :classes="modalAlert.type" :text="modalAlert.text" v-if="modalAlert.text"/>
                     <div class="modal-header">
                         <h3 class="modal-title" id="weeklyAddMealLabel">Add to weekly plan</h3>
                     </div>
                     <div class="modal-body">
                         <multiselect v-model="recipeValue" :options="recipes" :allowEmpty="false" class="mt-3" :searchable="true" 
-                        open-direction="bottom" :close-on-select="false"  track-by="id" label="name" :show-labels="false" placeholder="Select Recipe"></multiselect>
-                        <multiselect v-model="weeklyPlanDayValue" :options="weeklyPlanDays" track-by="weekday" label="weekday" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Select Day"></multiselect>
-                        <multiselect v-model="weeklyPlanMealValue" :options="weeklyPlanMeals" track-by="meal" label="meal" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Select Meal"></multiselect>
+                        open-direction="bottom" :close-on-select="true"  track-by="id" label="name" :show-labels="false" placeholder="Select Recipe"></multiselect>
+                        <multiselect v-model="weeklyPlanDayValue" :options="weeklyPlanDays" track-by="weekday" label="weekday" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="true" :show-labels="false" placeholder="Select Day"></multiselect>
+                        <multiselect v-model="weeklyPlanMealValue" :options="weeklyPlanMeals" track-by="meal" label="meal" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="true" :show-labels="false" placeholder="Select Meal"></multiselect>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -60,7 +60,7 @@
                     { meal: 'dinner', mealSort: 3 },
                     { meal: 'snack', mealSort: 4 }
                 ],    
-                alert: {
+                modalAlert: {
                     type: "",
                     text: "",
                 },
@@ -76,19 +76,20 @@
                 this.recipes = response.data;
                 this.offset = response.data.length;
             } catch (error) {
-                console.log(error);
+                this.modalAlert.text = e.response.data.detail;
+                this.modalAlert.type = "alert-danger";
             }
         },
 
         methods: {
             addToWeeklyPlan() {
                 if (this.weeklyPlanDayValue === '' || this.weeklyPlanMealValue === '' || this.recipeValue === '') {
-                    this.alert.type = "alert-danger";
-                    this.alert.text = "Please fill in all fields.";
+                    this.modalAlert.type = "alert-danger";
+                    this.modalAlert.text = "Please fill in all fields.";
                     return;
                 } else {
-                    this.alert.type = "";
-                    this.alert.text = "";
+                    this.modalAlert.type = "";
+                    this.modalAlert.text = "";
                 }
 
                 let exsistingWeeklyPlan = '';
@@ -106,19 +107,20 @@
                     recipeId: this.recipeValue.id,
                     id: exsistingWeeklyPlan,
                 }).then((response) => {
-                    this.alert.type = "alert-success";
-                    this.alert.text = "Recipe added to weekly plan.";
+                    this.modalAlert.type = "alert-success";
+                    this.modalAlert.text = "Recipe added to weekly plan.";
                     this.weeklyPlanDayValue = '';
                     this.weeklyPlanMealValue = '';
                     this.recipeValue = '';
 
                     setTimeout(() => {
-                        this.alert.type = "";
-                        this.alert.text = "";
+                        this.modalAlert.type = "";
+                        this.modalAlert.text = "";
                         this.$emit('addToWeeklyPlan');
                     }, 3000);
                 }).catch((e) => {
-                    console.log(e);
+                    this.alert.text = e.response.data.detail;
+                    this.alert.type = "alert-danger";
                 });
             },
 

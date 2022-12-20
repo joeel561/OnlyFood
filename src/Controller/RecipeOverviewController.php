@@ -36,15 +36,14 @@ class RecipeOverviewController extends AbstractController
         $offset = $request->query->get('offset', 0);
         $user = $this->getUser();
         $tagIds = $request->query->get('tags', []);
-        $ingredientIds = $request->query->get('ingredients', []);
 
         $recipes = $this->entityManager->getRepository(Recipe::class)
-            ->getRecipes($offset, $user, $tagIds, $ingredientIds);
+            ->getRecipes($offset, $user, $tagIds);
 
         if ($recipes) {
             $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
         } else {
-            $jsonContent = [];
+            $jsonContent = null;
         }
 
         return new Response($jsonContent, Response::HTTP_OK);
@@ -89,7 +88,6 @@ class RecipeOverviewController extends AbstractController
         foreach ($search as $searchItem ){
             $recipes = $this->entityManager->getRepository(Recipe::class)->getSearchResult($searchItem);
         }
-
 
         if (!$recipes) {
             return new Response('No recipes found', Response::HTTP_NOT_FOUND);

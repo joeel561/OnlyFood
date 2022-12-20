@@ -102,6 +102,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $weeklyPlans;
 
+    /**
+     * @ORM\Column(type="boolean",  options={"default":"0"})
+     */
+    private $enabled = false;
+
 
 
     /**
@@ -321,6 +326,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $weeklyPlan->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isEnabled(): ?int
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(int $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

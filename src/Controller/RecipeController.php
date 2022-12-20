@@ -135,6 +135,10 @@ class RecipeController extends AbstractController
                 $isUserRecipe = true;
             }
         }
+
+        if ($recipe->getEnabled() == false && $isUserRecipe == false) {
+            throw new \Exception('Recipe not found');
+        }
         
         $recipeJson = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
         $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);

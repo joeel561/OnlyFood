@@ -145,12 +145,28 @@
           </div>
           <div class="col-12 create-ingredients-buttons mt-4 d-flex justify-content-end">
             <div class="col-12 col-md-6 col-lg-4 d-flex">
-              <button class="btn btn-secondary" type="reset" @click="cancelRecipe">
+              <button class="btn btn-secondary" type="reset" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Delete
               </button>
-              <button class="btn btn-primary" type="submit">
+              <button class="btn btn-primary" type="submit" >
                 Save
               </button>
+            </div>
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="deleteModalLabel">Are you sure you want to delete this recipe?</h3>
+                        </div>
+                        <div class="modal-body">
+                            When you delete your recipe all information will be deleted.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" @click="deleteRecipe()" data-bs-dismiss="modal">Yes, delete it!</button>
+                        </div>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
@@ -299,8 +315,6 @@
       createRecipe(e) {
         const formData = new FormData();
 
-        console.log(this.recipe);
-
         if (this.file) {
           formData.append("file", this.file);
         }
@@ -324,12 +338,15 @@
             this.$refs.alert.scrollIntoView();
           });
       },
-      cancelRecipe() {
-        this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
-          this.$router.push({ name: 'createRecipe'});
-          
-        });
-      },
+      deleteRecipe() {
+          this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
+              this.$router.push({ name: 'recipes'});
+              document.querySelector('.modal-backdrop').remove();
+              document.body.classList.remove('modal-open');
+              document.body.style.paddingRight = '';
+              document.body.style.overflow = '';
+          });
+      }
     },
   };
   </script>

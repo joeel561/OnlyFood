@@ -11,7 +11,7 @@
         </button>
         <div class="offcanvas-body accordion" id="filterIngredientsOverview">
             <div class="filter-headline d-flex justify-content-between align-items-center">
-                <p> Filter by</p>
+                <p> Filter by Tags</p>
                 <button class="btn-link" @click="resetFilter"> Reset Filter</button>
             </div>
             <div class="filter-search">
@@ -19,24 +19,6 @@
                 <div class="filter-box d-flex align-items-center" v-for="tag in filteredTags" :key="tag.id">
                     <input type="checkbox" :id="tag.id" class="form-check-input" :value="tag.id" v-model="selectedTags" @click="filterTag(tag.id)" />
                     <label :for="tag.id">{{ tag.name }}</label>
-                </div>
-            </div>
-
-            <div class="filter-ingredients accordion-item">
-                <div class="filter-ingredients-headline d-flex align-items-center justify-content-between accordion-header collapsed" id="filterIngredientsHeading"  data-bs-toggle="collapse" data-bs-target="#filterIngredientsCollapse" aria-expanded="true" aria-controls="filterIngredientsCollapse">
-                    <p> Don't show me</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                </div>
-                <div class="accordion-collapse collapse show"  id="filterIngredientsCollapse" aria-labelledby="filterIngredientsHeading" data-bs-parent="#filterIngredientsOverview">
-                    <button class="btn-link" @click="resetIngredients"> Clear</button>
-                    <input type="text" class="form-control"  v-model="ingredientKeyword" placeholder="Search Ingredients" />
-                    <div class="filter-box d-flex align-items-center" v-for="ingredient in filteredIngredients" :key="ingredient.name">
-                        <input type="checkbox" :id="ingredient.name" class="form-check-input" :value="ingredient.name" v-model="selectedIngredients" @click="filterIngredient(ingredient.name)" />
-                        <label :for="ingredient.name">{{ ingredient.name }}</label>
-                    </div>
                 </div>
             </div>
         </div>
@@ -53,6 +35,24 @@
                         <line x1="21" y1="21" x2="15" y2="15" />
                     </svg>
                 </button>
+            </div>
+            <div class="recipe-overview-filter-btn d-flex justify-content-end col-md-12">
+                <a class="btn btn-secondary" data-bs-toggle="offcanvas" href="#offcanvasFilter" role="button" aria-controls="offcanvasFilter">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-horizontal d-block d-md-none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="14" cy="6" r="2" />
+                        <line x1="4" y1="6" x2="12" y2="6" />
+                        <line x1="16" y1="6" x2="20" y2="6" />
+                        <circle cx="8" cy="12" r="2" />
+                        <line x1="4" y1="12" x2="6" y2="12" />
+                        <line x1="10" y1="12" x2="20" y2="12" />
+                        <circle cx="17" cy="18" r="2" />
+                        <line x1="4" y1="18" x2="15" y2="18" />
+                        <line x1="19" y1="18" x2="20" y2="18" />
+                    </svg>   
+                    <span class="d-none d-md-block"> Filter </span>
+                </a>	
+                <router-link to="/recipe/create" class="btn btn-primary">Create</router-link>
             </div>
             <h2>Recipe Overview</h2>
             <p>You don't have any recipes yet.</p>
@@ -136,7 +136,6 @@
                 noRecipes: '',
                 ingredients: [],
                 ingredientKeyword: '',
-                selectedIngredients: [],
                 searchKeyword: '',
                 resultsFound: '',
                  alert: {
@@ -149,10 +148,14 @@
         async mounted() {
             try {
                 let response = await this.$axios.get('/api/recipes/overview');
-                this.recipes = response.data;
-                this.offset = response.data.length;
-            } catch (error) {
-                console.log(error);
+ 
+                if (response.data) {
+                    this.recipes = response.data;
+                    this.offset = response.data.length;
+                }
+            } catch (e) {
+                this.alert.text = e.response.data.detail;
+                this.alert.type = "alert-danger";
             }
         },
 
@@ -166,24 +169,13 @@
                 this.alert.text = e.response.data.detail;
                 this.alert.type = "alert-danger";
             });
-            this.$axios
-            .get("/api/recipes/showIngredients")
-            .then((response) => {
-                this.ingredients = response.data;
-                console.log(this.ingredients);
-            })
-            .catch((e) => {
-                this.alert.text = e.response.data.detail;
-                this.alert.type = "alert-danger";
-            });
         },
 
         watch: {
             recipes(oldValue, newValue) {
                 this.$nextTick(() => {
                     this.setTrigger = false;
-                    console.log(this.$refs.recipe.offsetHeight);
-                    if (this.$refs.recipe.offsetHeight > 1000) {
+                    if (this.recipe && this.$refs.recipe.offsetHeight > 1000) {
                         this.setTrigger = true;
                     }
                 });
@@ -195,12 +187,6 @@
             filteredTags() {
                 return this.tags.filter(
                     tag => tag.name.toLowerCase().includes(this.tagKeyword.toLowerCase())
-                );
-            },
-
-            filteredIngredients() {
-                return this.ingredients.filter(
-                    ingredient => ingredient.name.toLowerCase().includes(this.ingredientKeyword.toLowerCase())
                 );
             }
         },
@@ -214,10 +200,14 @@
                 }
                 }).then((response) => {
                     this.loading = false;
-                    this.recipes = [...this.recipes, ...response.data];
-                    this.offset += response.data.length;
+                    if (response.data) {
+                        this.recipes = [...this.recipes, ...response.data];
+                        this.offset += response.data.length;
+                    }
                 }).catch((e) => {
-                   this.loading = false;
+                    this.loading = false;
+                    this.alert.text = e.response.data.detail;
+                    this.alert.type = "alert-danger";
                 });
             },
             resetFilter() {
@@ -225,7 +215,9 @@
                 this.$axios
                 .get("/api/recipes/overview")
                 .then((response) => {
-                    this.recipes = response.data;
+                    if (response.data) {
+                        this.recipes = response.data;
+                    }
                 })
                 .catch((e) => {
                     this.alert.text = e.response.data.detail;
@@ -253,40 +245,6 @@
                     this.alert.type = "alert-danger";
                 });
             },
-            filterIngredient(name) {
-                if (!this.selectedIngredients.includes(name)) {
-                    this.selectedIngredients.push(name);
-                } else {
-                    this.selectedIngredients = this.selectedIngredients.filter(ingredient => ingredient != name);
-                }
-                this.$axios
-                .get("/api/recipes/overview", {
-                    params: {
-                        ingredients: this.selectedIngredients
-                    }
-                })
-                .then((response) => {
-                    this.recipes = response.data;
-                    this.alert.text = '';
-                })
-                .catch((e) => {
-                    this.alert.text = e.response.data.detail;
-                    this.alert.type = "alert-danger";
-                });
-
-            },
-            resetIngredients() {
-                this.selectedIngredients = [];
-                this.$axios
-                .get("/api/recipes/overview")
-                .then((response) => {
-                    this.recipes = response.data;
-                })
-                .catch((e) => {
-                    this.alert.text = e.response.data.detail;
-                    this.alert.type = "alert-danger";
-                });
-            },
 
             onSearchEnter() {
                 const searchKeywords = this.searchKeyword.split(/[.\s]+/);
@@ -302,7 +260,8 @@
                     this.resultsFound = searchKeywords;
                 })
                 .catch((e) => {
-                    console.log(e);
+                    this.alert.text = e.response.data.detail;
+                    this.alert.type = "alert-danger";
                     this.recipes = [];   
                 }); 
 

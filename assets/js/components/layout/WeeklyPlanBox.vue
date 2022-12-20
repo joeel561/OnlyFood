@@ -93,7 +93,8 @@
                     
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.alert.text = e.response.data.detail;
+                    this.alert.type = "alert-danger";
                 });
             }
         }
