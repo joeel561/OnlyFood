@@ -32,7 +32,7 @@ class RecipeOverviewController extends AbstractController
      */
     public function show(Request $request, SerializerInterface $serializer)
     {  
-        // Variablen aus dem Request holen
+
         $offset = $request->query->get('offset', 0);
         $user = $this->getUser();
         $tagIds = $request->query->get('tags', []);
@@ -48,20 +48,6 @@ class RecipeOverviewController extends AbstractController
         }
 
         return new Response($jsonContent, Response::HTTP_OK);
-        
-
-/*         if ($ingredients) {
-            $ingredientsRepo = $this->entityManager->getRepository(Ingredients::class);
-            $filterdIngredients = $ingredientsRepo->getNotInIngredientsList($ingredients);
-
-            if ($filterdIngredients) {
-                foreach ($filterdIngredients as $filterIngredient) {
-                   
-                  //  $new =  $ingredientsRepo->getFilteredRecipes($filterIngredient);
-                  
-                }
-            }
-        } */
 
     }
 

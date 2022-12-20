@@ -97,17 +97,26 @@ class RecipeRepository extends ServiceEntityRepository
             ->setMaxResults(9) 
         ;
 
-        if (count($tagIds) > 0) {
+        $tagCount = count($tagIds);
+
+        if ($tagCount > 0) {
             $parameters['tagIds'] = $tagIds;
 
             $qb->innerJoin('r.tags', 't');
             $qb->andWhere('t.id IN (:tagIds)');
+
+            if ($tagCount > 1) {
+                $qb->groupBy('r.id');
+                $qb->having('COUNT(r.id) > :tagCount');
+                
+                $parameters['tagCount'] = $tagCount - 1;
+            }
         }
 
         $qb->setParameters($parameters);
 
         return $qb->getQuery()
-        ->getResult();
+            ->getResult();
     }
 
     // /**
