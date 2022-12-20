@@ -31,46 +31,24 @@ class RecipeOverviewController extends AbstractController
      * @Route("api/recipes/overview", name="app_recipe_overview", methods={"GET"})
      */
     public function show(Request $request, SerializerInterface $serializer)
-    {   
-        //$recipes = $this->entityManager->getRepository(Recipe::class)->findBy();
-        $offset = $request->query->get('offset');
+    {  
 
-        if ($offset == null) {
-            $offset = 0;
-        }
-        
+        $offset = $request->query->get('offset', 0);
         $user = $this->getUser();
-        $recipes = $this->entityManager->getRepository(Recipe::class)->getRecipes($offset, $user);
+        $tagIds = $request->query->get('tags', []);
+        $ingredientIds = $request->query->get('ingredients', []);
 
-        $tags = $request->query->get('tags');
-        $ingredients = $request->query->get('ingredients');
-
-         if ($tags) {
-            foreach ($tags as $tag) {
-                $tag = $this->entityManager->getRepository(Tag::class)->findOneBy(['id' => $tag]);
-                $recipes = $tag->getRecipes();
-            }
-        } 
-        
-        if ($ingredients) {
-            $ingredientsRepo = $this->entityManager->getRepository(Ingredients::class);
-            $filterdIngredients = $ingredientsRepo->getNotInIngredientsList($ingredients);
-
-            if ($filterdIngredients) {
-                foreach ($filterdIngredients as $filterIngredient) {
-                   
-                  //  $new =  $ingredientsRepo->getFilteredRecipes($filterIngredient);
-                  
-                }
-            }
-        }
+        $recipes = $this->entityManager->getRepository(Recipe::class)
+            ->getRecipes($offset, $user, $tagIds, $ingredientIds);
 
         if ($recipes) {
             $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
-            return new Response($jsonContent, Response::HTTP_OK);	
         } else {
-            throw new \Exception('No recipes found');
+            $jsonContent = [];
         }
+
+        return new Response($jsonContent, Response::HTTP_OK);
+
     }
 
     /**
