@@ -39,6 +39,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button class="btn btn-primary" @click="createShoppingList">Create shopping list</button>
+                </div>
             </div>
         </div>
     </div>
@@ -113,6 +116,31 @@
                     this.alert.text = e.response.data.detail;
                     this.alert.type = "alert-danger";
                 });
+            },
+            createShoppingList() {
+                if (this.weeklyPlans.length == 0) {
+                    this.alert.text = "You don't have any plans yet.";
+                    this.alert.type = "alert-danger";
+                    return;
+                } else {
+                    let weeklyplanIngredients = [];
+                    this.weeklyPlans.forEach(weeklyPlan => {
+                        weeklyplanIngredients.push(weeklyPlan.recipe[0].ingredients);
+                    });
+
+                    weeklyplanIngredients = [].concat.apply([], weeklyplanIngredients);
+
+                    this.$axios
+                    .post('/api/create/shopping-list/', {
+                        ingredients: weeklyplanIngredients
+                    }).then((response) => {
+                        this.alert.text = "Your shopping list has been created.";
+                        this.alert.type = "alert-success";
+                    }).catch((e) => {
+                        this.alert.text = e.response.data.detail;
+                        this.alert.type = "alert-danger";
+                    });
+                }
             }
         }
     }
