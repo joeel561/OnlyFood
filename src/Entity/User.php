@@ -25,13 +25,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"account_overview", "recipe_overview", "weekly_plan"})
+     * @Groups({"account_overview", "recipe_overview", "weekly_plan", "shopping_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"account_overview" , "recipe_overview", "weekly_plan"})
+     * @Groups({"account_overview" , "recipe_overview", "weekly_plan", "shopping_list"})
      * @Assert\NotBlank(message="Please enter a username")
      * @Assert\Type(type={"alnum"} , message="Don't use special characters in your username")
      * 
@@ -103,9 +103,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $weeklyPlans;
 
     /**
-     * @ORM\Column(type="boolean",  options={"default":"0"})
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $enabled = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ShoppingList::class, mappedBy="user")
+     */
+    private $shoppingList;
 
 
 
@@ -338,6 +343,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEnabled(int $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getShoppingList(): ?ShoppingList
+    {
+        return $this->shoppingList;
+    }
+
+    public function setShoppingList(?ShoppingList $shoppingList): self
+    {
+        $this->shoppingList = $shoppingList;
 
         return $this;
     }

@@ -127,7 +127,6 @@ class RecipeRepository extends ServiceEntityRepository
             ->orWhere(':user MEMBER OF r.likedUsers')
             ->innerJoin('r.userId', 'u')
             ->andWhere('u.publicMode = 1')
-            ->andWhere('r.enabled = 1')
             ->setParameters(array('user' => $user))
             ->getQuery()
             ->getResult()

@@ -19,7 +19,7 @@
                     <li class="navigation-link"><router-link to="/dashboard/"> Dashboard</router-link></li>
                     <li class="navigation-link"><router-link to="/recipes/"> Recipes</router-link></li>
                     <li class="navigation-link"><router-link to="/weeklyplan/"> Weekly Plan</router-link></li>
-                    <li class="navigation-link"><router-link to="/shopping-list/"> Shopping List</router-link></li>
+                    <li class="navigation-link"><router-link to="/shoppinglist/"> Shopping List</router-link></li>
                     <li class="navigation-link dropdown">
                         <a href="#" id="navbarDropdown" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Account </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -44,7 +44,7 @@
                         <li class="navigation-link"><router-link to="/dashboard/"> Dashboard</router-link></li>
                         <li class="navigation-link"><router-link to="/recipes/"> Recipes</router-link></li>
                         <li class="navigation-link"><router-link to="/weeklyplan/"> Weekly Plan</router-link></li>
-                        <li class="navigation-link"><router-link to="/shopping-list/"> Shopping List</router-link></li>
+                        <li class="navigation-link"><router-link to="/shoppinglist/"> Shopping List</router-link></li>
                         <li class="navigation-link"><router-link to="/account/"> Account</router-link></li>
                         <li class="navigation-link"><router-link to="/help/"> Help</router-link></li>
                         <li class="navigation-link"><router-link to="/support/"> Support</router-link></li>

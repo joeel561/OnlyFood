@@ -113,7 +113,7 @@ class Recipe
     private $weeklyPlans;
 
     /**
-     * @ORM\Column(type="boolean",  options={"default":"0"})
+     * @ORM\Column(type="boolean", nullable=true)
      * @Groups({"recipe_overview"})
      */
     private $enabled = false;
