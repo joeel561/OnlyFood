@@ -1,7 +1,7 @@
 @use "../variables/var.scss";
 
 body {
-  background-color: red;
+  background-color: var.$background-color;
   position: relative;
   font-family: "Quicksand", sans-serif;
 }
