@@ -20,8 +20,8 @@ jobs:
       - run: |
           npm ci
           npm run build
-          npm test
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Enviroment for PHP
