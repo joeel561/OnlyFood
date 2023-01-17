@@ -11,32 +11,32 @@ jobs:
           known_hosts: ${{ secrets.SSH_HOST }}
   build:
     runs-on: ubuntu-latest
-      steps: 
-        - uses: actions/checkout@v3
-        - uses: actions/setup-node@v3
-          with:
-            node-version: '18'
-        - name: npm build
-          run: npm ci
-          run: npm run build
-          run: npm test
-
-  deploy: 
+    steps:
+      - name: npm setup node.js
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+        run: |
+          npm ci
+          npm run build
+          npm test
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Enviroment for PHP
         uses: shivammathur/setup-php@v2
-        with: 
-            php-version: '7.4'
-            #extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
-            tools: composer:v2
-            coverage: none
-        env: 
+        with:
+          php-version: "7.4"
+          #extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
+          tools: composer:v2
+          coverage: none
+        env:
           update: true
+
       - name: validate composer.json and composer.lock
         run: composer validate
-
       - name: composer install
         run: composer install --no-dev --no-progress --no-scripts --prefer-dist -a
-      - name: deploy 
+      - name: deploy
         run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/web
