@@ -51,7 +51,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_HOST }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
 
       - name: rsync files
         run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/web
