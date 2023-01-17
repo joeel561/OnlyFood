@@ -12,6 +12,6 @@ import Navigation from "./layout/NavigationComponent";
     export default {
         components: {
             Navigation
-        }
+        }       
     }
 </script>

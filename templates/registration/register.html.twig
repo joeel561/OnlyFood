@@ -31,8 +31,10 @@
                     {{ form_row(registrationForm.email) }}
                     {{ form_row(registrationForm.password) }}
                     {{ form_row(registrationForm.agreeTerms) }}
-
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <div class="d-flex justify-content-end btn-register-wrapper flex-column align-items-end mt-4">
+                        <span> Already registered? <a class='' href="{{ path('app_login') }}"> Click here to Login. </a></span>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
                 {{ form_end(registrationForm) }}
             </div>
         </div>
