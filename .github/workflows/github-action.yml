@@ -1,14 +1,6 @@
 name: deploy-github-action
 on: [workflow_dispatch]
 jobs:
-  install-ssh:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_HOST }}
   build:
     runs-on: ubuntu-latest
     steps:
@@ -20,10 +12,19 @@ jobs:
       - run: |
           npm ci
           npm run build
+      - name: NPM artifact
+        uses: actions/upload-artifact@v3
+        with: 
+          name: npm-build
+          retention-days: 1
+          path: public/build/
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+
       - name: Enviroment for PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -36,7 +37,21 @@ jobs:
 
       - name: validate composer.json and composer.lock
         run: composer validate
+
       - name: composer install
         run: composer install --no-dev --no-progress --no-scripts --prefer-dist -a
-      - name: deploy
+
+      - name: download artifact
+        uses: actions/download-artifact@v3
+        with: 
+          name: npm-build
+          path: public/build
+
+      - name: install ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_HOST }}
+
+      - name: rsync files
         run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/web
