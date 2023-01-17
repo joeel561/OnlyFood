@@ -54,4 +54,4 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
 
       - name: rsync files
-        run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/web
+        run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/clients/client1/web58/web/
