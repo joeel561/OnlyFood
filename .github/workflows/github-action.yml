@@ -18,6 +18,7 @@ jobs:
           name: npm-build
           retention-days: 1
           path: public/build/
+      - run: echo "I can change things here"
   deploy:
     needs: build
     runs-on: ubuntu-latest
