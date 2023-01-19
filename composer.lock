@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a9f3010f12830c1ab382a2b0f29cea7",
+    "content-hash": "1df6d2855d53ad67e34e7c97194eb3af",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2029,6 +2029,7 @@
                 "annotations",
                 "controllers"
             ],
+            "abandoned": "Symfony",
             "time": "2022-01-14T11:51:13+00:00"
         },
         {
@@ -6140,16 +6141,16 @@
         },
         {
             "name": "symfony/webpack-encore-bundle",
-            "version": "v1.14.0",
+            "version": "v1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "1729c314574f32e49f9660a0cee870f7e603864f"
+                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/1729c314574f32e49f9660a0cee870f7e603864f",
-                "reference": "1729c314574f32e49f9660a0cee870f7e603864f",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/1862d71e483769b40278548a30e756ce13ef9d4c",
+                "reference": "1862d71e483769b40278548a30e756ce13ef9d4c",
                 "shasum": ""
             },
             "require": {
@@ -6157,7 +6158,9 @@
                 "symfony/asset": "^4.4 || ^5.0 || ^6.0",
                 "symfony/config": "^4.4 || ^5.0 || ^6.0",
                 "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
+                "symfony/deprecation-contracts": "^2.1 || ^3.0",
                 "symfony/http-kernel": "^4.4 || ^5.0 || ^6.0",
+                "symfony/polyfill-php80": "^1.25.0",
                 "symfony/service-contracts": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
@@ -6189,7 +6192,7 @@
                 }
             ],
             "description": "Integration with your Symfony app & Webpack Encore!",
-            "time": "2022-02-14T15:06:55+00:00"
+            "time": "2023-01-18T19:37:55+00:00"
         },
         {
             "name": "symfony/yaml",

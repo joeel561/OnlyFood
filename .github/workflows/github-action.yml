@@ -55,3 +55,6 @@ jobs:
 
       - name: rsync files
         run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/clients/client1/web58/web/
+
+      - name: clear cache
+        run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'php bin/console cache:clear'
