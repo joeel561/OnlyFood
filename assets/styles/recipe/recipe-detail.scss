@@ -202,6 +202,7 @@
         color: white;
         margin-bottom: 1.5625rem;
         position: relative;
+        min-height: 2.1875rem;
 
         &:before {
             content: '';
@@ -215,6 +216,13 @@
             left: -1.1875rem;
             z-index: -1;
         }
+    }
+
+    img {
+        max-height: 25rem;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
 }
 
@@ -278,6 +286,14 @@
 }
 
 @include media-breakpoint-up(md) {  
+    .recipe-method {    
+        img {
+            max-width: 29.375rem;
+            max-height: none;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
 
     .recipe-method-headline {
         font-size: 2.1875rem;

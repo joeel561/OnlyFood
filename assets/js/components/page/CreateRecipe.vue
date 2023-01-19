@@ -64,6 +64,7 @@
               <input
                 type="number"
                 class="add-recipe-ingredient-quantity form-control"
+                max="1000"
                 placeholder="Quantity"
                 v-model="ingredient.quantity"
                 @change="updateQuantity(index)"
@@ -121,6 +122,7 @@
             <input
               type="number"
               class="add-recipe-ingredient-portion form-control"
+              max="100"
               :placeholder="recipe.portion"
               v-model="recipe.portion"
               @change="updatePortion"
@@ -281,9 +283,12 @@ export default {
         })
         .then((response) => {
           this.recipe = response.data;
-          this.alert.text = 'Recipe updated successfully. Before it can be seen by other users it needs to be approved by an admin.';
+          this.alert.text = 'Recipe successfully created. Before it can be seen by other users it needs to be approved by an admin.';
           this.alert.type = "alert-success";
           this.$refs.alert.scrollIntoView();
+          setTimeout(() => {
+            this.$router.push({ name: 'recipes'});
+          }, 2000);
         })
         .catch((e) => {
           this.alert.text = e.response.data.detail;
@@ -308,18 +313,24 @@ export default {
     },
 
     addPortion() {
-      this.recipe.portion++;
+      if (this.recipe.portion < 100) {
+        this.recipe.portion++;
+      }
     },
 
     updatePortion() {
         if (this.recipe.portion < 1) {
             this.recipe.portion = 1;
+        } else if (this.recipe.portion > 100) {
+            this.recipe.portion = 100;
         }
     },
 
     updateQuantity(index) {
         if (this.recipe.ingredients[index].quantity < 0) {
             this.recipe.ingredients[index].quantity = 0;
+        } else if (this.recipe.ingredients[index].quantity > 1000) {
+            this.recipe.ingredients[index].quantity = 1000;
         }
     },
 

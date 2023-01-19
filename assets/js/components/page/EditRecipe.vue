@@ -334,9 +334,12 @@
           })
           .then((response) => {
             this.recipe = response.data;
-            this.alert.text = 'Recipe updated successfully';
+            this.alert.text = 'Recipe updated successfully.';
             this.alert.type = "alert-success";
             this.$refs.alert.scrollIntoView();
+            setTimeout(() => {
+              this.$router.push({ name: 'recipes'});
+            }, 2000);
           })
           .catch((e) => {
             this.alert.text = e.response.data.detail;
