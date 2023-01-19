@@ -54,7 +54,7 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
 
       - name: rsync files
-        run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' --execlude 'var' ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/clients/client1/web58/web/
+        run: rsync -azP --exclude '.env' --exclude '.env.local' --exclude '.env.test' --execlue 'var' ./ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/clients/client1/web58/web/
 
       - name: clear cache
         run: ssh -t -t ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /var/www/clients/client1/web58/web/ && php bin/console cache:clear"
