@@ -37,7 +37,12 @@
     label {
         font-size: .9375rem;
         color: white;
-        margin-left: .9375rem
+        margin-left: .9375rem;
+        cursor: pointer;
+
+        &:hover {
+            color: var.$white-text;
+        }
     }
 
     .form-check-input {

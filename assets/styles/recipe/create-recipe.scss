@@ -56,13 +56,17 @@
     }
 
     .btn-primary {
-        background-color: var.$primary;
         margin-right: .3125rem;
     }
 
     .btn-secondary {
         background-color: var.$background-color;
         color: white;
+
+        &:hover {
+            background-color: var.$background-light-color;
+            transition: all ease-in 0.3s;
+        }
     }
 }
 

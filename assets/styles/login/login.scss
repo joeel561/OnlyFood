@@ -43,15 +43,6 @@
     margin-top: 1.25rem;
   }
 
-  .btn-primary {
-    background-color: var.$primary;
-    &:hover {
-      color: white;
-      background-color: darken(var.$primary, 10%);
-      transition: all ease-in 0.3s;
-    }
-  }
-
   .btn-secondary {
     background-color: var.$tag-bg-color;
     &:hover {

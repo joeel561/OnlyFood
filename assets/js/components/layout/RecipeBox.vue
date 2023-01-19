@@ -12,6 +12,9 @@
             <div class="recipe-tag recipe-overview-tag" v-for="(tag, index) in recipe.tags.slice(0, 2)">
                 {{ tag.name }}
             </div>
+            <div class="recipe-tag recipe-tag-more" v-if="recipe.tags.length > 2">
+                + {{ recipe.tags.length - 2 }}
+            </div>
         </div>
     </div>
 </template>

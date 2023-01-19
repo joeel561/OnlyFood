@@ -6,7 +6,6 @@
 
 .recipe-listing-overview {
     .btn-secondary {
-        background-color: var.$background-light-color;
         margin-right: .625rem;
     }
 }
@@ -34,6 +33,13 @@
             height: 1.125rem;
         }
     }
+}
+
+.recipe-tag-more {
+    background-color: white;
+    margin-bottom: .625rem;
+    color: var.$tag-bg-color;
+    font-size: 0.9375rem;
 }
 
 .recipe-overview-item-link {

@@ -28,7 +28,7 @@
         <div class="no-recipes" v-if="recipes.length == 0">
             <div class="recipe-overview-search col-12 col-md-6 d-flex">
                 <input type="text" class="form-control"  v-model="searchKeyword" placeholder="Search for recipe name or username" v-on:keyup.enter="onSearchEnter" />
-                <button type="button" class="btn recipe-overview-search-btn">
+                <button type="button" class="btn recipe-overview-search-btn" @click="onSearchEnter">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <circle cx="10" cy="10" r="7" />
@@ -63,7 +63,7 @@
             <div class="review-overview-search-wrapper">
                 <div class="recipe-overview-search col-12 col-md-6 d-flex">
                     <input type="text" class="form-control"  v-model="searchKeyword" placeholder="Search for recipe name or username" v-on:keyup.enter="onSearchEnter" />
-                    <button type="button" class="btn recipe-overview-search-btn">
+                    <button type="button" class="btn recipe-overview-search-btn" @click="onSearchEnter">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <circle cx="10" cy="10" r="7" />
@@ -175,7 +175,7 @@
             recipes(oldValue, newValue) {
                 this.$nextTick(() => {
                     this.setTrigger = false;
-                    if (this.recipe && this.$refs.recipe.offsetHeight > 1000) {
+                    if (this.recipes && this.$refs.recipe.offsetHeight > 1000) {
                         this.setTrigger = true;
                     }
                 });

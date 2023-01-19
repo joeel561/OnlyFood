@@ -8,9 +8,9 @@
 }
 
 .btn-secondary {
-    background-color: var.$background-color;
+    background-color: var.$background-light-color;
     &:hover {
-        background-color: darken(var.$background-color, 10%);
+        background-color: lighten(var.$background-color, 10%);
         transition: all ease-in 0.3s;
       }
 }
