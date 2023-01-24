@@ -50,7 +50,7 @@
               </div>
             <div class="display-name-value justify-content-between">	
               <div class="display-name-label">{{ account.username }}</div>
-              <button class="btn btn-secondary" @click="showUsernameInput()">
+              <button class="btn" @click="showUsernameInput()">
                 Edit
               </button>
             </div>
@@ -68,9 +68,9 @@
         <p class="text-white info-text-delete--panel"> When you delete your account all your recipes & information will be deleted.</p>
       </div>
       <div class="col-12 d-flex justify-content-start flex-column flex-md-row delete-panel--btns">
-        <a class="btn btn-secondary" href="/logout">Logout</a>	
+        <a class="btn" href="/logout">Logout</a>	
         <button class="btn btn-danger" @click="openDeleteModal()" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Account</button>	
-        <a class="btn btn-secondary btn-align--right" href="/support">Help/Support</a>	
+        <a class="btn btn-align--right" href="/support">Help/Support</a>	
       </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -83,7 +83,7 @@
             When you delete your account all your recipes & information will be deleted.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-danger" @click="deleteAccount()">Yes, delete it!</button>
           </div>
         </div>

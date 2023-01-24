@@ -2,9 +2,16 @@
     border-radius: 0;
     background-color: var.$background-color;
     text-transform: uppercase;
+    color: white;
     padding: .625rem 1.25rem;
     font-size: .875rem;
     border: none;
+
+    &:hover {
+        background-color: lighten(var.$background-color, 10%);
+        transition: all ease-in 0.3s;
+        color: white;
+    }
 }
 
 .btn-secondary {
@@ -12,7 +19,7 @@
     &:hover {
         background-color: lighten(var.$background-color, 10%);
         transition: all ease-in 0.3s;
-      }
+    }
 }
 
 .btn-primary {
