@@ -17,6 +17,7 @@
             <div class="col-md-9 navigation d-none d-md-flex justify-content-end">
                 <ul class="nav">
                     <li class="navigation-link"><router-link to="/dashboard/"> Dashboard</router-link></li>
+                    <li class="navigation-link"><router-link to="/explore/"> Explore</router-link></li>
                     <li class="navigation-link"><router-link to="/recipes/"> Recipes</router-link></li>
                     <li class="navigation-link"><router-link to="/weeklyplan/"> Weekly Plan</router-link></li>
                     <li class="navigation-link"><router-link to="/shopping-list/"> Shopping List</router-link></li>
@@ -41,6 +42,7 @@
                 <div class="offcanvas-body">
                     <ul class="nav nav-mobile">
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/dashboard/"> Dashboard</router-link></li>
+                        <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/explore/"> Explore</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/recipes/"> Recipes</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/weeklyplan/"> Weekly Plan</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/shopping-list/"> Shopping List</router-link></li>

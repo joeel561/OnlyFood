@@ -35,6 +35,13 @@
     }
 }
 
+.headline {
+    h2 {
+        color: var.$white-text;
+        margin-bottom: 1.5625rem;
+    }
+}
+
 .recipe-tag-more {
     background-color: white;
     margin-bottom: .625rem;

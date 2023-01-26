@@ -34,8 +34,13 @@ const routes = [
         component: EditRecipe 
     },
     {   
+        path: "/explore/",
+        name: "explore",
+        component: Recipe 
+    },
+    {   
         path: "/recipes/",
-        name: "recipes",
+        name: "overview",
         component: Recipe 
     },
     {   

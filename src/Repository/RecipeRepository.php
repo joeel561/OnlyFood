@@ -120,6 +120,39 @@ class RecipeRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getExploreRecipes(int $offset, User $user, array $tagIds = [], array $ingredientIds = []): array
+    {
+        $parameters = [];
+
+        $qb = $this->createQueryBuilder('r')
+            ->innerJoin('r.userId', 'u')
+            ->andWhere('u.publicMode = 1')
+            ->setFirstResult($offset)
+            ->setMaxResults(9) 
+        ;
+
+        $tagCount = count($tagIds);
+
+        if ($tagCount > 0) {
+            $parameters['tagIds'] = $tagIds;
+
+            $qb->innerJoin('r.tags', 't');
+            $qb->andWhere('t.id IN (:tagIds)');
+
+            if ($tagCount > 1) {
+                $qb->groupBy('r.id');
+                $qb->having('COUNT(r.id) > :tagCount');
+                
+                $parameters['tagCount'] = $tagCount - 1;
+            }
+        }
+
+        $qb->setParameters($parameters);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function getRecipesforWeeklyPlan(User $user): array
     {
         return $this->createQueryBuilder('r')
@@ -133,6 +166,8 @@ class RecipeRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    
 
     // /**
     //  * @return Recipe[] Returns an array of Recipe objects
