@@ -145,7 +145,6 @@
     </div>
 </template>
 <script>
-import HeadlineText from "../component/HeadlineText";
 import RecipeBox from "../layout/RecipeBox";
 import FilterComponent from "../layout/FilterComponent";
 import Trigger from "../component/Trigger";
