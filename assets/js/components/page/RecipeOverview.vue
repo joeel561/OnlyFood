@@ -140,6 +140,16 @@
                         <img src="../../../img/peach.png" />
                     </div>
                 </div>
+                <div class="back-to-top" ref="backToTop" @click="ScrollTop()">
+                    <a href="#search" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-up" width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="18" y1="11" x2="12" y2="5" />
+                            <line x1="6" y1="11" x2="12" y2="5" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -187,6 +197,10 @@ export default {
                 this.alert.type = "alert-danger";
             });
         this.loadData();
+    },
+
+    mounted() {
+        document.addEventListener("scroll", this.showBackToTop);
     },
 
     watch: {
@@ -308,6 +322,21 @@ export default {
                     this.alert.type = "alert-danger";
                     this.recipes = [];
                 });
+        },
+
+        showBackToTop() {
+            if (window.scrollY > 1000) {
+                this.$refs.backToTop.classList.add("show");
+            } else {
+                this.$refs.backToTop.classList.remove("show");
+            }
+        },
+
+        ScrollTop() {
+            window.scrollTo({
+                top: 150,
+                behavior: "smooth",
+            });
         },
     },
 };

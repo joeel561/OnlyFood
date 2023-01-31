@@ -153,7 +153,58 @@
     text-overflow: ellipsis;
 }
 
+.back-to-top {
+    position: fixed;
+    bottom: 1.875rem;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    display: none;
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+
+    .btn {
+        width: 2.1875rem;
+        height: 2.1875rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        background-color: white;
+        padding: 0;
+
+        svg {
+            width: 1.125rem;
+            height: 1.125rem;
+            stroke: var.$background-color;
+        }
+    }
+
+    &.show {
+        display: block;
+    }
+}
+
 @include media-breakpoint-up(md) {  
+    .back-to-top {
+        bottom: 3.125rem;
+        right: 3.125rem;
+        left: auto;
+        .btn {
+            width: 3.125rem;
+            height: 3.125rem;
+
+            svg {
+                width: 1.5625rem;
+                height: 1.5625rem;
+            }
+        }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
     .recipe-overview-img {
         img {
             height: 20rem;
