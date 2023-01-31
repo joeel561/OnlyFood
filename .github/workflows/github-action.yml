@@ -21,6 +21,7 @@ jobs:
   deploy-staging:
     needs: build
     environment: dev
+    if: github.ref == 'refs/heads/dev'
     permissions:
       id-token: write
       contents: read
@@ -64,6 +65,7 @@ jobs:
         run: ssh -t -t ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /var/www/clients/client1/${{ secrets.SSH_FOLDER }}/web/ && php bin/console cache:clear"   
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     environment: prod
     permissions:
       id-token: write
