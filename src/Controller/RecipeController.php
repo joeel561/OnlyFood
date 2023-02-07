@@ -123,8 +123,15 @@ class RecipeController extends AbstractController
     {
         $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
         $user = $this->getUser();
-        
-        $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfRecipe($recipe, $user);
+
+        if ($user) {
+            $userId = $user->getId();
+            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfRecipe($recipe, $user);
+            $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
+        } else {
+            $weeklyPlanJson = null;
+            $userId = null;
+        }
 
         $isUserRecipe = false;
 
@@ -141,13 +148,12 @@ class RecipeController extends AbstractController
         }
         
         $recipeJson = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
-        $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
 
         $newResponse = array(
             'recipe' => $recipeJson,
             'weeklyPlans' => $weeklyPlanJson,
             'isUserRecipe' => $isUserRecipe,
-            'isUserLoggedIn' => $user->getId()
+            'isUserLoggedIn' => $userId
         );
 
         return new JsonResponse($newResponse, Response::HTTP_OK);

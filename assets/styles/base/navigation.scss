@@ -8,6 +8,22 @@
     }
 }
 
+.public-navigation {
+    .logo {
+        left: .75rem;
+        right: auto;
+        margin: auto;
+    } 
+    
+    .public-navigation-login {
+        margin-left: auto;
+
+        .btn {
+            padding: .3125rem .9375rem;
+        }
+    }
+}
+
 .offcanvas-navigation {
     background-color: var.$background-light-color;
     padding: 0 1.5625rem;
@@ -123,6 +139,27 @@
         z-index: 0;
         img {
            max-height: 2.1875rem;
+        }
+    }
+
+    
+    .public-navigation {
+        .logo {
+            left: 0;
+            right: 0;
+            margin: auto;
+        } 
+        
+        .public-navigation-login {
+            margin-left: auto;
+
+            .btn {
+                padding: 0.625rem 1.25rem;
+            }
+
+            .btn-primary {
+                margin-right: 1.25rem;
+            }
         }
     }
 }

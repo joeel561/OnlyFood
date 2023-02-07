@@ -27,6 +27,19 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/api/loggedIn", name="app_loggedIn")
+    */
+    public function loggedIn(): Response
+    {
+        if ($this->getUser()) {
+            return new Response('true', Response::HTTP_OK);
+        } else {
+            return new Response('false', Response::HTTP_OK);
+        }
+    }
+    
+
+    /**
      * @Route("/logout", name="app_logout")
      */
     public function logout(): void
