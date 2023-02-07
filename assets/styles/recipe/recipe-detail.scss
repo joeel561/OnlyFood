@@ -45,6 +45,21 @@
             fill: white;
         }
     }
+
+    svg {
+        transition: all ease-out .4s;
+    }
+
+    &:hover {
+        background-color: transparent;
+
+        svg {
+            stroke: white;
+            fill: white;
+            transition: all ease-in .4s;
+            transform: scale(1.1);
+        }
+    }
 }
 
 .recipe-user-info-img {
@@ -194,6 +209,24 @@
     }
 }
 
+.btn-like-recipe {
+    background-color: transparent;
+    svg {
+        transition: all ease-out .4s;
+    }
+
+    &:hover {
+        background-color: transparent;
+
+        svg {
+            stroke: white;
+            fill: white;
+            transition: all ease-in .4s;
+            transform: scale(1.1);
+        }
+    }
+}
+
 .recipe-method {
     color: var.$white-text;
 
@@ -279,6 +312,27 @@
     }
 }
 
+.modal-login-content {
+    p {
+        font-size: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .modal-body {
+        margin: 0 auto;
+        flex: none;
+    }
+
+    .modal-footer {
+        margin-top: 1.25rem;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+}
+
 @include media-breakpoint-up(md) {  
     .recipe-method {    
         img {
@@ -318,6 +372,12 @@
     
             p {
                 margin-bottom: 3.125rem;
+            }
+
+            &.modal-login-content {
+                p {
+                    margin-bottom: 0;
+                }
             }
         }
 
