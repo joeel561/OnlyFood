@@ -124,7 +124,7 @@ class RecipeController extends AbstractController
         $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $request->get('id')]);
         $user = $this->getUser();
         
-        $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfRecipe($recipe, $user);
+        $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfUser($user);
 
         $isUserRecipe = false;
 

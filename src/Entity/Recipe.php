@@ -107,8 +107,8 @@ class Recipe
     private $likedUsers;
 
     /**
-     * @ORM\ManyToMany(targetEntity=WeeklyPlan::class, mappedBy="recipe")
-     * @Groups({"recipe_overview"})
+     * @ORM\OneToMany(targetEntity=WeeklyPlan::class, mappedBy="recipe")
+     * 
      */
     private $weeklyPlans;
 
@@ -328,7 +328,7 @@ class Recipe
     {
         if (!$this->weeklyPlans->contains($weeklyPlan)) {
             $this->weeklyPlans[] = $weeklyPlan;
-            $weeklyPlan->addRecipe($this);
+            $weeklyPlan->setRecipe($this);
         }
 
         return $this;
@@ -337,7 +337,9 @@ class Recipe
     public function removeWeeklyPlan(WeeklyPlan $weeklyPlan): self
     {
         if ($this->weeklyPlans->removeElement($weeklyPlan)) {
-            $weeklyPlan->removeRecipe($this);
+            if ($weeklyPlan->getRecipe() === $this) {
+                $weeklyPlan->setRecipe(null);
+            }
         }
 
         return $this;

@@ -32,9 +32,7 @@ class WeeklyPlanController extends AbstractController
     {
         $user = $this->getUser();
         $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findBy(['user' => $user->getId()]);
-
         $jsonContent = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
-
         return new Response($jsonContent, Response::HTTP_OK);
     }
 
@@ -82,7 +80,7 @@ class WeeklyPlanController extends AbstractController
             $weeklyPlan->setMealSort($content['meal']['mealSort']);
         }
 
-        $weeklyPlan->addRecipe($recipe);
+        $weeklyPlan->setRecipe($recipe);
     }
 
     /**

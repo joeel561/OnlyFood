@@ -199,8 +199,8 @@
                         </div>
                         <div class="modal-body">
                             <p>Add this recipe to your weekly plan. If you want to remove it from your current weekly plan use this remove button.</p>
-                            <multiselect v-model="weeklyPlanDayValue" :options="weeklyPlanDays" :allowEmpty="false" track-by="weekday" label="weekday"  class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Select Day"></multiselect>
-                            <multiselect v-model="weeklyPlanMealValue" :options="weeklyPlanMeals" :allowEmpty="false" class="mt-3" track-by="meal" label="meal" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Select Meal"></multiselect>
+                            <multiselect v-model="weeklyPlanDayValue" :options="weeklyPlanDays" :allowEmpty="false" track-by="weekday" label="weekday"  class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="true" :show-labels="false" placeholder="Select Day"></multiselect>
+                            <multiselect v-model="weeklyPlanMealValue" :options="weeklyPlanMeals" :allowEmpty="false" class="mt-3" track-by="meal" label="meal" :searchable="false" open-direction="bottom" :close-on-select="true" :show-labels="false" placeholder="Select Meal"></multiselect>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" @click="addToWeeklyPlan()">Save changes</button>
@@ -310,7 +310,6 @@
                     this.weeklyPlans.forEach(weeklyPlan => {
                         if (weeklyPlan.weekday === this.weeklyPlanDayValue.weekday && weeklyPlan.meal === this.weeklyPlanMealValue.meal) {
                             exsistingWeeklyPlan = weeklyPlan.id;
-                            console.log(exsistingWeeklyPlan);
                         }
                     });
                 }

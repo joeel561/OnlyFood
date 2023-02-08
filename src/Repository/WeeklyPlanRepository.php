@@ -49,12 +49,11 @@ class WeeklyPlanRepository extends ServiceEntityRepository
         }
     }
 
-    public function findWeeklyPlanOfRecipe(Recipe $recipe, User $user): array
+    public function findWeeklyPlanOfUser(User $user): array
     {
         return $this->createQueryBuilder('w')
-            ->where(':recipeId MEMBER OF w.recipe')
-            ->andWhere('w.user = :userId')
-            ->setParameters(array('recipeId' => $recipe, 'userId' => $user))
+            ->where('w.user = :userId')
+            ->setParameters(array('userId' => $user))
             ->getQuery()
             ->getResult()
         ;

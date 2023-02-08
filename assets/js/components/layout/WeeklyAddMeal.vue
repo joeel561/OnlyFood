@@ -21,9 +21,9 @@
                     </div>
                     <div class="modal-body">
                         <multiselect v-model="recipeValue" :options="recipes" :allowEmpty="false" class="mt-3" :searchable="true" 
-                        open-direction="bottom" :close-on-select="false"  track-by="id" label="name" :show-labels="false" placeholder="Select Recipe"></multiselect>
-                        <multiselect v-model="weeklyPlanDayValue" :options="weeklyPlanDays" track-by="weekday" label="weekday" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Select Day"></multiselect>
-                        <multiselect v-model="weeklyPlanMealValue" :options="weeklyPlanMeals" track-by="meal" label="meal" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Select Meal"></multiselect>
+                        open-direction="bottom" :close-on-select="true"  track-by="id" label="name" :show-labels="false" placeholder="Select Recipe"></multiselect>
+                        <multiselect v-model="weeklyPlanDayValue" :options="weeklyPlanDays" track-by="weekday" label="weekday" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="true" :show-labels="false" placeholder="Select Day"></multiselect>
+                        <multiselect v-model="weeklyPlanMealValue" :options="weeklyPlanMeals" track-by="meal" label="meal" :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="true" :show-labels="false" placeholder="Select Meal"></multiselect>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -108,7 +108,6 @@
                     this.groupedWeeklyPlans = Object.keys(this.groupByWeekDay).map(function(key) {
                         return this.groupByWeekDay[key];
                     },this);
-
                 })
                 .catch((e) => {
                     console.log(e);

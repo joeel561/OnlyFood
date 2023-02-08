@@ -1,16 +1,16 @@
 <template>
     <div>
-        <div class="weekly-plan-box" data-bs-toggle="modal" :data-bs-target="'#weeklyQuickView' + weeklyBox.recipe[0].id"> 
+        <div class="weekly-plan-box" data-bs-toggle="modal" :data-bs-target="'#weeklyQuickView' + weeklyBox.recipe.id"> 
             <span class="weekly-plan-box--text">{{ weeklyBox.meal }}</span>
             <div class="weekly-plan-box--image">
                 <img
-                    v-if="weeklyBox.recipe[0].imageName"
-                    :src="'/images/recipe_pictures/' + weeklyBox.recipe[0].imageName"
-                    :alt="weeklyBox.recipe[0].name"
+                    v-if="weeklyBox.recipe.imageName"
+                    :src="'/images/recipe_pictures/' + weeklyBox.recipe.imageName"
+                    :alt="weeklyBox.recipe.name"
                 />
             </div>
         </div>
-        <div class="modal fade weekly-plan-quickview" :id="'weeklyQuickView' + weeklyBox.recipe[0].id"
+        <div class="modal fade weekly-plan-quickview" :id="'weeklyQuickView' + weeklyBox.recipe.id"
             tabindex="-1" 
             aria-labelledby="weeklyQuickViewLabel"
             aria-hidden="true">
@@ -20,25 +20,25 @@
                     <alert :classes="alert.type" :text="alert.text" v-if="alert.text"/>
                     <div class="modal-body">
                         <img
-                            v-if="weeklyBox.recipe[0].imageName"
-                            :src="'/images/recipe_pictures/' + weeklyBox.recipe[0].imageName"
-                            :alt="weeklyBox.recipe[0].name"
+                            v-if="weeklyBox.recipe.imageName"
+                            :src="'/images/recipe_pictures/' + weeklyBox.recipe.imageName"
+                            :alt="weeklyBox.recipe.name"
                         />
                         <div class="weekly-plan-text">
-                            <h3>{{ weeklyBox.recipe[0].name }}</h3>
+                            <h3>{{ weeklyBox.recipe.name }}</h3>
                             <div class="d-flex">
-                                <span>Time: {{ weeklyBox.recipe[0].prepTime }}</span>
-                                <span>Difficulty: {{ weeklyBox.recipe[0].difficulty }}</span>
+                                <span>Time: {{ weeklyBox.recipe.prepTime }}</span>
+                                <span>Difficulty: {{ weeklyBox.recipe.difficulty }}</span>
                             </div>
                             <div class="recipe-tags d-flex align-items-center flex-wrap">
-                                <div class="recipe-tag" v-for="(tag, index) in weeklyBox.recipe[0].tags">
+                                <div class="recipe-tag" v-for="(tag, index) in weeklyBox.recipe.tags">
                                     {{ tag.name }}
                                 </div>
                             </div>
                             <div class="modal-btn">
                                 <button type="button" class="btn btn-secondary" @click="removeFromWeeklyPlan()">Remove</button>
                                 <button type="button" class="btn btn-primary"  data-bs-dismiss="modal" aria-label="Close">
-                                    <router-link :to="{ name: 'recipeDetail', params: {id: weeklyBox.recipe[0].id} }" class="weekly-box-quickview-item-link">
+                                    <router-link :to="{ name: 'recipeDetail', params: {id: weeklyBox.recipe.id} }" class="weekly-box-quickview-item-link">
                                         View More
                                     </router-link>
                                 </button>
@@ -77,7 +77,7 @@
                 .then(response => { 
                     this.alert.type = "alert-success";
                     this.alert.text = "Recipe removed from weekly plan.";
-                    const activeModal = document.querySelector('#weeklyQuickView' + this.weeklyBox.recipe[0].id);
+                    const activeModal = document.querySelector('#weeklyQuickView' + this.weeklyBox.recipe.id);
 
                     setTimeout(() => {
                         this.alert.type = "";
