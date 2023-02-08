@@ -57,10 +57,6 @@ const routes = [
         path: "/weeklyplan/",
         name: "weeklyPlan",
         component: WeeklyPlan 
-    },  
-    {
-        path: "*",
-        redirect: "/"
     }
 ]
 
