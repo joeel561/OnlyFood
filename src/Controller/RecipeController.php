@@ -141,6 +141,8 @@ class RecipeController extends AbstractController
             if ($recipeUser == $user) {
                 $isUserRecipe = true;
             }
+        } else {
+            throw new \Exception('Recipe not found');
         }
 
         if ($recipe->getEnabled() == false && $isUserRecipe == false) {
