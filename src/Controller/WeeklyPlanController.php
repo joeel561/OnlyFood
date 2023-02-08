@@ -48,7 +48,7 @@ class WeeklyPlanController extends AbstractController
         $recipe = $this->entityManager->getRepository(Recipe::class)->find($content['recipeId']);
 
         if ($content['id']) {
-            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->find($content['id']);
+            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findOneBy(['id' => $content['id'], 'user' => $user->getId()]);
 
             $this->setWeeklyPlanContent($weeklyPlan, $content, $recipe);
 
@@ -93,8 +93,8 @@ class WeeklyPlanController extends AbstractController
         $user = $this->getUser()->getId();
         $content = json_decode($request->getContent(), true);
 
-        if ($content && $user == $content['user']) {
-            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findOneBy(['id' => $content['id']]);
+        if ($content) {
+            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findOneBy(['id' => $content['id'], 'user' => $user->getId()]);
 
             $this->entityManager->remove($weeklyPlan);
             $this->entityManager->flush();

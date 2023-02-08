@@ -213,7 +213,6 @@ export default {
   methods: {
     checkRecipeForm(e) {
       e.preventDefault();
-
       if (this.recipe.name == "") {
         this.alert = {
           type: "alert-danger",
@@ -234,12 +233,28 @@ export default {
           type: "alert-danger",
           text: "Difficulty is required",
         };
-      } else if (this.recipe.ingredients.length == 0) {
+      } else if (this.recipe.tags == "") {
         this.alert = {
           type: "alert-danger",
-          text: "Ingredients are required",
+          text: "Tags are required",
         };
-      } else {
+      } else if (this.recipe.ingredients) {
+        this.recipe.ingredients.forEach((ingredient) => {
+          if (ingredient.name == "") {
+            this.alert = {
+              type: "alert-danger",
+              text: "Ingredient name is required",
+            };
+          } else if (ingredient.quantity == "") {
+            this.alert = {
+              type: "alert-danger",
+              text: "Ingredient quantity is required",
+            };
+          }
+        });
+      }
+      
+      else {
         this.createRecipe();
       }
 
@@ -287,7 +302,7 @@ export default {
           this.alert.type = "alert-success";
           this.$refs.alert.scrollIntoView();
           setTimeout(() => {
-            this.$router.push({ name: 'recipes'});
+            this.$router.push({ name: 'overview'});
           }, 2000);
         })
         .catch((e) => {
@@ -340,7 +355,7 @@ export default {
       }
     },
     cancelRecipe() {
-      this.$router.push({ name: 'recipes'});
+      this.$router.push({ name: 'overview'});
     },
   },
 };

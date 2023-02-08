@@ -42,7 +42,7 @@ class RecipeController extends AbstractController
         $path = $request->files->get('file');
        
         if ($content['id']) {
-            $recipe = $this->entityManager->getRepository(Recipe::class)->find($content['id']);
+            $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $content['id'], 'userId' => $user->getId()]);
             $recipe->setPortion($content['portion']);
             $recipe->setPrepTime($content['prepTime']);
         } else {
@@ -72,7 +72,10 @@ class RecipeController extends AbstractController
         if (!$content['difficulty']) { 
             throw new \Exception('Difficulty is required');
         } else {
-            $recipe->setDifficulty($content['difficulty']);
+            $inUseDifficulty = ['easy', 'medium', 'hard'];
+            if (in_array($content['difficulty'], $inUseDifficulty)) {
+                $recipe->setDifficulty($content['difficulty']);
+            }
         }
 
         $this->updateDatabase($recipe);
@@ -80,16 +83,19 @@ class RecipeController extends AbstractController
         if (!$content['tags']) {
             throw new \Exception('Tags are required');
         } else {
+            $inUseTags = ['breakfast', 'lunch', 'dinner', 'cold food', 'warm food', 'no animal products', 'no fish & meat', 'no seafood','sweet', 'savoury', 'fast', 'cheap', 'high protein'];
            foreach ($content['tags'] as $tag) {
                 $tagRepo = $this->entityManager->getRepository(Tag::class)->findOneBy(['name' => $tag]);
-                if (!$tagRepo) {
-                    $tagRepo = new Tag();
-                    $tagRepo->setName($tag['name']);
-                    $tagRepo->addRecipe($recipe);
-                } else {
-                    $recipe->addTag($tagRepo);
+                if (in_array($tag['name'], $inUseTags)) {
+                    if (!$tagRepo) {
+                        $tagRepo = new Tag();
+                        $tagRepo->setName($tag['name']);
+                        $tagRepo->addRecipe($recipe);
+                    } else {
+                        $recipe->addTag($tagRepo);
+                    }
+                    $this->updateDatabase($tagRepo);
                 }
-                $this->updateDatabase($tagRepo);
             }
         }
 
@@ -142,11 +148,11 @@ class RecipeController extends AbstractController
                 $isUserRecipe = true;
             }
         } else {
-            throw new \Exception('Recipe not found');
+            return new Response('Recipe not found', Response::HTTP_NOT_FOUND);
         }
 
         if ($recipe->getEnabled() == false && $isUserRecipe == false) {
-            throw new \Exception('Recipe not found');
+            return new Response('Recipe not found', Response::HTTP_NOT_FOUND);
         }
         
         $recipeJson = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
@@ -197,11 +203,10 @@ class RecipeController extends AbstractController
     {
         $user = $this->getUser();
         $recipe = $this->entityManager->getRepository(Recipe::class);
-        $recipeUser = $recipe->findAll(['userId' => $user->getId()]);
-        $recipeId = $recipe->findOneBy(['id' => $request->get('id')]);
+        $recipeId = $recipe->findOneBy(['id' => $request->get('id'), 'userId' => $user->getId()]);
         $ingredients = $this->entityManager->getRepository(Ingredients::class)->getRecipeId($recipeId);
 
-        if ($recipeUser) {
+        if ($recipeId) {
             if ($ingredients) {
                 foreach ($ingredients as $ingredient) {
                     $this->entityManager->remove($ingredient);

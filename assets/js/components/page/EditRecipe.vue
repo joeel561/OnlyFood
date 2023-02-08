@@ -244,6 +244,11 @@
             type: "alert-danger",
             text: "Recipe name is required",
           };
+        } else if (this.recipe.imageName == "") {
+          this.alert = {
+            type: "alert-danger",
+            text: "Image is required",
+          };
         } else if (this.recipe.method == "") {
           this.alert = {
             type: "alert-danger",
@@ -254,12 +259,28 @@
             type: "alert-danger",
             text: "Difficulty is required",
           };
-        } else if (this.recipe.ingredients.length == 0) {
+        } else if (this.recipe.tags.length == 0) {
           this.alert = {
             type: "alert-danger",
-            text: "Ingredients are required",
+            text: "Tags are required",
           };
-        } else {
+        } else if (this.recipe.ingredients.length == 0) {
+          this.recipe.ingredients.forEach((ingredient) => {
+            if (ingredient.name == "") {
+              this.alert = {
+                type: "alert-danger",
+                text: "Ingredient name is required",
+              };
+            } else if (ingredient.quantity == "") {
+              this.alert = {
+                type: "alert-danger",
+                text: "Ingredient quantity is required",
+              };
+            }
+          });
+        }
+
+        else {
           this.createRecipe();
         }
   
@@ -338,7 +359,7 @@
             this.alert.type = "alert-success";
             this.$refs.alert.scrollIntoView();
             setTimeout(() => {
-              this.$router.push({ name: 'recipes'});
+              this.$router.push({ name: 'overview'});
             }, 2000);
           })
           .catch((e) => {
@@ -349,7 +370,7 @@
       },
       deleteRecipe() {
           this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
-              this.$router.push({ name: 'recipes'});
+              this.$router.push({ name: 'overview'});
               document.querySelector('.modal-backdrop').remove();
               document.body.classList.remove('modal-open');
               document.body.style.paddingRight = '';
