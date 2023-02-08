@@ -395,6 +395,12 @@
             updatePortion() {
                 if (this.recipe.portion < 1) {
                     this.recipe.portion = 1;
+                    this.alert.type = "";
+                    this.alert.text = "";
+                } else if (this.recipe.portion > 99) {
+                    this.recipe.portion = 99;
+                    this.alert.type = "alert-danger";
+                    this.alert.text = "Bro that's too much food.";
                 }
 
                 this.recipe.ingredients.forEach(ingredient => {
@@ -404,14 +410,22 @@
                 });
             },
             addPortion() {
-                this.recipe.portion++;
-                this.recipe.ingredients.forEach(ingredient => {
-                    if (ingredient.baseValue) {
-                        ingredient.quantity = this.recipe.portion * ingredient.baseValue;
-                    } else {
-                        ingredient.quantity = this.recipe.portion * ingredient.quantity;
-                    }
-                });
+                if (this.recipe.portion < 99) {
+                    this.alert.type = "";
+                    this.alert.text = "";
+                    this.recipe.portion++;
+                    this.recipe.ingredients.forEach(ingredient => {
+                        if (ingredient.baseValue) {
+                            ingredient.quantity = this.recipe.portion * ingredient.baseValue;
+                        } else {
+                            ingredient.quantity = this.recipe.portion * ingredient.quantity;
+                        }
+                    });
+                } else {
+                    this.recipe.portion = 99;
+                    this.alert.type = "alert-danger";
+                    this.alert.text = "Bro that's too much food.";
+                }
             },
             toggleLikeRecipe() {
                 this.$axios
@@ -433,6 +447,8 @@
 
             removePortion() {
                 if (this.recipe.portion > 1) {
+                    this.alert.type = "";
+                    this.alert.text = "";
                     this.recipe.portion--;
                     this.recipe.ingredients.forEach(ingredient => {
                         if (ingredient.baseValue) {

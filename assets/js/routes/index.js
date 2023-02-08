@@ -7,13 +7,18 @@ import RecipeDetail from "../components/page/RecipeDetail";
 import CreateRecipe from "../components/page/CreateRecipe";
 import EditRecipe from "../components/page/EditRecipe";
 import WeeklyPlan from "../components/page/WeeklyPlan";
+import Dashboard from "../components/page/Dashboard";
 
 Vue.use(VueRouter);
 
 const routes = [
     {   path: "/",
         name: "default",
-        component: Account 
+        component: Dashboard 
+    },
+    {   path: "/dashboard",
+        name: "dashboard",
+        component: Dashboard 
     },
     {   path: "/account",
         name: "account",
@@ -53,6 +58,10 @@ const routes = [
         name: "weeklyPlan",
         component: WeeklyPlan 
     },  
+    {
+        path: "*",
+        redirect: "/"
+    }
 ]
 
 const router = new VueRouter({
