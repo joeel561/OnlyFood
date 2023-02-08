@@ -132,7 +132,7 @@ class RecipeController extends AbstractController
 
         if ($user) {
             $userId = $user->getId();
-            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfRecipe($recipe, $user);
+            $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfUser($user);
             $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
         } else {
             $weeklyPlanJson = null;
