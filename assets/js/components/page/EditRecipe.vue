@@ -24,7 +24,7 @@
               </svg>
               <input
                 type="file"
-                accept="image/*"
+                accept="image/png, image/jpeg"
                 ref="image"
                 @change="handleFileUpload()"
               />
@@ -265,6 +265,11 @@
             text: "Tags are required",
           };
         } else if (this.recipe.ingredients.length == 0) {
+          this.alert = {
+            type: "alert-danger",
+            text: "Ingredients are required",
+          };
+        } else if (this.recipe.ingredients.length > 0) {
           this.recipe.ingredients.forEach((ingredient) => {
             if (ingredient.name == "") {
               this.alert = {

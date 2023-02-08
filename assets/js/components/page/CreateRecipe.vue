@@ -24,7 +24,7 @@
             </svg>
             <input
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg"
               ref="image"
               @change="handleFileUpload()"
             />
@@ -238,21 +238,26 @@ export default {
           type: "alert-danger",
           text: "Tags are required",
         };
-      } else if (this.recipe.ingredients) {
-        this.recipe.ingredients.forEach((ingredient) => {
-          if (ingredient.name == "") {
-            this.alert = {
-              type: "alert-danger",
-              text: "Ingredient name is required",
-            };
-          } else if (ingredient.quantity == "") {
-            this.alert = {
-              type: "alert-danger",
-              text: "Ingredient quantity is required",
-            };
-          }
-        });
-      }
+      } else if (this.recipe.ingredients.length == 0) {
+          this.alert = {
+            type: "alert-danger",
+            text: "Ingredients are required",
+          };
+        } else if (this.recipe.ingredients.length > 0) {
+          this.recipe.ingredients.forEach((ingredient) => {
+            if (ingredient.name == "") {
+              this.alert = {
+                type: "alert-danger",
+                text: "Ingredient name is required",
+              };
+            } else if (ingredient.quantity == "") {
+              this.alert = {
+                type: "alert-danger",
+                text: "Ingredient quantity is required",
+              };
+            }
+          });
+        }
       
       else {
         this.createRecipe();
