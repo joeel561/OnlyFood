@@ -281,6 +281,8 @@
                 type: "alert-danger",
                 text: "Ingredient quantity is required",
               };
+            } else {
+              this.createRecipe();
             }
           });
         }
