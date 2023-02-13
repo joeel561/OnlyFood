@@ -17,6 +17,15 @@
     }
 }
 
+.input-error {
+  border: 1px solid var.$red-color;
+  
+  &:focus {
+    border: 1px solid var.$red-color;
+    box-shadow: none;
+  }
+}
+
 .form-check-input[type=checkbox] {
   border-radius: 0;
   width: 1.25rem;
