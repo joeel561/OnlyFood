@@ -73,11 +73,11 @@
                 max="1000"
                 placeholder="Quantity"
                 v-model="ingredient.quantity"
-                :class="errorField.ingredientQuantity ? 'input-error' : ''"
+                :class="errorClassIngredientQuantity(index)"
                 @change="updateQuantity(index)"
                 @input="errorField.ingredientQuantity = false"
               />
-              <label class="error" v-if="errorField.ingredientQuantity">Quantity required.</label>
+              <label class="error" v-if="errorField.ingredientQuantity[index]">Quantity required.</label>
             </div>
             <div class="col-6 col-md-2">
               <input
@@ -92,11 +92,11 @@
                 type="text"
                 class="add-recipe-ingredient-name form-control"
                 placeholder="Name"
-                :class="errorField.ingredientName ? 'input-error' : ''"
+                :class="errorClassIngredientName(index)"
                 v-model="ingredient.name"
                 @input="errorField.ingredientName = false"
               />
-              <label class="error mb-1" v-if="errorField.ingredientName">At least 1 Ingredient Name is required.</label>
+              <label class="error" v-if="errorField.ingredientName[index]">At least 1 Ingredient Name is required.</label>
             </div>
             <div class="col-2 col-md-auto">
               <a class="btn btn-primary" @click="addIngredient">
@@ -182,8 +182,8 @@ export default {
         name: false,
         method: false,
         difficulty: false,
-        ingredientName: false,
-        ingredientQuantity: false,
+        ingredientName: [],
+        ingredientQuantity: []
       },
       editor: null,
       recipe: {
@@ -246,8 +246,8 @@ export default {
         name: false,
         method: false,
         difficulty: false,
-        ingredientName: false,
-        ingredientQuantity: false,
+        ingredientName: [],
+        ingredientQuantity: [],
       };
 
       if (this.recipe.name == "") {
@@ -270,23 +270,19 @@ export default {
         this.errorField.tags = true;
       }
 
-      if (this.recipe.ingredients.length < 1) {
-      } else {
-        this.recipe.ingredients.forEach((ingredient) => {
-          if (ingredient.name == "") {
-            this.errorField.ingredientName = true;
-          } 
-          
-          if (ingredient.quantity == "") {
-            this.errorField.ingredientQuantity = true;
-          }
-        });
-      }
+      this.recipe.ingredients.forEach((ingredient, index) => {
+        if (ingredient.name == "") {
+          this.errorField.ingredientName[index] = true;
+        }
+        
+        if (ingredient.quantity == "") {
+          this.errorField.ingredientQuantity[index] = true;
+        }
+      });
 
-      if (this.errorField.name || this.errorField.image || this.errorField.method || this.errorField.difficulty || this.errorField.ingredientName || this.errorField.ingredientQuantity) {
+      if (this.errorField.name || this.errorField.image || this.errorField.method || this.errorField.difficulty || this.errorField.tags || this.errorField.ingredientName.length || this.errorField.ingredientQuantity.length) {
         this.$refs.alert.scrollIntoView();
       } else {
-        console.log(this.recipe);
         this.createRecipe();
       }
     },
@@ -349,6 +345,18 @@ export default {
         quantity: '',
         unit: '',
       });
+    },
+
+    errorClassIngredientQuantity(index) {
+      if (this.errorField.ingredientQuantity[index]) {
+        return "input-error";
+      }
+    },
+
+    errorClassIngredientName(index) {
+      if (this.errorField.ingredientName[index]) {
+        return "input-error";
+      }
     },
 
     removeIngredient(index) {

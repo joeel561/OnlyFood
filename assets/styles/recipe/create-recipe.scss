@@ -105,9 +105,10 @@
     }
 
     .create-ingredients-element {
+        margin-bottom: .9375rem;
         .form-control {
             margin-right: .9375rem;
-            margin-bottom: .9375rem;
+            margin-bottom: 0;
 
             &.add-recipe-ingredient-unity {
                 margin-right: .9375rem;
