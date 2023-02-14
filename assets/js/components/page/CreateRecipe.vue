@@ -324,7 +324,7 @@ export default {
         })
         .then((response) => {
           this.recipe = response.data;
-          this.alert.text = 'Recipe successfully created. Before it can be seen by other users it needs to be approved by an admin.';
+          this.alert.text = 'Recipe successfully created.';
           this.alert.type = "alert-success";
           this.$refs.alert.scrollIntoView();
           setTimeout(() => {

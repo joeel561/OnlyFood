@@ -151,10 +151,6 @@ class RecipeController extends AbstractController
             return new Response('Recipe not found', Response::HTTP_NOT_FOUND);
         }
 
-        if ($recipe->getEnabled() == false && $isUserRecipe == false) {
-            return new Response('Recipe not found', Response::HTTP_NOT_FOUND);
-        }
-        
         $recipeJson = $serializer->serialize($recipe, 'json', ['groups' => 'recipe_overview']);
 
         $newResponse = array(

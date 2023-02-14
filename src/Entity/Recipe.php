@@ -112,13 +112,6 @@ class Recipe
      */
     private $weeklyPlans;
 
-    /**
-     * @ORM\Column(type="boolean",  options={"default":"0"})
-     * @Groups({"recipe_overview"})
-     */
-    private $enabled = false;
-
-
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -348,18 +341,6 @@ class Recipe
                 $weeklyPlan->setRecipe(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getEnabled(): ?bool
-    {
-        return $this->enabled;
-    }
-
-    public function setEnabled(?bool $enabled): self
-    {
-        $this->enabled = $enabled;
 
         return $this;
     }

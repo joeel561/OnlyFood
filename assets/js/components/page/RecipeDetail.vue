@@ -261,7 +261,6 @@
                     portion: 1,
                     method: '',
                     difficulty: '',
-                    enabled: false,
                     tags: [],
                     ingredients: [
                         {
@@ -327,14 +326,6 @@
                         return ingredient.baseValue;
                     }
                 });
-
-                if (this.recipe.enabled == false & this.isUserRecipe == true) {
-                    this.alert.type = "alert-warning";
-                    this.alert.text = "This recipe is not enabled yet. An admin needs to approve it. You can still see it & add it to your weekly plan.";
-                } else {
-                    this.alert.type = "";
-                    this.alert.text = "";
-                }
             })
             .catch((e) => {
                 this.alert.type = "alert-danger";
