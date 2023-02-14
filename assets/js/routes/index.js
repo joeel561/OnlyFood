@@ -64,6 +64,11 @@ const routes = [
         name: "shoppingList",
         component: ShoppingList 
     },  
+    {   
+        path: "/shoppinglist/",
+        name: "shoppingList",
+        component: ShoppingList 
+    },  
 ]
 
 const router = new VueRouter({
