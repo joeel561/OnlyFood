@@ -32,7 +32,8 @@ class RegistrationFormType extends AbstractType
             ->add('email',  EmailType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'E-Mail'
+                    'placeholder' => 'E-Mail',
+                    'autocomplete' => 'email'
                 ],
                 'row_attr' => [
                     'class' => 'mb-2',
