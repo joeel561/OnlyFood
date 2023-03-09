@@ -48,6 +48,7 @@ security:
     - { path: ^/explore, roles: ROLE_USER }  
     - { path: ^/recipes, roles: ROLE_USER } 
     - { path: ^/weeklyplan, roles: ROLE_USER }
+    - { path: ^/shoppinglist, roles: ROLE_USER }
 
 when@test:
   security:
