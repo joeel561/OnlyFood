@@ -33,7 +33,6 @@ class ShoppingListController extends AbstractController
     {
         $user = $this->getUser();
         $shoppingList = $this->entityManager->getRepository(ShoppingList::class)->findBy(['user' => $user->getId()]);
-        dd($shoppingList->getAllIngredients());
 
         $jsonContent = $serializer->serialize($shoppingList, 'json', ['groups' => 'shopping_list']);
 
@@ -41,19 +40,17 @@ class ShoppingListController extends AbstractController
     }
 
     /**
-     * @Route("/api/create/shopping-list/", name="app_shopping_create_list")
+     * @Route("/api/shopping-list/upsert/", name="app_shopping_upsert_list")
      */
-    public function createList(Request $request, SerializerInterface $serializer)
+    public function upsertList(Request $request, SerializerInterface $serializer)
     {
         $user = $this->getUser();
         $content = json_decode($request->getContent(), true);
-        $shoppingList = $this->entityManager->getRepository(ShoppingList::class)->findBy(['user' => $user->getId()]);
-        
+        $shoppingList = $this->entityManager->getRepository(ShoppingList::class)->findOneBy(['user' => $user->getId()]);
+
         if ($shoppingList) {
             if ($content['ingredients']) {
-                foreach ($content['ingredients'] as $ingredient) {
-                    $shoppingList->setIngredient($ingredient);
-                }
+                $shoppingList->setIngredients($content['ingredients']);
             } else {
                 throw new \Exception('No ingredients found');
             }
@@ -69,6 +66,25 @@ class ShoppingListController extends AbstractController
         }
 
         $this->updateDatabase($shoppingList);
+
+        $jsonContent = $serializer->serialize($shoppingList, 'json', ['groups' => 'shopping_list']);
+
+        return new Response($jsonContent, Response::HTTP_OK);
+
+    }
+
+    /**
+     * @Route("/api/shopping-list/delete/", name="app_shopping_delete_list")
+     */
+    public function deleteList(Request $request, SerializerInterface $serializer)
+    {
+        $user = $this->getUser();
+        $shoppingList = $this->entityManager->getRepository(ShoppingList::class)->findOneBy(['user' => $user->getId()]);
+
+        if ($shoppingList) {
+            $this->entityManager->remove($shoppingList);
+            $this->entityManager->flush();
+        }
 
         $jsonContent = $serializer->serialize($shoppingList, 'json', ['groups' => 'shopping_list']);
 

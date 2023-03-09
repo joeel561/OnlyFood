@@ -88,7 +88,7 @@ class WeeklyPlanController extends AbstractController
      */
     public function removeWeeklyPlan(Request $request, SerializerInterface $serializer)
     {
-        $user = $this->getUser()->getId();
+        $user = $this->getUser();
         $content = json_decode($request->getContent(), true);
 
         if ($content) {

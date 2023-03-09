@@ -34,7 +34,7 @@ class ShoppingList
     private $user;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json", nullable=true)
      * @Groups({"shopping_list"})
      */
     private $ingredients = [];
@@ -42,7 +42,6 @@ class ShoppingList
     public function __construct()
     {
         $this->user = new ArrayCollection();
-        $this->ingredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,25 +75,12 @@ class ShoppingList
 
     public function getIngredients(): ?array
     {
-        return $this->ingredient;
+        return $this->ingredients;
     }
 
-    public function setIngredient($ingredient): self
+    public function setIngredients(?array $ingredients): self
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-            $ingredient->setIngredient($this);
-        }
-
-        return $this;
-    }
-
-    public function addIngredient($ingredient): self
-    {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-            $ingredient->setIngredient($this);
-        }
+        $this->ingredients = $ingredients;
 
         return $this;
     }
