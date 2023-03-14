@@ -28,11 +28,11 @@
                                 <span> {{ item.name }}</span>
                             </label>
                         </div>
-                        <div class="shopping-item--change" :class="{ active: index == showChange }">
-                            <input type="number" class="form-control item-quantity--input" min="0" :placeholder="item.quantity" v-model="item.quantity" v-on:blur="changeItem (item, index)"/>
-                            <input type="text" class="form-control item-unit--input" :placeholder="item.unit" v-model="item.unit" v-on:blur="changeItem (item, index)"/>
-                            <input type="text" class="form-control item-name--input" :placeholder="item.name" v-model="item.name" v-on:blur="changeItem (item, index)"/>
-                        </div>
+                        <form class="shopping-item--change" :class="{ active: index == showChange }" v-on:change="changeItem (item, index)" v-on:keyup.enter="changeItem (item, index)">
+                            <input type="number" class="form-control item-quantity--input" min="0" :placeholder="placeholderQuantity(item)" v-model="item.quantity" />
+                            <input type="text" class="form-control item-unit--input" :placeholder="placeholderUnit(item)" v-model="item.unit"/>
+                            <input type="text" class="form-control item-name--input" :placeholder="placeholderName(item)" v-model="item.name"/>
+                        </form>
                         <div class="shopping-item--update">
                             <div class="shopping-item--icon" @click="removeItem(index)">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1a1a1a" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -136,6 +136,13 @@
                 }
             },
 
+            onKeyDown(event) {
+                console.log(event);
+                if (event.key === "Tab") {
+                    event.preventDefault();
+                } 
+            },
+
             updateIngredients() {
                 this.$axios
                 .post('/api/shopping-list/upsert/', {
@@ -156,6 +163,30 @@
             showChangeInput(index) {
                 this.showChange = this.showChange === index ? null : index;
             },
+
+            placeholderUnit(item) {
+                if (item.unit === '') {
+                    return 'Unit';
+                } else {
+                    return item.unit;
+                }
+            },
+
+            placeholderQuantity(item) {
+                if (item.quantity === '') {
+                    return 'Quantity';
+                } else {
+                    return item.quantity;
+                }
+            },
+
+            placeholderName(item) {
+                if (item.name === '') {
+                    return 'Ingredient';
+                } else {
+                    return item.name;
+                }
+            },	
 
             removeItem(index) {
                 if (this.ingredients.length >= 2) {
