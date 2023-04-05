@@ -7,7 +7,7 @@ body {
 }
 
 #app {
-  height: 100vh;
+  height: 100svh;
   display: flex;
   flex-direction: column;
 }
@@ -16,7 +16,7 @@ body {
   width: 100%;
   overflow: hidden;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   left: 0;
   position: absolute;
   z-index: -1;
