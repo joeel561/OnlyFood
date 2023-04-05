@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\WeeklyPlan;
 use App\Entity\Recipe;
+use Symfony\Component\Form\Extension\Core\Type\WeekType;
 use Symfony\Component\HttpFoundation\Request;
 
 class WeeklyPlanController extends AbstractController
@@ -124,4 +125,23 @@ class WeeklyPlanController extends AbstractController
 
         return new Response($jsonContent, Response::HTTP_OK);
     }
+
+    /** 
+     * @Route("/api/weekly-plan/todaysmealplan", name="app_weekly_plan_todays_meal_prep")
+    */
+    public function todaysMealPlan(Request $request, SerializerInterface $serializer)
+    {
+        $user = $this->getUser();
+        $content = json_decode($request->getContent(), true);
+        if ($content['date']) {
+            $todaysMealPlan = $this->entityManager->getRepository(WeeklyPlan::class)->getTodaysMealPlan($user, $content['date']);
+
+            $jsonContent = $serializer->serialize($todaysMealPlan, 'json', ['groups' => 'weekly_plan']);
+        } else {
+            $jsonContent = null;
+        }
+
+        return new Response($jsonContent, Response::HTTP_OK);
+    }
+    
 }

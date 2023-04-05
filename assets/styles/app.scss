@@ -19,6 +19,7 @@ $form-select-indicator-color: var.$white-text;
 @import "base/filter.scss";
 @import "base/navigation.scss";
 @import "base/modal.scss";
+@import "base/footer.scss";
 @import "login/login.scss";
 @import "support/faq.scss";
 @import "account/account.scss";
@@ -27,5 +28,6 @@ $form-select-indicator-color: var.$white-text;
 @import "recipe/recipe-overview.scss";
 @import "weeklyplan/weeklyplan.scss";
 @import "shoppinglist/shoppinglist.scss";
+@import "dashboard/dashboard.scss";
 
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");

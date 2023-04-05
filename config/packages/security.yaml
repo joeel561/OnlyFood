@@ -40,7 +40,7 @@ security:
     - { path: ^/login, roles: PUBLIC_ACCESS }
     - { path: ^/register, roles: PUBLIC_ACCESS }
     - { path: ^/api/, roles: ROLE_USER }
-    - { path: ^/dashboard/, roles: ROLE_USER }
+    - { path: ^/dashboard, roles: ROLE_USER }
     - { path: ^/account, roles: ROLE_USER }
     - { path: ^/support, roles: ROLE_USER }
     - { path: ^/recipe/create, roles: ROLE_USER }    

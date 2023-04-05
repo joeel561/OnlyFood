@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 d-flex justify-content-end">
+                <div class="col-12 d-flex justify-content-end mt-4">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createShoppingListModal">Create shopping list</button>
                 </div>
                 <div class="modal fade weekly-plan-modal" id="createShoppingListModal" tabindex="-1" aria-labelledby="createShoppingListModalLabel" aria-hidden="true">

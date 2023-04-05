@@ -1,6 +1,6 @@
 
 <template>
-    <div class="recipe-listing-overview overview col-12">
+    <div class="overview col-12">
         <alert :classes="alert.type" :text="alert.text" v-if="alert.text"/>
         <h1>Shopping List</h1>
         <p class="text-white col-md-7">The Shopping List will always be overwritten by the weekly plan. Make sure to first plan your week & then add more items.</p>

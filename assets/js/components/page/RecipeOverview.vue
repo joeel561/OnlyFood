@@ -325,9 +325,9 @@ export default {
         },
 
         showBackToTop() {
-            if (window.scrollY > 1000) {
+            if (window.scrollY > 1000 && this.$refs.backToTop) {
                 this.$refs.backToTop.classList.add("show");
-            } else {
+            } else if (this.$refs.backToTop) {
                 this.$refs.backToTop.classList.remove("show");
             }
         },

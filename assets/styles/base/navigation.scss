@@ -2,6 +2,8 @@
     max-width: 105.625rem;
     margin: 0 auto;
     padding: 1.875rem 1.25rem 1.25rem .9375rem;
+    width: 100%;
+
     .logo {
         padding-top: 0;
         max-height: 2.1875rem;
@@ -9,12 +11,6 @@
 }
 
 .public-navigation {
-    .logo {
-        left: .75rem;
-        right: auto;
-        margin: auto;
-    } 
-    
     .public-navigation-login {
         margin-left: auto;
 
@@ -59,11 +55,6 @@
 }
 
 .logo {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-    z-index: 0;
     img {
        max-height: 1.875rem;
     }
@@ -136,20 +127,13 @@
 @include media-breakpoint-up(md) { 
     .logo {
         position: relative;
-        z-index: 0;
         img {
            max-height: 2.1875rem;
         }
     }
 
     
-    .public-navigation {
-        .logo {
-            left: 0;
-            right: 0;
-            margin: auto;
-        } 
-        
+    .public-navigation {        
         .public-navigation-login {
             margin-left: auto;
 

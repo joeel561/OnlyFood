@@ -165,6 +165,21 @@ class RecipeRepository extends ServiceEntityRepository
         ;
     }
 
+
+    public function getRandomRecipes($user): array
+    {  
+        $currentDate = new \DateTime();
+        $week = $currentDate->format('YW');
+        $userWeek = $user->getId() . $week;
+
+        return $this->createQueryBuilder('r')
+            ->orderBy('RAND(:userWeek)')
+            ->setMaxResults(4)
+            ->setParameters(array('userWeek' => $userWeek))
+            ->getQuery()
+            ->getResult();
+    }
+
     
 
     // /**

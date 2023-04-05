@@ -2,11 +2,14 @@
 
 .login-wrapper {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
   padding-top: 1.5rem;
   text-align: center;
+  margin: 0 auto;
 
   svg {
     max-width: 6.875rem;

@@ -59,6 +59,18 @@ class WeeklyPlanRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getTodaysMealPlan(User $user, int $date): array
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.user = :userId')
+            ->andWhere('w.weekDaySort = :date')
+            ->setParameters(array('date' => $date, 'userId' => $user))
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return WeeklyPlan[] Returns an array of WeeklyPlan objects
     //  */

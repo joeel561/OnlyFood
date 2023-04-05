@@ -97,4 +97,24 @@ class RecipeOverviewController extends AbstractController
 
         return new Response($jsonContent, Response::HTTP_OK);
     }
+
+    /**
+     * @Route("api/recipes/random", name="app_recipes_random", methods={"GET"})
+     */
+
+     public function getRandomRecipes(SerializerInterface $serializer) 
+     {
+
+        $user = $this->getUser();
+        $recipes = $this->entityManager->getRepository(Recipe::class)->getRandomRecipes($user);
+
+
+        if (!$recipes) {
+            return new Response('No recipes found', Response::HTTP_NOT_FOUND);
+        }
+
+        $jsonContent = $serializer->serialize($recipes, 'json', ['groups' => 'recipe_listing']);
+
+        return new Response($jsonContent, Response::HTTP_OK);
+     }
 }

@@ -9,13 +9,14 @@ import EditRecipe from "../components/page/EditRecipe";
 import WeeklyPlan from "../components/page/WeeklyPlan";
 import Dashboard from "../components/page/Dashboard";
 import ShoppingList from "../components/page/ShoppingList";
+import Default from "../components/page/Default";
 
 Vue.use(VueRouter);
 
 const routes = [
     {   path: "/",
         name: "default",
-        component: Dashboard 
+        component: Default 
     },
     {   path: "/dashboard",
         name: "dashboard",
