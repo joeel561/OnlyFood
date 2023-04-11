@@ -170,12 +170,14 @@ class RecipeRepository extends ServiceEntityRepository
     {  
         $currentDate = new \DateTime();
         $week = $currentDate->format('YW');
-        $userWeek = $user->getId() . $week;
+        $userId = $user->getId();
+        $userWeek = $userId . $week;
 
         return $this->createQueryBuilder('r')
+            ->where('r.userId != :userId')
             ->orderBy('RAND(:userWeek)')
             ->setMaxResults(4)
-            ->setParameters(array('userWeek' => $userWeek))
+            ->setParameters(array('userWeek' => $userWeek, 'userId' => $userId))
             ->getQuery()
             ->getResult();
     }
