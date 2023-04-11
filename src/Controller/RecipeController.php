@@ -47,6 +47,8 @@ class RecipeController extends AbstractController
             $recipe->setPrepTime($content['prepTime']);
         } else {
             $recipe = new Recipe();
+            $recipe->setPortion($content['portion']);
+            $recipe->setPrepTime($content['prepTime']);
             $recipe->setUserId($user);
         }
 
