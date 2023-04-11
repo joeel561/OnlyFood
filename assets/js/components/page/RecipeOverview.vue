@@ -207,8 +207,10 @@ export default {
         recipes(oldValue, newValue) {
             this.$nextTick(() => {
                 this.setTrigger = false;
-                if (this.recipes && this.$refs.recipe.offsetHeight > 1000) {
-                    this.setTrigger = true;
+                if (this.recipes && this.$refs.recipe.offsetHeight) {
+                    if (this.$refs.recipe.offsetHeight > 1000) {
+                        this.setTrigger = true;
+                    }
                 }
             });
         },

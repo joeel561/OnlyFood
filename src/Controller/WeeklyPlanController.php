@@ -68,17 +68,26 @@ class WeeklyPlanController extends AbstractController
 
     private function setWeeklyPlanContent($weeklyPlan, $content, $recipe)
     {
+
         if (!$content['day']) {
-            throw new \Exception('Day is required');
-        } else {
+            return new Response('Day is not set', Response::HTTP_BAD_REQUEST);
+        }
+
+        if (!$content['meal']) {
+            return new Response('Meal is not set', Response::HTTP_BAD_REQUEST);
+        }
+
+        $inWeekDay = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        $inMeal = ['breakfast', 'lunch', 'dinner', 'snack'];
+
+        if (in_array($content['day']['weekday'], $inWeekDay)) {
             $weeklyPlan->setWeekday($content['day']['weekday']);
             $weeklyPlan->setWeekDaySort($content['day']['weekDaySort']);
         }
-        if (!$content['meal']) {
-            throw new \Exception('Meal is required');
-        } else {
+
+        if (in_array($content['meal']['meal'], $inMeal)) {
             $weeklyPlan->setMeal($content['meal']['meal']);
-            $weeklyPlan->setMealSort($content['meal']['mealSort']);
+            $weeklyPlan->setMealSort($content['meal']['mealSort']); 
         }
 
         $weeklyPlan->setRecipe($recipe);
