@@ -295,8 +295,6 @@
         this.errorField.tags = true;
       }
 
-      console.log(this.recipe.tags);
-
       this.recipe.ingredients.forEach((ingredient, index) => {
         if (ingredient.name == "") {
           this.errorField.ingredientName[index] = true;

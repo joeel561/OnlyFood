@@ -45,6 +45,10 @@ class RecipeController extends AbstractController
             $recipe = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $content['id'], 'userId' => $user->getId()]);
             $recipe->setPortion($content['portion']);
             $recipe->setPrepTime($content['prepTime']);
+
+            foreach ($recipe->getTags() as $tag) {
+                $recipe->removeTag($tag);
+            }
         } else {
             $recipe = new Recipe();
             $recipe->setPortion($content['portion']);
@@ -83,23 +87,27 @@ class RecipeController extends AbstractController
         $this->updateDatabase($recipe);
 
         if (!$content['tags']) {
-            throw new \Exception('Tags are required');
-        } else {
-            $inUseTags = ['breakfast', 'lunch', 'dinner', 'cold food', 'warm food', 'no animal products', 'no fish & meat', 'no seafood','sweet', 'savoury', 'fast', 'cheap', 'high protein'];
-           foreach ($content['tags'] as $tag) {
-                $tagRepo = $this->entityManager->getRepository(Tag::class)->findOneBy(['name' => $tag]);
-                if (in_array($tag['name'], $inUseTags)) {
-                    if (!$tagRepo) {
-                        $tagRepo = new Tag();
-                        $tagRepo->setName($tag['name']);
-                        $tagRepo->addRecipe($recipe);
-                    } else {
-                        $recipe->addTag($tagRepo);
-                    }
-                    $this->updateDatabase($tagRepo);
-                }
-            }
+            return new Response('Tags are required', Response::HTTP_NOT_FOUND);
         }
+
+        $inUseTags = ['breakfast', 'lunch', 'dinner', 'cold food', 'warm food', 'no animal products', 'no fish & meat',
+        'no seafood','sweet', 'savoury', 'fast', 'cheap', 'high protein'];
+
+        foreach ($content['tags'] as $tag) {
+             $tagRepo = $this->entityManager->getRepository(Tag::class)->findOneBy(['name' => $tag]);
+
+             if (in_array($tag['name'], $inUseTags)) {
+                 if (!$tagRepo) {
+                     $tagRepo = new Tag();
+                     $tagRepo->setName($tag['name']);
+                     $tagRepo->addRecipe($recipe);
+                 } else {
+                     $recipe->addTag($tagRepo);
+                 }
+                 $this->updateDatabase($tagRepo);
+             }
+         }
+        
 
         if (!$content['ingredients']) { 
             throw new \Exception('Ingredients are required');
