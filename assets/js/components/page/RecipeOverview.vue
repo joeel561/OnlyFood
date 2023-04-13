@@ -31,7 +31,7 @@
         <div class="row justify-content-center gx-2">
             <div class="no-recipes" v-if="recipes.length == 0">
                 <div class="recipe-overview-search col-12 col-md-6 d-flex">
-                    <input type="text" class="form-control" v-model="searchKeyword"
+                    <input type="text" class="form-control" v-model="searchKeyword" ref="search"
                         placeholder="Search for recipe name or username" v-on:keyup.enter="onSearchEnter" />
                     <button type="button" class="btn recipe-overview-search-btn" @click="onSearchEnter">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="52"
@@ -73,7 +73,7 @@
                     <h2>Explore Recipes</h2>
                     <p>There are no recipes yet.</p>
                 </div>
-                <a href="#search" class="btn btn-secondary">Search</a>
+                <a href="#search" class="btn btn-secondary" @click="focusSearch">Search</a>
                 <router-link to="/recipe/create" class="btn btn-primary">Create</router-link>
             </div>
             <div class="col-12 recipe-overview-panel" v-else>
@@ -316,14 +316,24 @@ export default {
                     },
                 })
                 .then((response) => {
+                    this.alert.text = "";
+                    this.alert.type = "";
+                    
                     this.recipes = response.data;
                     this.resultsFound = searchKeywords;
                 })
                 .catch((e) => {
-                    this.alert.text = e.response.data.detail;
+                    console.log(e);
+                    this.alert.text = e.response.data;
                     this.alert.type = "alert-danger";
                     this.recipes = [];
                 });
+        },
+
+        focusSearch() {
+            if (this.$refs.search) {
+                this.$refs.search.focus();
+            }
         },
 
         showBackToTop() {
