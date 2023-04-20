@@ -329,7 +329,7 @@
             })
             .catch((e) => {
                 this.alert.type = "alert-danger";
-                this.alert.text = e.response.data.detail;
+                this.alert.text = e.response.data;
             });
         },
         watch: {

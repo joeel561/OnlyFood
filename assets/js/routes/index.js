@@ -9,14 +9,14 @@ import EditRecipe from "../components/page/EditRecipe";
 import WeeklyPlan from "../components/page/WeeklyPlan";
 import Dashboard from "../components/page/Dashboard";
 import ShoppingList from "../components/page/ShoppingList";
-import Default from "../components/page/Default";
+import Landingpage from "../components/page/Landingpage";
 
 Vue.use(VueRouter);
 
 const routes = [
     {   path: "/",
-        name: "default",
-        component: Default 
+        name: "landingpage",
+        component: Landingpage 
     },
     {   path: "/dashboard",
         name: "dashboard",
@@ -64,6 +64,10 @@ const routes = [
         path: "/shoppinglist/",
         name: "shoppingList",
         component: ShoppingList 
+    },
+    {
+        path: "*",
+        component: Landingpage 
     }
 ]
 

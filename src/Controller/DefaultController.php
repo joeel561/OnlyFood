@@ -15,4 +15,12 @@ class DefaultController extends AbstractController
     {
         return $this->render('base.html.twig');
     }
+
+    /**
+     * @Route("/", name="app_landingpage" , methods={"GET"})
+     */
+    public function landingpage(): Response
+    {
+        return $this->render('landingpage/landingpage.html.twig');
+    }
 }
