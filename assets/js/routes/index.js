@@ -10,6 +10,7 @@ import WeeklyPlan from "../components/page/WeeklyPlan";
 import Dashboard from "../components/page/Dashboard";
 import ShoppingList from "../components/page/ShoppingList";
 import Landingpage from "../components/page/Landingpage";
+import  NotFound from "../components/page/404NotFound";
 
 Vue.use(VueRouter);
 
@@ -67,7 +68,7 @@ const routes = [
     },
     {
         path: "*",
-        component: Landingpage 
+        component: NotFound 
     }
 ]
 
