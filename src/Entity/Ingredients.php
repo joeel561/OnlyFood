@@ -17,25 +17,25 @@ class Ingredients
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview", "recipe_listing"})
+     * @Groups({"recipe_overview", "recipe_listing", "weekly_plan"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "weekly_plan"})
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"recipe_overview"})
+     * @Groups({"recipe_overview", "weekly_plan"})
      */
     private $unit;
 

@@ -9,10 +9,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="app_default" , methods={"GET"})
+     * @Route("/dashboard", name="app_default" , methods={"GET"})
      */
     public function index(): Response
     {
         return $this->render('base.html.twig');
+    }
+
+    /**
+     * @Route("/", name="app_landingpage" , methods={"GET"})
+     */
+    public function landingpage(): Response
+    {
+        return $this->render('landingpage/landingpage.html.twig');
     }
 }

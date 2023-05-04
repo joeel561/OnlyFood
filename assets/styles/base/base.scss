@@ -6,11 +6,17 @@ body {
   font-family: "Quicksand", sans-serif;
 }
 
+#app {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
 .background-wrapper {
   width: 100%;
   overflow: hidden;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   left: 0;
   position: absolute;
   z-index: -1;
@@ -141,7 +147,7 @@ p {
     .background-left-curve {
       left: -9.375rem;
       z-index: -1;
-      max-height: none;
+      max-height: 68.75rem;
       top: 20rem;
     }
     .food-left {
@@ -172,7 +178,7 @@ p {
   .background-left-curve {
     left: -23.75rem;
     z-index: -1;
-    max-height: none;
+    max-height: 68.75rem;
     bottom: -3.75rem;
   }
 

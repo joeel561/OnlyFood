@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email address")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -25,13 +26,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"account_overview", "recipe_overview", "weekly_plan"})
+     * @Groups({"account_overview", "recipe_overview", "weekly_plan", "shopping_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"account_overview" , "recipe_overview", "weekly_plan"})
+     * @Groups({"account_overview" , "recipe_overview", "weekly_plan", "shopping_list"})
      * @Assert\NotBlank(message="Please enter a username")
      * @Assert\Type(type={"alnum"} , message="Don't use special characters in your username")
      * 
@@ -101,12 +102,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=WeeklyPlan::class, mappedBy="user")
      */
     private $weeklyPlans;
-
+    
     /**
-     * @ORM\Column(type="boolean",  options={"default":"0"})
+     * @ORM\OneToMany(targetEntity=ShoppingList::class, mappedBy="user")
      */
-    private $enabled = false;
-
+    private $shoppingList;
 
 
     /**
@@ -330,14 +330,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isEnabled(): ?int
+    public function getShoppingList(): ?ShoppingList
     {
-        return $this->enabled;
+        return $this->shoppingList;
     }
 
-    public function setEnabled(int $enabled): self
+    public function setShoppingList(?ShoppingList $shoppingList): self
     {
-        $this->enabled = $enabled;
+        $this->shoppingList = $shoppingList;
 
         return $this;
     }

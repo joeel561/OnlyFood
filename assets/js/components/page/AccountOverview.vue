@@ -23,7 +23,7 @@
           </svg>
           <input
             type="file"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             ref="image"
             @change="handleFileUpload()"
           />

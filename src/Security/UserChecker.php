@@ -22,9 +22,5 @@ class UserChecker implements UserCheckerInterface
         if (!$user instanceof AppUser) {
             return;
         }
-
-        if ($user->isEnabled() === 0) {
-            throw new CustomUserMessageAccountStatusException('Your user is not unlocked yet. Please try it later.');
-        }
     }
 }

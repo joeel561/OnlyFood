@@ -8,13 +8,16 @@ import CreateRecipe from "../components/page/CreateRecipe";
 import EditRecipe from "../components/page/EditRecipe";
 import WeeklyPlan from "../components/page/WeeklyPlan";
 import Dashboard from "../components/page/Dashboard";
+import ShoppingList from "../components/page/ShoppingList";
+import Landingpage from "../components/page/Landingpage";
+import  NotFound from "../components/page/404NotFound";
 
 Vue.use(VueRouter);
 
 const routes = [
     {   path: "/",
-        name: "default",
-        component: Dashboard 
+        name: "landingpage",
+        component: Landingpage 
     },
     {   path: "/dashboard",
         name: "dashboard",
@@ -57,6 +60,15 @@ const routes = [
         path: "/weeklyplan/",
         name: "weeklyPlan",
         component: WeeklyPlan 
+    },
+    {   
+        path: "/shoppinglist/",
+        name: "shoppingList",
+        component: ShoppingList 
+    },
+    {
+        path: "*",
+        component: NotFound 
     }
 ]
 

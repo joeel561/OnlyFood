@@ -12,7 +12,8 @@
                 </a>
             </div>
             <div class="col-md-3 logo">
-                <router-link to="/dashboard"><img src="../../../img/logo.svg" alt="logo" class="img-fluid">	</router-link>
+                <router-link to="/dashboard" v-if="loggedIn"><img src="../../../img/logo.svg" alt="logo" class="img-fluid">	</router-link>
+                <img src="../../../img/logo.svg" v-else alt="logo" class="img-fluid">
             </div>
             <div class="col-md-9 navigation d-none d-md-flex justify-content-end" v-if="loggedIn">
                 <nav class="nav">
@@ -20,7 +21,7 @@
                     <li class="navigation-link"><router-link to="/explore/"> Explore</router-link></li>
                     <li class="navigation-link"><router-link to="/recipes/"> Recipes</router-link></li>
                     <li class="navigation-link"><router-link to="/weeklyplan/"> Weekly Plan</router-link></li>
-                    <li class="navigation-link"><router-link to="/shopping-list/"> Shopping List</router-link></li>
+                    <li class="navigation-link"><router-link to="/shoppinglist/"> Shopping List</router-link></li>
                     <li class="navigation-link dropdown">
                         <a href="#" id="navbarDropdown" class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Account </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -40,16 +41,15 @@
                     </svg>
                 </button>
                 <div class="offcanvas-body">
-                    <nav class="nav nav-mobile">
+                    <ul class="nav nav-mobile">
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/dashboard/"> Dashboard</router-link></li>
-                        <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/explore/"> Explore</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/recipes/"> Recipes</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/weeklyplan/"> Weekly Plan</router-link></li>
-                        <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/shopping-list/"> Shopping List</router-link></li>
+                        <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/shoppinglist/"> Shopping List</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/account/"> Account</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><router-link to="/support/"> Support</router-link></li>
                         <li class="navigation-link" data-bs-dismiss="offcanvas"><a href="/logout">Logout</a></li>
-                    </nav>
+                    </ul>
                 </div>
                 <div class="offcanvas-bg">
                     <img src="../../../img/carrots.svg" />

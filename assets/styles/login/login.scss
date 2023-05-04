@@ -1,12 +1,16 @@
 @use "../variables/var.scss";
 
 .login-wrapper {
-  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 
 .logo {
   padding-top: 1.5rem;
   text-align: center;
+  margin: 0 auto;
 
   svg {
     max-width: 6.875rem;

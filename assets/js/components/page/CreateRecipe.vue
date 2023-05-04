@@ -24,16 +24,17 @@
             </svg>
             <input
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg"
               ref="image"
               @change="handleFileUpload()"
             />
           </div>
-          <div class="upload-image-preview">
+          <div class="upload-image-preview" :class="errorField.image ? 'input-error' : ''">
             <img
               v-if="previewImage" :src="previewImage" />
             <img src="../../../img/placeholder.jpg" v-else />
           </div>
+          <label class="error" v-if="errorField.image">Image is required.</label>
         </div>
         <div class="create-recipe-information col-12 col-md-7">
           <input
@@ -42,15 +43,20 @@
             placeholder="Recipe Name"
             v-model="recipe.name"
             required
+            :class="errorField.name ? 'input-error' : ''"
+            @input="errorField.name = false"
           />
+          <label class="error" v-if="errorField.name">Recipe Name is required.</label>
           <input
             type="text"
             class="add-recipe-prep-time form-control mt-3"
             placeholder="Prep Time"
             v-model="recipe.prepTime"
           />
-          <multiselect v-model="recipe.difficulty" :options="difficultyOptions"  :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Difficulty"></multiselect>
-          <multiselect v-model="recipe.tags" :options="tagOptions" :multiple="true" class="mt-3" :close-on-select="false" open-direction="bottom" :clear-on-select="false" :preserve-search="true" :taggable="true" placeholder="Tags for filter" label="name" track-by="name"></multiselect>
+          <multiselect v-model="recipe.difficulty" :options="difficultyOptions"  :allowEmpty="false" class="mt-3" :searchable="false" open-direction="bottom" :close-on-select="false" :show-labels="false" placeholder="Difficulty" :class="errorField.difficulty ? 'input-error' : ''" @input="errorField.difficulty = false"></multiselect>
+          <label class="error" v-if="errorField.difficulty">Difficulty is required.</label>
+          <multiselect v-model="recipe.tags" :options="tagOptions" :multiple="true" class="mt-3" :close-on-select="false" open-direction="bottom" :clear-on-select="false" :preserve-search="true" :taggable="true" placeholder="Tags for filter" label="name" track-by="name" :class="errorField.tags ? 'input-error' : ''" @input="errorField.tags = false"></multiselect>
+          <label class="error" v-if="errorField.tags">At least 1 Tag is required.</label>
         </div>
       </div>
 
@@ -67,8 +73,11 @@
                 max="1000"
                 placeholder="Quantity"
                 v-model="ingredient.quantity"
+                :class="errorClassIngredientQuantity(index)"
                 @change="updateQuantity(index)"
+                @input="errorField.ingredientQuantity = false"
               />
+              <label class="error" v-if="errorField.ingredientQuantity[index]">Quantity required.</label>
             </div>
             <div class="col-6 col-md-2">
               <input
@@ -83,8 +92,11 @@
                 type="text"
                 class="add-recipe-ingredient-name form-control"
                 placeholder="Name"
+                :class="errorClassIngredientName(index)"
                 v-model="ingredient.name"
+                @input="errorField.ingredientName = false"
               />
+              <label class="error" v-if="errorField.ingredientName[index]">At least 1 Ingredient Name is required.</label>
             </div>
             <div class="col-2 col-md-auto">
               <a class="btn btn-primary" @click="addIngredient">
@@ -142,7 +154,8 @@
           <h2>Method</h2>
         </div>
         <div class="create-method-element col-12">
-          <vue-editor v-model="recipe.method" />
+          <vue-editor v-model="recipe.method" :class="errorField.method ? 'input-error' : ''" @input="errorField.method = false" />
+          <label class="error" v-if="errorField.method">Method is required.</label>
         </div>
         <div class="col-12 create-ingredients-buttons mt-4 d-flex justify-content-end">
           <div class="col-12 col-md-6 col-lg-4 d-flex">
@@ -164,10 +177,18 @@ export default {
   components: { VueEditor },
   data() {
     return {
+      errorField: {
+        image: false,
+        name: false,
+        method: false,
+        difficulty: false,
+        ingredientName: [],
+        ingredientQuantity: []
+      },
       editor: null,
       recipe: {
         id: "",
-        name: "",
+        name: '',
         prepTime: "",
         imageName: "",
         portion: 1,
@@ -210,47 +231,67 @@ export default {
 
   created() {
   },
+
   methods: {
     checkRecipeForm(e) {
       e.preventDefault();
 
+      this.alert = {
+        type: "",
+        text: "",
+      };
+
+      this.errorField = {
+        image: false,
+        name: false,
+        method: false,
+        difficulty: false,
+        ingredientName: [],
+        ingredientQuantity: [],
+      };
+
       if (this.recipe.name == "") {
-        this.alert = {
-          type: "alert-danger",
-          text: "Recipe name is required",
-        };
-      } else if (this.file == "") {
-        this.alert = {
-          type: "alert-danger",
-          text: "Image is required",
-        };
-      } else if (this.recipe.method == "") {
-        this.alert = {
-          type: "alert-danger",
-          text: "Method is required",
-        };
-      } else if (this.recipe.difficulty == "") {
-        this.alert = {
-          type: "alert-danger",
-          text: "Difficulty is required",
-        };
-      } else if (this.recipe.ingredients.length == 0) {
-        this.alert = {
-          type: "alert-danger",
-          text: "Ingredients are required",
-        };
-      } else {
-        this.createRecipe();
+        this.errorField.name = true;
       }
 
-      if (this.alert) {
+      if (this.file == "") {
+        this.errorField.image = true;
+      }
+
+      if (this.recipe.method == "") {
+        this.errorField.method = true;
+      } 
+
+      if (this.recipe.difficulty == "") {
+        this.errorField.difficulty = true;
+      } 
+
+      if (this.recipe.tags.length  == 0) {
+        this.errorField.tags = true;
+      }
+
+      this.recipe.ingredients.forEach((ingredient, index) => {
+        if (ingredient.name == "") {
+          this.errorField.ingredientName[index] = true;
+        }
+        
+        if (ingredient.quantity == "") {
+          this.errorField.ingredientQuantity[index] = true;
+        }
+      });
+
+      if (this.errorField.name || this.errorField.image || this.errorField.method || this.errorField.difficulty || this.errorField.tags || this.errorField.ingredientName.length || this.errorField.ingredientQuantity.length) {
         this.$refs.alert.scrollIntoView();
+      } else {
+        this.createRecipe();
       }
     },
     handleFileUpload() {
       this.file = this.$refs.image.files[0];
       const previewInput = this.$refs.image.files[0];
       const reader = new FileReader();
+
+      this.errorField.image = false;
 
       reader.onload = (e) => {
         this.previewImage = e.target.result;
@@ -283,11 +324,11 @@ export default {
         })
         .then((response) => {
           this.recipe = response.data;
-          this.alert.text = 'Recipe successfully created. Before it can be seen by other users it needs to be approved by an admin.';
+          this.alert.text = 'Recipe successfully created.';
           this.alert.type = "alert-success";
           this.$refs.alert.scrollIntoView();
           setTimeout(() => {
-            this.$router.push({ name: 'recipes'});
+            this.$router.push({ name: 'overview'});
           }, 2000);
         })
         .catch((e) => {
@@ -304,6 +345,18 @@ export default {
         quantity: '',
         unit: '',
       });
+    },
+
+    errorClassIngredientQuantity(index) {
+      if (this.errorField.ingredientQuantity[index]) {
+        return "input-error";
+      }
+    },
+
+    errorClassIngredientName(index) {
+      if (this.errorField.ingredientName[index]) {
+        return "input-error";
+      }
     },
 
     removeIngredient(index) {
@@ -340,7 +393,7 @@ export default {
       }
     },
     cancelRecipe() {
-      this.$router.push({ name: 'recipes'});
+      this.$router.push({ name: 'overview'});
     },
   },
 };

@@ -32,7 +32,7 @@
                         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
                     <div class="mb-2">
-                        <input type="type" value="{{ last_username }}" placeholder="E-Mail" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
+                        <input type="email" value="{{ last_username }}" placeholder="E-Mail" name="email" id="inputEmail" class="form-control" autocomplete="email" autofocus>
                     </div>
                     <div class="mb-2">
                         <input type="password" name="password" id="inputPassword" placeholder="Password" class="form-control" autocomplete="current-password" required>
@@ -47,6 +47,25 @@
                         </button>
                     </div>
                 </form>
+            </div>
+            <div class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="footer-content">
+                                <p>© 2023 All rights reserved. Copyright Joeel56 </p> 
+                                <nav class="nav">
+                                    <li class="navigation-link"><a href="/login"> Login </a></li>
+                                    <li class="navigation-link"><a href="/register"> Register </a></li>
+                                    <li class="navigation-link"><a href="/imprint"> Imprint</a></li>
+                                    <li class="navigation-link"><a href="/privacy"> Privacy</a></li>
+                                    <li class="navigation-link"><a href="/termsofusage"> Terms of Usage</a></li>
+                                    <li class="navigation-link"><a href="/support"> Support</a></li>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

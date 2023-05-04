@@ -50,6 +50,10 @@
         height: 1rem;
         background-color: var.$tag-bg-color;
 
+        &:hover {
+            cursor: pointer;
+        }
+
         &:checked {
             border-color: var.$tag-bg-color;
         }

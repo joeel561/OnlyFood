@@ -34,7 +34,8 @@ class WeeklyPlan
     private $meal;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="weeklyPlans")
+     * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="weeklyPlans")
+     * @ORM\JoinColumn(nullable=false)
      * @Groups({"weekly_plan"})
      */
     private $recipe;
@@ -93,26 +94,14 @@ class WeeklyPlan
         return $this;
     }
 
-    /**
-     * @return Collection<int, Recipe>
-     */
-    public function getRecipe(): Collection
+    public function getRecipe(): ?Recipe
     {
         return $this->recipe;
     }
 
-    public function addRecipe(Recipe $recipe): self
+    public function setRecipe(?Recipe $recipe): self
     {
-        if (!$this->recipe->contains($recipe)) {
-            $this->recipe[] = $recipe;
-        }
-
-        return $this;
-    }
-
-    public function removeRecipe(Recipe $recipe): self
-    {
-        $this->recipe->removeElement($recipe);
+        $this->recipe = $recipe;
 
         return $this;
     }

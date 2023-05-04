@@ -1,0 +1,51 @@
+.not-found-page {
+    align-items: center;
+    justify-content: center;
+    margin-top: 3.75rem;
+
+    h1 {
+        font-size: 2.5rem;
+        color: white;
+        font-weight: bold;
+    }
+
+    p {
+        color: white;
+        font-size: 1.25rem;
+    }
+}
+
+.not-found-img {
+    max-width: 40.625rem;
+}
+
+.not-found-img-mobil {
+    max-width: 12.5rem;
+}
+
+.not-found-page-text {
+    width: 100%;
+    text-align: center;
+}
+
+.not-found-img-bg {
+    max-width: 16.25rem;
+    margin-top: -11.25rem;
+}
+
+@include media-breakpoint-up (xl) {
+    .not-found-page-text {
+        width: 45%;
+        margin-left: -18.125rem;
+        text-align: center;
+    }
+
+    .not-found-page {
+        margin-top: 7.5rem;
+    
+        h1 {
+            font-size: 4.375rem;
+        }
+    }    
+    
+}

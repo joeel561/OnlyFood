@@ -76,7 +76,6 @@ class RecipeRepository extends ServiceEntityRepository
             ->innerJoin('r.userId', 'u')
             ->orWhere('u.username LIKE :search')
             ->andWhere('u.publicMode = 1')
-            ->andWhere('r.enabled = 1')
             ->setParameters(array('search' => '%' . $search . '%'))
             ->getQuery()
             ->getResult()
@@ -160,11 +159,27 @@ class RecipeRepository extends ServiceEntityRepository
             ->orWhere(':user MEMBER OF r.likedUsers')
             ->innerJoin('r.userId', 'u')
             ->andWhere('u.publicMode = 1')
-            ->andWhere('r.enabled = 1')
             ->setParameters(array('user' => $user))
             ->getQuery()
             ->getResult()
         ;
+    }
+
+
+    public function getRandomRecipes($user): array
+    {  
+        $currentDate = new \DateTime();
+        $week = $currentDate->format('YW');
+        $userId = $user->getId();
+        $userWeek = $userId . $week;
+
+        return $this->createQueryBuilder('r')
+            ->where('r.userId != :userId')
+            ->orderBy('RAND(:userWeek)')
+            ->setMaxResults(4)
+            ->setParameters(array('userWeek' => $userWeek, 'userId' => $userId))
+            ->getQuery()
+            ->getResult();
     }
 
     

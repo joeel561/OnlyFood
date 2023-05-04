@@ -1,0 +1,219 @@
+.landing-page-header-text {
+    padding-right: 2.5rem;
+}
+
+.landing-page-wrapper {
+    padding-top: 1.25rem;
+    padding-bottom: 10rem;
+
+    h1, h2 {
+        font-size: 1.5625rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    p {
+        color: white;
+        line-height: 1.4375rem;
+        margin-top: 1.25rem;
+        margin-bottom: 1.875rem;
+    }
+}
+
+.landing-page-dashboard-preview {
+    order: -1;
+}
+
+.landing-page-bg-dashboard-preview {
+    max-width: 17.5rem;
+    margin-left: auto;
+}
+
+.landing-page-weeklyplan {
+    margin-top: 3.75rem;
+    max-width: 54.375rem;
+}
+
+.landing-page-weeklyplan-text {
+    margin-top: 1.25rem;
+    p {
+        margin-bottom: 1.25rem;
+    }
+}
+
+.landing-page-shoppinglist-bg {
+    img {
+        max-width: 15.625rem;
+    }
+}
+
+.landing-page-shoppinglist-text {
+    margin-top: 3.75rem;
+
+    h2 {
+        width: 65%;
+        margin-left: auto;
+        text-align: right;
+        position: relative;
+    }
+}
+
+.landing-page-shoppinglist-bg {
+    margin-top: 3.75rem;
+}
+
+.landing-page-recipe-overview {
+    margin-top: 6.25rem;
+    margin-bottom: 3.75rem;
+
+    img {
+        max-width: 66.25rem;
+    }
+}
+
+.landing-page-recipe-create-bg {
+    margin-top: 3.75rem;
+    img {
+        max-width: 10rem;
+    }
+}
+
+.landing-page-recipe-create-text {
+    h2 {
+        width: 65%;
+        margin-left: auto;
+        font-size: 1.5625rem;
+        text-align: right;
+    }
+}
+
+.landing-page-register {
+   text-align: center;
+   margin-top: 3.75rem;
+}
+
+@include media-breakpoint-up(md) { 
+    .landing-page-recipe-create-text {
+        h2 {
+            text-align: left;
+            width: auto;
+            margin-left: 0;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .landing-page-dashboard-preview {
+        order: 0;
+    }
+
+    .landing-page-header-text {
+        padding-right: 2.5rem;
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .landing-page-header-text {
+        padding-right: 2.5rem;
+    }
+
+
+    .landing-page-wrapper {
+        h1, h2 {
+            font-size: 3.4375rem;
+        }
+    }
+    
+    .landing-page-wrapper {
+        padding-top: 5rem;
+        padding-bottom: 10rem;
+    
+        p {
+            color: white;
+            line-height: 1.4375rem;
+            margin-top: 1.25rem;
+            margin-bottom: 1.875rem;
+        }
+    }
+    
+    .landing-page-bg-dashboard-preview {
+        max-width: 17.5rem;
+        margin-left: auto;
+    }
+    
+    .landing-page-weeklyplan {
+        margin-top: -12.5rem;
+        max-width: 54.375rem;
+    }
+    
+    .landing-page-weeklyplan-text {
+        margin-left: auto;
+        width: 65%;
+        margin-top: -3.125rem;
+    
+        p {
+            margin-bottom: 1.25rem;
+        }
+    
+        .btn {
+            margin-left: auto;
+        }
+    }
+    
+    .landing-page-shoppinglist-bg {
+        img {
+            max-width: 15.625rem;
+        }
+    }
+    
+    .landing-page-shoppinglist-text {
+        margin-top: 22.5rem;
+    
+        h2 {
+            width: 60%;
+            margin-left: auto;
+            text-align: left;
+            position: relative;
+        }
+    
+        img {
+            margin-top: -16.875rem;
+        }
+    }
+    
+    .landing-page-shoppinglist-bg {
+        margin-top: 3.75rem;
+    }
+    
+    .landing-page-recipe-overview {
+        margin-top: 6.25rem;
+    
+        h2 {
+            margin-left: 8.125rem;
+        }
+    
+        img {
+            max-width: 66.25rem;
+        }
+    }
+    
+    .landing-page-recipe-create-bg {
+        margin-top: 3.75rem;
+        img {
+            max-width: 10rem;
+        }
+    }
+    
+    .landing-page-recipe-create-text {
+        margin-top: 10.625rem;
+    
+        h2 {
+            width: 60%;
+            margin-left: auto;
+        }
+    
+         img {
+            margin-top: -6.875rem;
+         }
+    }    
+}

@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "dev-master"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.5"
     },
