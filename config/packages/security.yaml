@@ -18,12 +18,16 @@ security:
     main:
       lazy: true
       provider: app_user_provider
-      custom_authenticator: App\Security\LoginAuthenticator
+      form_login: ~
+      custom_authenticators: 
+        - App\Security\LoginAuthenticator
+      guard: 
+        authenticators: 
+          - App\Security\FacebookAuthenticator
       user_checker: App\Security\UserChecker
+      entry_point: form_login
       logout:
         path: app_logout
-        # where to redirect after logout
-        # target: app_any_route
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall

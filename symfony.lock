@@ -89,11 +89,38 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "guzzlehttp/guzzle": {
+        "version": "7.5.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.2"
+    },
+    "guzzlehttp/psr7": {
+        "version": "2.5.0"
+    },
     "jms/metadata": {
         "version": "2.6.1"
     },
+    "knpuniversity/oauth2-client-bundle": {
+        "version": "2.15",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.20",
+            "ref": "1ff300d8c030f55c99219cc55050b97a695af3f6"
+        },
+        "files": [
+            "config/packages/knpu_oauth2_client.yaml"
+        ]
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
+    },
+    "league/oauth2-client": {
+        "version": "2.7.0"
+    },
+    "league/oauth2-facebook": {
+        "version": "2.2.0"
     },
     "monolog/monolog": {
         "version": "2.5.0"
@@ -103,6 +130,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
+    },
+    "paragonie/random_compat": {
+        "version": "v9.99.100"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -163,11 +193,23 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.2"
+    },
+    "psr/http-factory": {
+        "version": "1.0.2"
+    },
+    "psr/http-message": {
+        "version": "2.0"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.1.4"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"

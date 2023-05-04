@@ -108,6 +108,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $shoppingList;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $facebookId;
+
 
     /**
      * 
@@ -338,6 +343,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setShoppingList(?ShoppingList $shoppingList): self
     {
         $this->shoppingList = $shoppingList;
+
+        return $this;
+    }
+
+    public function getFacebookId(): ?int
+    {
+        return $this->facebookId;
+    }
+
+    public function setFacebookId(?int $facebookId): self
+    {
+        $this->facebookId = $facebookId;
 
         return $this;
     }
