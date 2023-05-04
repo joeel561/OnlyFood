@@ -119,6 +119,9 @@
     "league/oauth2-client": {
         "version": "2.7.0"
     },
+    "league/oauth2-facebook": {
+        "version": "2.2.0"
+    },
     "monolog/monolog": {
         "version": "2.5.0"
     },
