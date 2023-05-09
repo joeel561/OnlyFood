@@ -80,11 +80,30 @@
 
 .btn-login-wrapper {
   .btn {
-    margin-left: 0.4375rem;
-
+    width: 50%;
+    justify-content: center;
     &.btn-login {
       margin-left: 0.625rem;
     }
+  }
+}
+
+.social-logins-wrapper {
+  justify-content: center;
+  margin-top: 1.25rem;
+  border-top: 1px solid #212127;
+  padding-top: .9375rem;
+}
+
+.btn-facebook-login {
+  margin: auto;
+  width: 100%;
+  justify-content: center;
+
+  img {
+    max-width: 1.5625rem;
+    object-fit: contain;
+    margin-right: .3125rem;
   }
 }
 

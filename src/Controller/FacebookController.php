@@ -19,9 +19,7 @@ class FacebookController extends AbstractController
     {
         return $clientRegistry
             ->getClient('facebook_main')
-            ->redirect([
-                'public_profile', 'email'
-            ]);
+            ->redirect(['public_profile', 'email']);
     }
 
     /**

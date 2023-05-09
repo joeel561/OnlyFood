@@ -8,6 +8,7 @@ use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -53,10 +54,26 @@ class FacebookAuthenticator extends SocialAuthenticator
 
         $user = $this->em->getRepository(User::class)
             ->findOneBy(['email' => $email]);
+        
+        if ($user) {
+            $user->setFacebookId($facebookUser->getId());
+            $this->em->persist($user);
+            $this->em->flush();
+        }
 
-        $user->setFacebookId($facebookUser->getId());
-        $this->em->persist($user);
-        $this->em->flush();
+        $uniqIdUsername = uniqid();
+        $uniqIdPassword = uniqid();
+        $username = $facebookUser->getFirstName() . $facebookUser->getLastName() . $uniqIdUsername;
+
+        if (!$user) {
+            $user = new User();
+            $user->setEmail($email);
+            $user->setUsername($username);
+            $user->setPassword($uniqIdPassword);
+            $user->setFacebookId($facebookUser->getId());
+            $this->em->persist($user);
+            $this->em->flush();
+        }
 
         return $user;
     }
