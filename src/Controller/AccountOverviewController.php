@@ -55,6 +55,13 @@ class AccountOverviewController extends AbstractController
         $user = $this->getUser();
         $userName = $this->getUser()->getUserIdentifier();
         $path = $request->files->get('file');
+
+        $ext = explode(".",$path->getClientOriginalName());//split original filename by dots
+        $ext = $ext[count($ext)-1]; //get last entry (i.e. extension)
+        if (!in_array($ext,["jpg","png","gif"])){ // only allow jpg, png and gif
+            throw new \Exception("invalid file extension! only jpg, png and gif allowed!");
+        }
+
         $fileName = $userName . '.' . $path->guessExtension();
         
         if($path) {
