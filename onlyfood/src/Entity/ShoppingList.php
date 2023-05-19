@@ -45,9 +45,6 @@ class ShoppingList
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User
     {
         return $this->user;

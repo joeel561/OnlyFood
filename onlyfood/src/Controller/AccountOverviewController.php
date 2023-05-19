@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AccountOverviewController extends AbstractController
 {
-    private UserRepository $userRepository;
+    private readonly UserRepository $userRepository;
 
     /**
      * @throws Exception
@@ -62,6 +63,9 @@ class AccountOverviewController extends AbstractController
         return new Response($jsonContent, Response::HTTP_OK);
     }
 
+    /**
+     * @throws JsonException
+     */
     #[Route(path: '/api/account/changeUserInfo', name: 'api_account_change_user_info')]
     public function getChangeUserinfo(Request $request, SerializerInterface $serializer): Response
     {
@@ -72,7 +76,7 @@ class AccountOverviewController extends AbstractController
         if ($content['username'] != $user->getUserIdentifier()) {
             $checkUsername = $this->userRepository->findOneBy(['username' => $content['username']]);
 
-            if ($checkUsername) { 
+            if ($checkUsername instanceof User) {
                 throw new Exception('Username already exist');
             }
 

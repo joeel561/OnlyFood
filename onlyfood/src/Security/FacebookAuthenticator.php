@@ -47,7 +47,7 @@ class FacebookAuthenticator extends SocialAuthenticator
 
         $user = $this->em->getRepository(User::class)
             ->findOneBy(['email' => $email]);
-        
+
         if ($user instanceof \App\Entity\User) {
             $user->setFacebookId($facebookUser->getId());
             $this->em->persist($user);

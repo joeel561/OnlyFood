@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public ?DateTimeImmutable $updatedAt;
+    public ?DateTimeImmutable $updatedAt = null;
 
     #[Groups(['account_overview', 'recipe_overview', 'weekly_plan', 'shopping_list'])]
     #[ORM\Id]

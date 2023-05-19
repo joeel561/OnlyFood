@@ -72,9 +72,6 @@ class WeeklyPlan
         return $this;
     }
 
-    /**
-     * @return Recipe|null
-     */
     public function getRecipe(): ?Recipe
     {
         return $this->recipe;
@@ -87,9 +84,6 @@ class WeeklyPlan
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User
     {
         return $this->user;
