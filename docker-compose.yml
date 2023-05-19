@@ -1,14 +1,50 @@
+version: '3.5'
+
 services:
   database:
-    container_name: onlyfood_database
+    container_name: "${CONTAINER_NAME_PREFIX}-database"
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: onlyfood
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - '3306:3306'
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+      - db:/var/lib/mysql
+  php:
+    container_name: "${CONTAINER_NAME_PREFIX}-php"
+    working_dir: /var/www/${CONTAINER_NAME_PREFIX}
+    image: wundii/php-fpm:8.2
+    volumes:
+      - ./${CONTAINER_NAME_PREFIX}:/var/www/${CONTAINER_NAME_PREFIX}
+      - ./docker/php/30-errorreporting-on.ini:/usr/local/etc/php/conf.d/docker-php-ext-errorreporting.ini
+      - ./docker/php/70-xdebug-on.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./docker/php/80-opcache-off.ini:/usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+  nginx:
+    container_name: "${CONTAINER_NAME_PREFIX}-nginx"
+    image: nginx:stable-alpine
+    working_dir: /var/www/${CONTAINER_NAME_PREFIX}/public
+    ports:
+      - '80:80'
+    volumes:
+      - ./${CONTAINER_NAME_PREFIX}/public:/var/www/${CONTAINER_NAME_PREFIX}/public
+      - ./docker/nginx/conf.d/default-dev.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/mime.types:/etc/nginx/mime.types
+      - ./docker/nginx/error-report.ini:/usr/local/etc/php/conf.d/error-report.ini
+    links:
+      - php
+  mailer:
+    container_name: "${CONTAINER_NAME_PREFIX}-mailer"
+    image: schickling/mailcatcher
+    ports:
+      - '1025'
+      - '1080'
+
+volumes:
+  db:
+    name: "${CONTAINER_NAME_PREFIX}_db"
