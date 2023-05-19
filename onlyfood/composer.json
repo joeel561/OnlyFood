@@ -1,0 +1,125 @@
+{
+    "name": "symfony/website-skeleton",
+    "type": "project",
+    "license": "MIT",
+    "description": "A skeleton to start a new Symfony website",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "beberlei/doctrineextensions": "1.*",
+        "doctrine/annotations": "1.*",
+        "doctrine/doctrine-bundle": "2.*",
+        "doctrine/doctrine-migrations-bundle": "3.*",
+        "doctrine/orm": "2.*",
+        "knpuniversity/oauth2-client-bundle": "2.*",
+        "league/oauth2-facebook": "2.*",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "sensio/framework-extra-bundle": "6.*",
+        "symfony/asset": "6.2.*",
+        "symfony/console": "6.2.*",
+        "symfony/dotenv": "6.2.*",
+        "symfony/expression-language": "6.2.*",
+        "symfony/flex": "2.*",
+        "symfony/form": "6.2.*",
+        "symfony/framework-bundle": "6.2.*",
+        "symfony/http-client": "6.2.*",
+        "symfony/intl": "6.2.*",
+        "symfony/mailer": "6.2.*",
+        "symfony/mime": "6.2.*",
+        "symfony/monolog-bundle": "^3.1",
+        "symfony/notifier": "6.2.*",
+        "symfony/process": "6.2.*",
+        "symfony/property-access": "6.2.*",
+        "symfony/property-info": "6.2.*",
+        "symfony/proxy-manager-bridge": "6.2.*",
+        "symfony/runtime": "6.2.*",
+        "symfony/security-bundle": "6.2.*",
+        "symfony/serializer": "6.2.*",
+        "symfony/string": "6.2.*",
+        "symfony/translation": "6.2.*",
+        "symfony/twig-bundle": "6.2.*",
+        "symfony/validator": "6.2.*",
+        "symfony/web-link": "6.2.*",
+        "symfony/webpack-encore-bundle": "1.*",
+        "symfony/yaml": "6.2.*",
+        "twig/extra-bundle": "3.*",
+        "twig/twig": "3.*",
+        "vich/uploader-bundle": "1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpdoc-parser": "^1.4",
+        "rector/rector": "^0.15.17",
+        "symfony/browser-kit": "6.2.*",
+        "symfony/css-selector": "6.2.*",
+        "symfony/debug-bundle": "6.2.*",
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "6.*",
+        "symfony/stopwatch": "6.2.*",
+        "symfony/web-profiler-bundle": "6.2.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "rector-dry-run": [
+            "php vendor/bin/rector process --dry-run --ansi"
+        ],
+        "rector-apply": [
+            "php vendor/bin/rector process --ansi"
+        ],
+        "rector-cache": [
+            "rm -R var/cache/rector"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.2.*"
+        }
+    }
+}

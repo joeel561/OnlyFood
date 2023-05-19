@@ -18,3 +18,14 @@ This App will also be published when it's finished :) I'm streaming the whole pr
 **Client:** VueJs, Bootstrap
 
 **Server:** Symfony, MySQL, Docker
+
+
+## Run Locally
+```shell
+docker-compose up -d
+docker-compose exec php composer install
+docker-compose exec php php bin/console doctrine:migrations:diff
+docker-compose exec php php bin/console doctrine:migrations:migrate
+docker-compose exec php npm ci
+docker-compose exec php npm run build
+```

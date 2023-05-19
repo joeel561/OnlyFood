@@ -1,0 +1,46 @@
+.btn {
+    border-radius: 0;
+    background-color: var.$background-color;
+    text-transform: uppercase;
+    color: white;
+    padding: .625rem 1.25rem;
+    font-size: .875rem;
+    border: none;
+
+    &:hover {
+        background-color: lighten(var.$background-color, 10%);
+        transition: all ease-in 0.3s;
+        color: white;
+    }
+}
+
+.btn-secondary {
+    background-color: var.$background-light-color;
+    &:hover {
+        background-color: lighten(var.$background-color, 10%);
+        transition: all ease-in 0.3s;
+    }
+}
+
+.btn-primary {
+    background-color: var.$primary;
+    color: white;
+
+    &:hover {
+        color: white;
+        background-color: darken(var.$primary, 10%);
+        transition: all ease-in 0.3s;
+      }
+}
+
+.btn-danger {
+    background-color: var.$red-color;
+}
+
+.btn-align--right {
+    margin-left: auto;
+}
+
+.btn-align--left {
+    margin-right: auto;
+}
