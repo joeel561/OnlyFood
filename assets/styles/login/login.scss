@@ -92,20 +92,86 @@
   justify-content: center;
   margin-top: 1.25rem;
   border-top: 1px solid #212127;
-  padding-top: .9375rem;
-}
+  padding-top: 1.5625rem;
+  display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
 
-.btn-facebook-login {
-  margin: auto;
-  width: 100%;
-  justify-content: center;
+  &.social-login-register {
+    margin-top: 0;
+    width: 100%;
+  }
 
-  img {
-    max-width: 1.5625rem;
-    object-fit: contain;
-    margin-right: .3125rem;
+  .btn-google, .btn-fb {
+    display: inline-block;
+    border-radius: 1px;
+    text-decoration: none;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+    transition: background-color .218s, border-color .218s ,box-shadow .218s;
+    width: 100%;
+    margin-bottom: 0.5rem;
+
+    .google-content, .fb-content {
+      display: flex;
+      align-items: center;
+      height: 2.8125rem;
+      .logo {
+        padding: .9375rem;
+
+        svg {
+          width: 1.125rem;
+          height: 1.125rem;
+          vertical-align: sub;
+        }
+      }
+      p {
+        width: 100%;
+        line-height: 1;
+        letter-spacing: .0131rem;
+        text-align: center;
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+  }
+
+  .btn-google {
+    background: white;
+    &:hover {
+      box-shadow: 0 0 3px 3px rgba(66,133,244,.3);
+    }
+    &:active {
+      background-color: #eee;
+    }
+    p {
+      color: #757575;
+    }
+  }
+
+  .btn-fb {
+    padding-top: 1.5px;
+    background: #4267b2;
+    &:hover {
+      box-shadow: 0 0 3px 3px rgba(#3b5998,.3);
+    }
+    &:active {
+      background-color: #3b5998;
+    }
+    .fb-content p {
+      color: rgba(white, .87);
+    }
   }
 }
+
+.social-register-span {
+  text-align: center;
+  width: 100%;
+  color: var.$white-text;
+  margin-bottom: .625rem;
+  margin-top: 1.25rem;
+}
+
 
 .title-box {
   h1 {
@@ -150,6 +216,12 @@
   .form {
     margin-top: 15.9%;
     form {
+      width: 30%;
+    }
+  }
+
+  .social-logins-wrapper {
+    &.social-login-register {
       width: 30%;
     }
   }

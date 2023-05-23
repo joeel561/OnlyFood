@@ -11,6 +11,8 @@ import Dashboard from "../components/page/Dashboard";
 import ShoppingList from "../components/page/ShoppingList";
 import Landingpage from "../components/page/Landingpage";
 import  NotFound from "../components/page/404NotFound";
+import Privacy from "../components/page/Privacy";
+import Imprint from "../components/page/Imprint";
 
 Vue.use(VueRouter);
 
@@ -65,6 +67,16 @@ const routes = [
         path: "/shoppinglist/",
         name: "shoppingList",
         component: ShoppingList 
+    },
+    {
+        path: "/privacy",
+        name: "privacy",
+        component: Privacy
+    },
+    {
+        path: "/imprint",
+        name: "imprint",
+        component: Imprint
     },
     {
         path: "*",

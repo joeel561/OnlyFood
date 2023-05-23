@@ -28,6 +28,20 @@
     }
 }
 
+.privacy-panel {
+    p {
+        margin-bottom: 1.25rem;
+        line-height: 1.875rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
 .faq-box--title {
     border-bottom: .0625rem solid var.$border-color;
     padding-top: .625rem;

@@ -24,6 +24,7 @@ security:
       guard: 
         authenticators: 
           - App\Security\FacebookAuthenticator
+          - App\Security\GoogleAuthenticator
       user_checker: App\Security\UserChecker
       entry_point: form_login
       logout:
