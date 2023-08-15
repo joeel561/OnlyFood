@@ -33,7 +33,7 @@ class ExploreRecipesController extends AbstractController
 
         $offset = $request->query->get('offset', 0);
         $user = $this->getUser();
-        $tagIds = $request->query->get('tags', []);
+        $tagIds = $request->query->get('tags', null) ?? [];
 
         $recipes = $this->entityManager->getRepository(Recipe::class)
             ->getExploreRecipes($offset, $user, $tagIds);

@@ -9,28 +9,28 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use App\Entity\User;
 
 class AccountOverviewController extends AbstractController
 {
-    protected $entityManager;
-
     /**
      * @var EntityManagerInterface
      */
+    private $entityManager;
 
     /**
      * @var \Doctrine\Common\Persistence\ObjectRepository
      */
 
-    private $userRepository;
-
     private $tokenStorage;
 
-    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage)
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
-        $this->userRepository = $entityManager->getRepository('App:User');
         $this->tokenStorage = $tokenStorage;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -72,14 +72,14 @@ class AccountOverviewController extends AbstractController
      * @return Response
      * @Route("/api/account/changeUserInfo" , name="api_account_change_user_info")
      */
-    public function getChangeUserinfo(Request $request, SerializerInterface $serializer)
+    public function getChangeUserinfo(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager)
     {
         $user = $this->getUser();
 
         $content = json_decode($request->getContent(), true);
 
         if ($content['username'] != $user->getUserIdentifier()) {
-            $checkUsername = $this->userRepository->findOneBy(['username' => $content['username']]);
+            $checkUsername = $entityManager->getRepository(User::class)->findOneBy(['username' => $content['username']]);
 
             if ($checkUsername) { 
                 throw new \Exception('Username already exist');

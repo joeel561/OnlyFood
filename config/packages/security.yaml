@@ -21,10 +21,8 @@ security:
       form_login: ~
       custom_authenticators: 
         - App\Security\LoginAuthenticator
-      guard: 
-        authenticators: 
-          - App\Security\FacebookAuthenticator
-          - App\Security\GoogleAuthenticator
+        - App\Security\FacebookAuthenticator
+        - App\Security\GoogleAuthenticator
       user_checker: App\Security\UserChecker
       entry_point: form_login
       logout:
