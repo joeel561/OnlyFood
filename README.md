@@ -1,4 +1,6 @@
-# OnlyFood Recipe App 
+# OnlyFood Recipe App
+
+If you want to test it local just run docker compose build & docker compose up 
 
 Recipe App with VueJs Symfony to create new recipes. You can plan them for the week & also get a shopping list of it.
 This App will also be published when it's finished :) I'm streaming the whole progress every Tuesday & Thursday on Twitch -> joeel561 💜
