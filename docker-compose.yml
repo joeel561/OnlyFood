@@ -29,4 +29,4 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command: sh -c "composer install && npm run watch & /usr/local/bin/symfony local:server:start --port=8000" 
+    command: sh -c "composer update && composer install && npm install && npm run watch & /usr/local/bin/symfony local:server:start --port=8000"  
