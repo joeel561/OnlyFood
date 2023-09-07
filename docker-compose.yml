@@ -29,13 +29,4 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
-  vue:
-    build:
-      dockerfile: ./docker/vue/Dockerfile
-      context: .
-    volumes:
-    - ${SYMFONY_APP_PATH}:/var/www/html
-    ports:
-      - "8080:3000"
-    command: "npm run watch"
+    command: sh -c "composer install && npm run watch & /usr/local/bin/symfony local:server:start --port=8000" 

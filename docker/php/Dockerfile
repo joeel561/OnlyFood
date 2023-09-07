@@ -31,4 +31,7 @@ RUN apk update && apk upgrade && apk add --update nodejs npm
 RUN composer update
 RUN composer install
 
+RUN npm install
+RUN npm run dev
+
 CMD ["/usr/local/bin/symfony", "local:server:start" , "--port=8000", "--no-tls"]
