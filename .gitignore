@@ -8,6 +8,9 @@
 /app/vendor/
 /mysql/
 /app/mysql/
+/app/composer.lock
+/app/package-lock.json
+/app/yarn.lock
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
