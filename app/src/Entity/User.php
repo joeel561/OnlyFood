@@ -88,23 +88,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lightMode = true;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Recipe", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="App\Entity\Recipe", mappedBy="userId", orphanRemoval=true)
      * 
      */
     private $recipes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="likedUsers")
+     * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="likedUsers", cascade={"persist"})
      */
     private $likedRecipes;
 
     /**
-     * @ORM\OneToMany(targetEntity=WeeklyPlan::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=WeeklyPlan::class, mappedBy="user", orphanRemoval=true)
      */
     private $weeklyPlans;
     
     /**
-     * @ORM\OneToMany(targetEntity=ShoppingList::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=ShoppingList::class, mappedBy="user", orphanRemoval=true)
      */
     private $shoppingList;
 
