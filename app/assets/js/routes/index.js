@@ -10,7 +10,7 @@ import WeeklyPlan from "../components/page/WeeklyPlan";
 import Dashboard from "../components/page/Dashboard";
 import ShoppingList from "../components/page/ShoppingList";
 import Landingpage from "../components/page/Landingpage";
-import  NotFound from "../components/page/404NotFound";
+import NotFound from "../components/page/404NotFound";
 import Privacy from "../components/page/Privacy";
 import Imprint from "../components/page/Imprint";
 

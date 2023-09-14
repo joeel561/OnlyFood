@@ -211,11 +211,18 @@ class RecipeController extends AbstractController
         $recipe = $this->entityManager->getRepository(Recipe::class);
         $recipeId = $recipe->findOneBy(['id' => $request->get('id'), 'userId' => $user->getId()]);
         $ingredients = $this->entityManager->getRepository(Ingredients::class)->getRecipeId($recipeId);
-
+        $weeklyPlans = $this->entityManager->getRepository(WeeklyPlan::class)->findBy(['recipe' => $recipeId]);
+    
         if ($recipeId) {
             if ($ingredients) {
                 foreach ($ingredients as $ingredient) {
                     $this->entityManager->remove($ingredient);
+                }
+            }
+
+            if ($weeklyPlans) {
+                foreach ($weeklyPlans as $weeklyPlan) {
+                    $this->entityManager->remove($weeklyPlan);
                 }
             }
 

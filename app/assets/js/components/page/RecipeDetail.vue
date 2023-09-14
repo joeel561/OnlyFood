@@ -450,7 +450,7 @@
             }, 
             deleteRecipe() {
                 this.$axios.delete(`/api/recipe/${this.recipe.id}/cancelRecipe`).then(() => {
-                    this.$router.push({ name: 'recipes'});
+                    this.$router.push({ name: 'explore'});
                     document.querySelector('.modal-backdrop').remove();
                     document.body.classList.remove('modal-open');
                     document.body.style.paddingRight = '';
