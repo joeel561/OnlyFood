@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}OnlyFood{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+                {% block background %}
+                    <div class="background-wrapper">
+                        {% block background_inner %}
+                            <div class="background-left d-none d-md-block">
+                                {{ source('/svgs/bg-left.svg')}}
+                                {{ source('/svgs/food-left.svg')}}
+                            </div>
+                            <div class="background-right d-none d-md-block">  
+                                {{ source('/svgs/bg-right.svg')}}
+                                {{ source('/svgs/food-right.svg')}}
+                            </div>
+                            <div class="background-mobile d-md-none">
+                                    {{ source('/svgs/mobile-right.svg')}}
+                                    {{ source('/svgs/mobile-left.svg')}}
+                            </div>
+                        {% endblock %}
+                    </div>
+                    <div id="app"></div>
+                {% endblock %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

@@ -3,12 +3,30 @@ services:
     container_name: onlyfood_database
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
+    cap_add:
+      - SYS_NICE
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: onlyfood
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - '3306:3306'
     volumes:
       - ./mysql:/var/lib/mysql
+  php:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    volumes:
+      - ${SYMFONY_APP_PATH}:/var/www/html
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    command: sh -c "composer update && composer install && npm install && npm run watch & /usr/local/bin/symfony local:server:start --port=8000"  
