@@ -23,7 +23,8 @@ class RegistrationFormType extends AbstractType
             ->add('username', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Username'
+                    'placeholder' => 'Username',
+                    'class' => 'form-control'
                 ],
                 'row_attr' => [
                     'class' => 'mb-2',
@@ -33,7 +34,8 @@ class RegistrationFormType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'E-Mail',
-                    'autocomplete' => 'email'
+                    'autocomplete' => 'email',
+                    'class' => 'form-control'
                 ],
                 'row_attr' => [
                     'class' => 'mb-2',
@@ -41,13 +43,20 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => "Aggree Terms",
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
                 'constraints' => [
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
+                'attr' => [
+                    'class' => 'form-check-input'
+                ],
                 'row_attr' => [
-                    'class' => 'mb-0',
+                    'class' => 'mb-0 form-check',
                 ],
             ])
             ->add('password', RepeatedType::class, [
@@ -57,7 +66,8 @@ class RegistrationFormType extends AbstractType
                 'first_options'  => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Password'
+                        'placeholder' => 'Password',
+                        'class' => 'form-control'
                     ],
                     'row_attr' => [
                         'class' => 'mb-2',
@@ -66,7 +76,8 @@ class RegistrationFormType extends AbstractType
                 'second_options' => [
                     'label' => false,
                     'attr' => [
-                        'placeholder' => 'Repeat Password'
+                        'placeholder' => 'Repeat Password',
+                        'class' => 'form-control'
                     ],
                     'row_attr' => [
                         'class' => 'mb-2',
