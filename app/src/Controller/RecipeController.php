@@ -144,12 +144,16 @@ class RecipeController extends AbstractController
             $userId = $user->getId();
             $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfUser($user);
             $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
+            $getLikedRecipe = $this->entityManager->getRepository(Recipe::class)->getLikedRecipe($user, $recipe);
+            $likedRecipe = intval($getLikedRecipe ?? 0);
+
         } else {
             $weeklyPlanJson = null;
             $userId = null;
         }
 
         $isUserRecipe = false;
+
 
         if($recipe){
             $recipeUser = $recipe->getUserId();
@@ -165,6 +169,7 @@ class RecipeController extends AbstractController
 
         $newResponse = array(
             'recipe' => $recipeJson,
+            'likedRecipe' => $likedRecipe,
             'weeklyPlans' => $weeklyPlanJson,
             'isUserRecipe' => $isUserRecipe,
             'isUserLoggedIn' => $userId
@@ -182,6 +187,7 @@ class RecipeController extends AbstractController
         $user = $this->getUser();
         $recipeId = $request->get('id');
         $userRepo = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $user->getId()]);
+        $likedRecipe = false;
 
         $recipeRepo = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $recipeId]);
         $getLikedRecipe = $this->entityManager->getRepository(Recipe::class)->getLikedRecipe($user, $recipeRepo);
@@ -189,14 +195,14 @@ class RecipeController extends AbstractController
         if ($getLikedRecipe) {
             $userRepo->removeLikedRecipe($recipeRepo);
             $this->updateDatabase($recipeRepo);
+            $likedRecipe = false;
         } else {
+            $likedRecipe = true;
             $userRepo->addLikedRecipe($recipeRepo);
             $this->updateDatabase($recipeRepo);
         }
 
-        $jsonContent = $serializer->serialize($recipeRepo, 'json', ['groups' => 'recipe_overview']);
-
-        return new Response($jsonContent, Response::HTTP_OK);
+        return new Response($likedRecipe, Response::HTTP_OK);
     }
 
 

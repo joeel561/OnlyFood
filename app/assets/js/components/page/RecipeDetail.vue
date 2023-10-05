@@ -313,12 +313,7 @@
                 this.user = this.recipe.userId;
                 this.isUserRecipe = response.data.isUserRecipe;
                 this.isUserLoggedIn = response.data.isUserLoggedIn;
-                
-                if (this.recipe.likedUsers.find(user => user.id === this.isUserLoggedIn)) {
-                    this.likedRecipe = true;
-                } else {
-                    this.likedRecipe = false;
-                }
+                this.likedRecipe = response.data.likedRecipe;
 
                 this.recipe.ingredients.forEach(ingredient => {
                     if (this.recipe.portion) {
@@ -408,8 +403,6 @@
                     this.recipe.ingredients.forEach(ingredient => {
                         if (ingredient.baseValue) {
                             ingredient.quantity = this.recipe.portion * ingredient.baseValue;
-                        } else {
-                            ingredient.quantity = this.recipe.portion * ingredient.quantity;
                         }
                     });
                 } else {
@@ -422,13 +415,7 @@
                 this.$axios
                 .post(`/api/recipe/${this.$route.params.id}/like`)
                 .then((response) => {
-                    this.recipe = response.data;
-
-                    if (this.recipe.likedUsers.find(user => user.id === this.isUserLoggedIn)) {
-                        this.likedRecipe = true;
-                    } else {
-                        this.likedRecipe = false;
-                    }
+                    this.likedRecipe = response.data;
                 })
                 .catch((e) => {
                     this.alert.text = e.response.data.detail;
