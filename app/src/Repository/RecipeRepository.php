@@ -179,6 +179,8 @@ class RecipeRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.userId != :userId')
+            ->innerJoin('r.userId', 'u')
+            ->andWhere('u.publicMode = 1')
             ->orderBy('RAND(:userWeek)')
             ->setMaxResults(4)
             ->setParameters(array('userWeek' => $userWeek, 'userId' => $userId))
