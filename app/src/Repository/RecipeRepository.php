@@ -58,15 +58,19 @@ class RecipeRepository extends ServiceEntityRepository
         ;
     }
     
-    public function getLikedRecipe(User $user, Recipe $recipe): array
+    public function checkLikedRecipe(User $user, Recipe $recipe): bool
     {
-        return $this->createQueryBuilder('r')
+        $qb = $this->createQueryBuilder('r')
             ->where(':user MEMBER OF r.likedUsers')
             ->andWhere(':recipe = r.id')
             ->setParameters(array('user' => $user, 'recipe' => $recipe))
             ->getQuery()
             ->getResult()
         ;
+
+        $isLikedRecipe = intval($qb ?? 0);
+
+        return $isLikedRecipe;
     }
 
     public function getSearchResult(string $search): array

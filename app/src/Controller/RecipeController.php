@@ -144,8 +144,7 @@ class RecipeController extends AbstractController
             $userId = $user->getId();
             $weeklyPlan = $this->entityManager->getRepository(WeeklyPlan::class)->findWeeklyPlanOfUser($user);
             $weeklyPlanJson = $serializer->serialize($weeklyPlan, 'json', ['groups' => 'weekly_plan']);
-            $getLikedRecipe = $this->entityManager->getRepository(Recipe::class)->getLikedRecipe($user, $recipe);
-            $likedRecipe = intval($getLikedRecipe ?? 0);
+            $likedRecipe = $this->entityManager->getRepository(Recipe::class)->checkLikedRecipe($user, $recipe);
 
         } else {
             $weeklyPlanJson = null;
@@ -187,12 +186,10 @@ class RecipeController extends AbstractController
         $user = $this->getUser();
         $recipeId = $request->get('id');
         $userRepo = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $user->getId()]);
-        $likedRecipe = false;
-
         $recipeRepo = $this->entityManager->getRepository(Recipe::class)->findOneBy(['id' => $recipeId]);
-        $getLikedRecipe = $this->entityManager->getRepository(Recipe::class)->getLikedRecipe($user, $recipeRepo);
+        $likedRecipe = $this->entityManager->getRepository(Recipe::class)->checkLikedRecipe($user, $recipeRepo);
 
-        if ($getLikedRecipe) {
+        if ($likedRecipe) {
             $userRepo->removeLikedRecipe($recipeRepo);
             $this->updateDatabase($recipeRepo);
             $likedRecipe = false;
