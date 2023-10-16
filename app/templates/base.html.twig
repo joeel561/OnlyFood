@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head prefix="og: http://ogp.me/ns#">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{% block title %}OnlyFood{% endblock %}</title>
+
+        <link rel="canonical" href="https://only-food.app/">
+        <meta name="robots" content="index">
+        <meta name="googlebot" content="index">
+        <meta name="description" content="Share your favorite recipes, discover new ones and plan your week with OnlyFood.">
+        <meta name="keywords" content="onlyfood, food, recipe, meal, weekly plan, shopping list, explore">
+
+        <meta property="og:title" content="OnlyFood">
+        <meta property="og:description" content="Share your favorite recipes, discover new ones and plan your week with OnlyFood.">
+        <meta property="og:url" content="https://only-food.app/">
+        <meta property="og:image" content="{{ absolute_url(asset('images/logo.png')) }}">
+        <meta property="og:image:width" content="167">
+        <meta property="og:image:height" content="35">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -18,7 +32,7 @@
                                 {{ source('/svgs/bg-left.svg')}}
                                 {{ source('/svgs/food-left.svg')}}
                             </div>
-                            <div class="background-right d-none d-md-block">  
+                            <div class="background-right d-none d-md-block">
                                 {{ source('/svgs/bg-right.svg')}}
                                 {{ source('/svgs/food-right.svg')}}
                             </div>
